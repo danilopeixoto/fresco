@@ -1,0 +1,40 @@
+# Default properties file
+
+spring:
+  profiles:
+    active: ${SCOPE_SUFFIX} # Comma-separated list of active profiles. Can be overridden by a command line switch.
+  resources:
+    add-mappings: false # Whether to enable default resource handling.
+  mvc:
+    throw-exception-if-no-handler-found: true # Whether a "NoHandlerFoundException" should be thrown if no Handler was found to process a request.
+  datasource:
+    url: jdbc:mysql://proxysql.master.meliseginf.com:6612/dpdb?useSSL=true&serverTimezone=UTC&characterEncoding=UTF-8
+    username: ${LOCAL_DB_USER}
+    password: ${LOCAL_DB_PASS}
+  jpa:
+    show-sql: false
+    hibernate:
+      ddl-auto: none
+
+server:
+  compression:
+    enabled: true # Whether response compression is enabled.
+    mime-types: text/html,text/xml,text/plain,text/css,text/javascript,application/javascript,application/json # Comma-separated list of MIME types that should be compressed.
+    min-response-size: 1024 # Minimum "Content-Length" value that is required for compression to be performed.
+
+springdoc:
+  api-docs:
+    enabled: true
+    path: /v3/api-docs
+  paths-to-match: /**
+  packages-to-scan: com.mercadolibre.danilo_peixoto.controller
+  show-actuator: true
+  swagger-ui:
+    operations-sorter: alpha
+    disable-swagger-default-url: true
+    path: /swagger-ui.html
+
+app:
+  title: danilo-peixoto
+  description: @project.description@
+  version: @project.version@
