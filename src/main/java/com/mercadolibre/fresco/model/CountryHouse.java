@@ -24,7 +24,7 @@ public class CountryHouse {
     @Unique
     private String country;
 
-    @OneToMany(mappedBy = "countryHouse")
+    @OneToMany(mappedBy = "countryHouse", cascade = CascadeType.ALL)
     private List<Account> accounts;
 
 }
