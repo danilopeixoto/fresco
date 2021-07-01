@@ -19,7 +19,7 @@ springdoc:
     enabled: true
     path: /v3/api-docs
   paths-to-match: /**
-  packages-to-scan: com.mercadolibre.dambetan01.controller
+  packages-to-scan: com.mercadolibre.fresco.controller
   show-actuator: true
   swagger-ui:
     operations-sorter: alpha
@@ -27,6 +27,6 @@ springdoc:
     path: /swagger-ui.html
 
 app:
-  title: dambetan01
+  title: Fresco
   description: @project.description@
   version: @project.version@
