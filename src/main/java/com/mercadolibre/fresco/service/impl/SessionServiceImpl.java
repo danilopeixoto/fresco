@@ -36,7 +36,6 @@ public class SessionServiceImpl implements ISessionService {
      */
     @Override
     public AccountResponseDTO login(String username, String password) throws ApiException {
-        //Voy a la base de datos y reviso que el usuario y contraseña existan.
         Account account = accountRepository.findByUsernameAndPassword(username, password);
 
         if (account != null) {
@@ -46,9 +45,8 @@ public class SessionServiceImpl implements ISessionService {
             user.setToken(token);
             return user;
         } else {
-            throw new ApiException("404", "Usuario y/o contraseña incorrecto", 404);
+            throw new ApiException("404", "Wrong username or password", 404);
         }
-
     }
 
     /**
@@ -96,5 +94,4 @@ public class SessionServiceImpl implements ISessionService {
         Claims claims = decodeJWT(token);
         return claims.get("sub", String.class);
     }
-
 }
