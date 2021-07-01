@@ -29,8 +29,7 @@ public class ApiExceptionControllerAdvice {
         return new ApiError(
                 ex.getClass().getName(),
                 ex.getMessage(),
-                HttpStatus.INTERNAL_SERVER_ERROR.value()
-                );
+                HttpStatus.INTERNAL_SERVER_ERROR.value());
     }
 
 
@@ -51,7 +50,6 @@ public class ApiExceptionControllerAdvice {
                 HttpStatus.INTERNAL_SERVER_ERROR.value()
         );
     }
-
 
 
     @ExceptionHandler
@@ -85,6 +83,18 @@ public class ApiExceptionControllerAdvice {
                 ex.getMessage(),
                 HttpStatus.INTERNAL_SERVER_ERROR.value()
         );
+    }
 
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    @ExceptionHandler({
+            UnauthorizedException.class
+    })
+    @ResponseBody
+    public ApiError unauthorizedRequest(Exception ex) {
+        return new ApiError(
+                ex.getClass().getName(),
+                ex.getMessage(),
+                HttpStatus.INTERNAL_SERVER_ERROR.value()
+        );
     }
 }
