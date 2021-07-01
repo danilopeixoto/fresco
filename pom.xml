@@ -307,7 +307,7 @@
     </dependencyManagement>
 
     <dependencies>
-        <!-- Test -->
+        <!-- test -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
@@ -355,7 +355,7 @@
             <artifactId>javax.servlet-api</artifactId>
         </dependency>
 
-        <!-- Spring Boot -->
+        <!-- spring -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
@@ -371,7 +371,7 @@
             <artifactId>spring-boot-starter-jetty</artifactId>
         </dependency>
 
-        <!-- Springdoc -->
+        <!-- springdoc -->
         <dependency>
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-ui</artifactId>
@@ -434,24 +434,34 @@
             <artifactId>h2</artifactId>
             <scope>runtime</scope>
         </dependency>
-        <!-- Fury utils -->
+        <!-- Fury Utils -->
         <dependency>
             <groupId>com.fury</groupId>
             <artifactId>furyutils</artifactId>
             <version>0.0.2</version>
         </dependency>
 
+        <!-- ___________________________________________________ -->
+        <!-- __ Spring boot dependecias iniciales del proyecto__ -->
+        <!--
+        <dependency>
+            <groupId>org.apache.tomcat.embed</groupId>
+            <artifactId>tomcat-embed-jasper</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        -->
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
         </dependency>
-        <!-- Spring Boot data validation -->
+        <!-- Validacion de datos de SPRING BOOT -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
 
-        <!-- Spring Boot security -->
+        <!-- Seguridad de SPRING BOOT-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
@@ -462,13 +472,15 @@
             <artifactId>spring-security-test</artifactId>
         </dependency>
 
-        <!-- JSON conversion -->
+        <!-- ___________________________________________________ -->
+        <!-- _______________ Validación de Datos _______________ -->
+        <!-- jackson propiedades JSON -->
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-jsr310</artifactId>
         </dependency>
 
-        <!-- Model utilities and conversion -->
+        <!-- conversion (ENTITY a  DTO) y conversion (DTO a ENTITY) -->
         <dependency>
             <groupId>org.modelmapper</groupId>
             <artifactId>modelmapper</artifactId>
@@ -489,7 +501,14 @@
             <artifactId>lombok</artifactId>
         </dependency>
 
-        <!-- JSON web token-->
+        <!-- Permite manipular mejor las clases Standar java.lang-->
+        <!--    <dependency>-->
+        <!--        <groupId>org.apache.commons</groupId>-->
+        <!--        <artifactId>commons-lang3</artifactId>-->
+        <!--        <version>3.12.0</version>-->
+        <!--    </dependency>-->
+
+        <!-- ___________________ Seguridad _____________________ -->
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt</artifactId>
