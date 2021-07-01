@@ -20,7 +20,7 @@ public class Account {
     private String username, password;
     private Integer rol;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "id_country_house_fk", nullable = false)
     private CountryHouse countryHouse;
 }
