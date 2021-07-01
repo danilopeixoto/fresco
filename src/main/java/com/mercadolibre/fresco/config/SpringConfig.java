@@ -17,7 +17,7 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.core.annotation.Order;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-@ComponentScan("com.mercadolibre.dambetan01")
+@ComponentScan("com.mercadolibre.fresco")
 @Configuration
 @EnableAutoConfiguration
 public class SpringConfig implements WebMvcConfigurer {
