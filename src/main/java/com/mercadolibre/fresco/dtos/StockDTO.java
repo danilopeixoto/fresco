@@ -5,10 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.Future;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.PastOrPresent;
+import javax.validation.constraints.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
@@ -35,6 +32,10 @@ public class StockDTO {
     @NotNull(message = "currentQuantity cannot be null.")
     @Min(value = 0, message = "currentQuantity cannot be less than 0.")
     public Integer currentQuantity;
+
+    @NotNull(message = "price cannot be null.")
+    @Positive(message = "currentQuantity cannot be less than 0.")
+    public Float price;
 
     @NotNull(message = "manufacturingDate cannot be null.")
     @PastOrPresent(message = "manufacturingDate cannot be a future date.")
