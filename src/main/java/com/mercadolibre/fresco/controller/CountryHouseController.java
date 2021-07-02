@@ -3,7 +3,7 @@ package com.mercadolibre.fresco.controller;
 
 import com.mercadolibre.fresco.dtos.CountryHouseDTO;
 import com.mercadolibre.fresco.dtos.response.CountryHouseResponseDTO;
-import com.mercadolibre.fresco.dtos.response.OrderResponseDTO;
+import com.mercadolibre.fresco.dtos.response.InboundOrderResponseDTO;
 import com.mercadolibre.fresco.exceptions.ApiError;
 import com.mercadolibre.fresco.service.crud.ICountryHouseService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -31,7 +32,6 @@ public class CountryHouseController {
      * ================================
      * Create country house
      *
-     * @param token
      * @param newCountryHouse
      * @return ResponseEntity
      */
@@ -39,7 +39,7 @@ public class CountryHouseController {
             @ApiResponse(
                     responseCode = "201",
                     content = @Content(
-                            schema = @Schema(implementation = OrderResponseDTO.class),
+                            schema = @Schema(implementation = InboundOrderResponseDTO.class),
                             mediaType = "application/json")),
             @ApiResponse(
                     responseCode = "400",
@@ -52,9 +52,10 @@ public class CountryHouseController {
                             schema = @Schema(implementation = ApiError.class),
                             mediaType = "application/json"))
     })
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping(path = "/", consumes = "application/json")
     @ResponseBody
-    public ResponseEntity<CountryHouseResponseDTO> create(@RequestHeader(value = "Authorization") String token, @Validated @RequestBody CountryHouseDTO newCountryHouse) {
+    public ResponseEntity<CountryHouseResponseDTO> create(@Validated @RequestBody CountryHouseDTO newCountryHouse) {
         CountryHouseDTO countryHouseDTO = countryHouseService.create(newCountryHouse);
 
         CountryHouseResponseDTO response = new CountryHouseResponseDTO();

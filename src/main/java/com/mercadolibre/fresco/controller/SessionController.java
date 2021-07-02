@@ -31,7 +31,7 @@ public class SessionController {
      * @return AccountResponseDTO
      * @throws NotFoundException
      */
-    @Operation(summary = "Login to user account", responses = {
+    @Operation(summary = "Sign-in to user account", responses = {
             @ApiResponse(
                     responseCode = "200",
                     content = @Content(

@@ -1,41 +1,41 @@
 package com.mercadolibre.fresco.controller;
 
 
-import com.mercadolibre.fresco.dtos.OrderDTO;
-import com.mercadolibre.fresco.dtos.response.OrderResponseDTO;
+import com.mercadolibre.fresco.dtos.InboundOrderDTO;
+import com.mercadolibre.fresco.dtos.response.InboundOrderResponseDTO;
 import com.mercadolibre.fresco.exceptions.ApiError;
 import com.mercadolibre.fresco.exceptions.NotFoundException;
 import com.mercadolibre.fresco.exceptions.UnauthorizedException;
-import com.mercadolibre.fresco.service.IFreshProductService;
+import com.mercadolibre.fresco.service.IInboundOrderService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-@RequestMapping(path = "/api/v1/fresh-products")
+@RequestMapping(path = "/api/v1/fresh-products/inboundorder")
 @RestController
-public class FreshProductController {
-    private final IFreshProductService freshProductService;
+public class InboundOrderController {
+    private final IInboundOrderService inboundOrderService;
 
-    public FreshProductController(IFreshProductService freshProductService) {
-        this.freshProductService = freshProductService;
+    public InboundOrderController(IInboundOrderService inboundOrderService) {
+        this.inboundOrderService = inboundOrderService;
     }
 
     /**
      * ================================
-     * Add product to inventory
+     * Add products to inventory
      *
-     * @param token
-     * @param orderDTO
-     * @return OrderResponseDTO
+     * @param inboundOrderDTO
+     * @return InboundOrderResponseDTO
      */
     @Operation(summary = "Add products to inventory", responses = {
             @ApiResponse(
                     responseCode = "201",
                     content = @Content(
-                            schema = @Schema(implementation = OrderResponseDTO.class),
+                            schema = @Schema(implementation = InboundOrderResponseDTO.class),
                             mediaType = "application/json")),
             @ApiResponse(
                     responseCode = "401",
@@ -48,27 +48,25 @@ public class FreshProductController {
                             schema = @Schema(implementation = ApiError.class),
                             mediaType = "application/json"))
     })
-    @PostMapping(path = "/inboundorder", consumes = "application/json")
+    @PreAuthorize("hasRole('REP')")
+    @PostMapping(path = "/", consumes = "application/json")
     @ResponseBody
-    public OrderResponseDTO createOrder(
-            @RequestHeader(value = "Authorization") String token, @Validated @RequestBody OrderDTO orderDTO)
-            throws UnauthorizedException, NotFoundException {
-        return this.freshProductService.createOrder(token, orderDTO);
+    public InboundOrderResponseDTO createOrder(@Validated @RequestBody InboundOrderDTO inboundOrderDTO) throws UnauthorizedException, NotFoundException {
+        return this.inboundOrderService.create(inboundOrderDTO);
     }
 
     /**
      * ================================
-     * Add product to inventory
+     * Update products from inventory
      *
-     * @param token
-     * @param orderDTO
-     * @return OrderResponseDTO
+     * @param inboundOrderDTO
+     * @return InboundOrderResponseDTO
      */
     @Operation(summary = "Update products from inventory", responses = {
             @ApiResponse(
                     responseCode = "201",
                     content = @Content(
-                            schema = @Schema(implementation = OrderResponseDTO.class),
+                            schema = @Schema(implementation = InboundOrderResponseDTO.class),
                             mediaType = "application/json")),
             @ApiResponse(
                     responseCode = "401",
@@ -81,11 +79,10 @@ public class FreshProductController {
                             schema = @Schema(implementation = ApiError.class),
                             mediaType = "application/json"))
     })
-    @PutMapping(path = "/inboundorder", consumes = "application/json")
+    @PreAuthorize("hasRole('REP')")
+    @PutMapping(path = "/", consumes = "application/json")
     @ResponseBody
-    public OrderResponseDTO updateOrder(
-            @RequestHeader(value = "Authorization") String token, @Validated @RequestBody OrderDTO orderDTO)
-            throws UnauthorizedException, NotFoundException {
-        return this.freshProductService.updateOrder(token, orderDTO);
+    public InboundOrderResponseDTO updateOrder(@Validated @RequestBody InboundOrderDTO inboundOrderDTO) throws UnauthorizedException, NotFoundException {
+        return this.inboundOrderService.update(inboundOrderDTO);
     }
 }

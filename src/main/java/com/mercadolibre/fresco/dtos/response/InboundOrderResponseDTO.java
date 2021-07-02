@@ -8,6 +8,6 @@ import java.util.List;
 
 @Validated
 @Data
-public class OrderResponseDTO {
+public class InboundOrderResponseDTO {
     public List<StockDTO> batchStock;
 }
