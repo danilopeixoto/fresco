@@ -12,11 +12,11 @@ INSERT INTO `product_categories` (`id`, `category_code`, `name`) VALUES ('1', "F
 INSERT INTO `product_categories` (`id`, `category_code`, `name`) VALUES ('2', "RF", "Refrigerado");
 INSERT INTO `product_categories` (`id`, `category_code`, `name`) VALUES ('3', "FF", "Congelado");
 
-INSERT INTO `products` (`id`, `product_id`,`min_temp`, `manufacturing_date`, `manufacturing_time`, `due_date`,`price`,`product_category_id`)
+INSERT INTO `products` (`id`, `product_code`,`min_temp`, `manufacturing_date`, `manufacturing_time`, `due_date`,`price`,`product_category_id`)
 VALUES ('1','BANANA', '-10.0', curdate(), curtime(), '2021-07-25','35.0','1');
-INSERT INTO `products` (`id`, `product_id`,`min_temp`, `manufacturing_date`, `manufacturing_time`, `due_date`,`price`,`product_category_id`)
+INSERT INTO `products` (`id`, `product_code`,`min_temp`, `manufacturing_date`, `manufacturing_time`, `due_date`,`price`,`product_category_id`)
 VALUES ('2', 'QUEIJO', '5.0', curdate(), curtime(), '2021-08-25','8.0','2');
-INSERT INTO `products` (`id`, `product_id`, `min_temp`, `manufacturing_date`, `manufacturing_time`, `due_date`,`price`,`product_category_id`)
+INSERT INTO `products` (`id`, `product_code`, `min_temp`, `manufacturing_date`, `manufacturing_time`, `due_date`,`price`,`product_category_id`)
 VALUES ('3','SORVETE', '1.0', curdate(), curtime(), '2021-07-15','5.4','3');
 
 INSERT INTO `stocks` (`id`, `init_quantity`, `cur_quantity`, `cur_temp`, `product_id`, `warehouse_section_id`)
