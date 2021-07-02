@@ -29,4 +29,7 @@ public class User {
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "country_house_id", nullable = false)
     private CountryHouse countryHouse;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private PurchaseOrder purchaseOrder;
 }
