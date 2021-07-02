@@ -22,7 +22,6 @@ public class ApiExceptionControllerAdvice {
     @ResponseBody
     @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
     public ApiError handleException(Exception ex) {
-
         StringWriter sw = new StringWriter();
         ex.printStackTrace(new PrintWriter(sw));
 

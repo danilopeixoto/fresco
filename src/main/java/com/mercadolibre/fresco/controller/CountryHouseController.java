@@ -52,7 +52,7 @@ public class CountryHouseController {
                             schema = @Schema(implementation = ApiError.class),
                             mediaType = "application/json"))
     })
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping(path = "/", consumes = "application/json")
     @ResponseBody
     public ResponseEntity<CountryHouseResponseDTO> create(@Validated @RequestBody CountryHouseDTO newCountryHouse) {

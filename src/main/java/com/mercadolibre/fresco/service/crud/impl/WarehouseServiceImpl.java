@@ -9,7 +9,6 @@ import java.util.List;
 @Service
 public class WarehouseServiceImpl implements IWarehouseService {
 
-
     @Override
     public Warehouse create(Warehouse warehouse) {
         return null;

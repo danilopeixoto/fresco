@@ -6,8 +6,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
-
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
     @Query("FROM User u where u.username=:username and u.password=:password ")
@@ -15,5 +13,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     User findByUsernameAndCountryHouseId(String username, Long countryHouseId);
 
-    Optional<User> findByUsername(String username);
+    User findByUsername(String username);
 }
