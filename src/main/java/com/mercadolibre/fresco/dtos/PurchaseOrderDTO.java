@@ -12,6 +12,8 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PurchaseOrderDTO {
+    @NotNull
+    private Long id;
 
     @NotNull(message = "date cannot be null.")
     private LocalDate date;
