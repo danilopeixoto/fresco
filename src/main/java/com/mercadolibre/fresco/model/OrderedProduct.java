@@ -9,8 +9,8 @@ import javax.persistence.*;
 @Entity
 @Table(name = "ordered_products")
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public class OrderedProduct {
 
     @Id
@@ -20,13 +20,11 @@ public class OrderedProduct {
     private Integer quantity;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "cart_id", referencedColumnName = "id")
-    private Cart cart;
+    @JoinColumn(name = "purchase_order_id", referencedColumnName = "id")
+    private PurchaseOrder purchaseOrder;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "product_code", referencedColumnName = "productCode")
     private Product product;
-
-
 
 }
