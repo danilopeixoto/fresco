@@ -1,34 +1,62 @@
 package com.mercadolibre.fresco.service.crud.impl;
 
+import com.mercadolibre.fresco.exceptions.BadRequestException;
+import com.mercadolibre.fresco.exceptions.NotFoundException;
+import com.mercadolibre.fresco.model.Product;
+import com.mercadolibre.fresco.model.Section;
+import com.mercadolibre.fresco.repository.SectionRepository;
 import com.mercadolibre.fresco.service.crud.ISectionService;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
 public class SectionServiceImpl implements ISectionService {
-    @Override
-    public Object create(Object o) {
-        return null;
+
+    private SectionRepository sectionRepository;
+
+    public SectionServiceImpl(SectionRepository sectionRepository) {
+        this.sectionRepository = sectionRepository;
     }
 
     @Override
-    public Object update(Object o) {
-        return null;
+    @Transactional
+    public Section create(Section section) {
+        if (sectionRepository.findById(section.getId()).isPresent()){
+            throw new BadRequestException("Section already exists!");
+        }
+        return sectionRepository.save(section);
+    }
+
+    @Override
+    public Section update(Section section) {
+        if (sectionRepository.findBySectionCode(section.getSectionCode()) == null){
+            throw new NotFoundException("Section not found!");
+        }
+        return sectionRepository.save(section);
     }
 
     @Override
     public void delete(Long id) {
-
+        if (sectionRepository.findById(id) == null){
+            throw new NotFoundException("Section not found!");
+        }
+        sectionRepository.deleteById(id);
     }
 
     @Override
-    public Object findById(Long id) {
+    public Section findById(Long id) {
         return null;
     }
 
     @Override
-    public List<Object> findAll() {
-        return null;
+    public List<Section> findAll() {
+        return sectionRepository.findAll();
+    }
+
+    @Override
+    public Section findById(String id) {
+        return sectionRepository.findById(id);
     }
 }

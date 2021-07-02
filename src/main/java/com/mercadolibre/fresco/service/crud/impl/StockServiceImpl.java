@@ -5,6 +5,7 @@ import com.mercadolibre.fresco.repository.StockRepository;
 import com.mercadolibre.fresco.service.crud.IStockService;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -17,6 +18,7 @@ public class StockServiceImpl implements IStockService {
     }
 
     @Override
+    @Transactional
     public Stock create(Stock stock) {
         return stockRepository.save(stock);
     }
@@ -32,12 +34,17 @@ public class StockServiceImpl implements IStockService {
     }
 
     @Override
+    public Stock findById(String id) {
+        return stockRepository.findById(id);
+    }
+
+    @Override
     public Stock findById(Long id) {
         return null;
     }
 
     @Override
     public List<Stock> findAll() {
-        return null;
+        return stockRepository.findAll();
     }
 }
