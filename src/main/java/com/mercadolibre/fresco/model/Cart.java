@@ -19,8 +19,6 @@ public class Cart {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Integer quantity;
-
     @OneToOne(mappedBy = "cart", cascade = CascadeType.ALL)
     private PurchaseOrder purchaseOrder;
 
