@@ -15,7 +15,6 @@ import java.util.stream.Collectors;
 
 @Service
 public class CountryHouseServiceImpl implements ICountryHouseService {
-
     private CountryHouseRepository countryHouseRepository;
 
     private ModelMapper modelMapper;
