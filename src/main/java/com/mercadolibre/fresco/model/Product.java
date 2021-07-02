@@ -34,8 +34,8 @@ public class Product {
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private List<Stock> stocks;
 
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
-    private List<OrderedProduct>  orderedProducts;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "product")
+    private List<OrderedProduct> orderedProducts;
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "product_category_id", referencedColumnName = "id")
