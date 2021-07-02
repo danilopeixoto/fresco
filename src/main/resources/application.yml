@@ -17,14 +17,15 @@ server:
 springdoc:
   api-docs:
     enabled: true
-    path: /v3/api-docs
+    path: /docs/v1/openapi
   paths-to-match: /**
   packages-to-scan: com.mercadolibre.fresco.controller
   show-actuator: true
   swagger-ui:
+    enabled: true
     operations-sorter: alpha
     disable-swagger-default-url: true
-    path: /swagger-ui.html
+    path: /docs/v1
 
 app:
   title: Fresco

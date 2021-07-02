@@ -11,7 +11,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class OrderDTO {
+public class InboundOrderDTO {
     @NotNull(message = "orderNumber cannot be null.")
     public Long orderNumber;
 
