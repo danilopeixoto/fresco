@@ -17,7 +17,7 @@ public class StockDTO {
     public Integer batchNumber;
 
     @NotNull(message = "productId cannot be null.")
-    public String productId;
+    public String productCode;
 
     @NotNull(message = "currentTemperature cannot be null.")
     public Float currentTemperature;

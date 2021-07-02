@@ -37,12 +37,13 @@ public class ProductServiceImpl implements IProductService {
     }
 
     @Override
-    public Product findById(String id) {
-        return this.productRepository.findById(id);
+    public Product findByProductCode(String productCode) {
+        productCode = productCode.toUpperCase();
+        return this.productRepository.findByProductCode(productCode);
     }
 
     @Override
     public List<Product> findAll() {
-        return null;
+        return this.productRepository.findAll();
     }
 }

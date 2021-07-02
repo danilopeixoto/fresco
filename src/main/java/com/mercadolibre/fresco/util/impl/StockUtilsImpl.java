@@ -4,16 +4,24 @@ import com.mercadolibre.fresco.dtos.SectionDTO;
 import com.mercadolibre.fresco.dtos.StockDTO;
 import com.mercadolibre.fresco.model.Stock;
 import com.mercadolibre.fresco.service.crud.IProductService;
+import com.mercadolibre.fresco.service.crud.ISectionService;
 import com.mercadolibre.fresco.service.crud.IWarehouseSection;
+import com.mercadolibre.fresco.service.crud.IWarehouseService;
 import com.mercadolibre.fresco.util.StockUtils;
 
 public class StockUtilsImpl implements StockUtils {
 
-    private IProductService productService;
-    private IWarehouseSection warehouseSection;
+    private final IProductService productService;
+    private final IWarehouseService warehouseService;
+    private final ISectionService sectionService;
+    private final IWarehouseSection warehouseSection;
 
-    public StockUtilsImpl(IProductService productService) {
+    public StockUtilsImpl(IProductService productService, IWarehouseService warehouseService,
+                          ISectionService sectionService, IWarehouseSection warehouseSection) {
         this.productService = productService;
+        this.warehouseService = warehouseService;
+        this.sectionService = sectionService;
+        this.warehouseSection = warehouseSection;
     }
 
     @Override
@@ -22,8 +30,11 @@ public class StockUtilsImpl implements StockUtils {
         stock.setCurrentQuantity(stockDTO.getCurrentQuantity());
         stock.setCurrentTemperature(stockDTO.getCurrentTemperature());
         stock.setInitialQuantity(stockDTO.getInitialQuantity());
-        stock.setProduct(productService.findById(stockDTO.getProductId()));
-        // stock.setWarehouseSection(warehouseSection.findByWarehouseCodeAndSectionCode(sectionDTO.getWarehouseCode(), sectionDTO.getSectionCode()));
+        stock.setProduct(this.productService.findByProductCode(stockDTO.getProductCode()));
+        stock.setWarehouseSection(this.warehouseSection.findByWarehouseAndSectionId(
+                warehouseService.getWarehouseIdByCode(sectionDTO.warehouseCode),
+                sectionService.getIdBySectionCode(sectionDTO.sectionCode)
+        ));
         return stock;
     }
 }
