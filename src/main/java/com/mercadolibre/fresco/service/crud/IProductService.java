@@ -4,5 +4,5 @@ import com.mercadolibre.fresco.model.Product;
 
 public interface IProductService extends ICRUD<Product> {
 
-    public Product findById(String id);
+    public Product findByProductCode(String productCode);
 }
