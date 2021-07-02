@@ -8,5 +8,5 @@ import org.springframework.validation.annotation.Validated;
 @Data
 public class CountryHouseResponseDTO {
     private String message;
-    private CountryHouseDTO countryHouseDTO;
+    private CountryHouseDTO countryHouse;
 }

@@ -38,13 +38,15 @@ public class SessionController {
                             schema = @Schema(implementation = AccountResponseDTO.class),
                             mediaType = "application/json")),
             @ApiResponse(
-                    responseCode = "401",
+                    responseCode = "404",
                     content = @Content(
                             schema = @Schema(implementation = ApiError.class),
                             mediaType = "application/json"))
     })
     @PostMapping("/sign-in")
-    public AccountResponseDTO login(@RequestParam("username") String username, @RequestParam("password") String password) throws NotFoundException {
+    public AccountResponseDTO login(
+            @RequestParam("username") String username, @RequestParam("password") String password)
+            throws NotFoundException {
         return service.login(username, password);
     }
 }

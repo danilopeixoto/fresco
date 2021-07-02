@@ -1,5 +1,8 @@
 package com.mercadolibre.fresco.dtos.response;
-import lombok.*;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor

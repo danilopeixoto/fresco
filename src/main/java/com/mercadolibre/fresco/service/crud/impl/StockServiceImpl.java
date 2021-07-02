@@ -1,4 +1,5 @@
 package com.mercadolibre.fresco.service.crud.impl;
+
 import com.mercadolibre.fresco.model.Stock;
 import com.mercadolibre.fresco.repository.StockRepository;
 import com.mercadolibre.fresco.service.crud.IStockService;

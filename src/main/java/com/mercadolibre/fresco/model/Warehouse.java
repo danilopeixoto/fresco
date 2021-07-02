@@ -5,7 +5,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 @Table(name = "warehouses")
@@ -21,6 +20,6 @@ public class Warehouse {
     @Column(unique = true)
     private String warehouseCode;
 
-    @OneToOne(mappedBy="warehouse", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "warehouse", cascade = CascadeType.ALL)
     private WarehouseSection warehouseSection;
 }

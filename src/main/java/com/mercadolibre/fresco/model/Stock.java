@@ -5,8 +5,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "stocks")
@@ -27,11 +25,11 @@ public class Stock {
     private Float currentTemperature;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="product_id", referencedColumnName = "id", nullable=true)
+    @JoinColumn(name = "product_id", referencedColumnName = "id", nullable = true)
     private Product product;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="warehouse_section_id", referencedColumnName = "id")
+    @JoinColumn(name = "warehouse_section_id", referencedColumnName = "id")
     private WarehouseSection warehouseSection;
 
 

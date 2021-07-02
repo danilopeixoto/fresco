@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
-@Table(name="fresh_products")
+@Table(name = "fresh_products")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -30,7 +30,7 @@ public class Product {
     private LocalDateTime manufacturingTime;
     private LocalDate dueDate;
 
-    @OneToMany(mappedBy="product", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private List<Stock> stocks;
 
 }

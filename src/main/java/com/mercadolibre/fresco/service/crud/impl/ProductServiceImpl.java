@@ -1,8 +1,8 @@
 package com.mercadolibre.fresco.service.crud.impl;
+
 import com.mercadolibre.fresco.model.Product;
 import com.mercadolibre.fresco.repository.ProductRepository;
 import com.mercadolibre.fresco.service.crud.IProductService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

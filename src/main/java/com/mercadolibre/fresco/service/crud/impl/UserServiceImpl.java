@@ -1,4 +1,5 @@
 package com.mercadolibre.fresco.service.crud.impl;
+
 import com.mercadolibre.fresco.model.User;
 import com.mercadolibre.fresco.service.crud.IUserService;
 import org.springframework.stereotype.Service;

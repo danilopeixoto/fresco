@@ -1,4 +1,5 @@
 package com.mercadolibre.fresco.service.crud.impl;
+
 import com.mercadolibre.fresco.model.Warehouse;
 import com.mercadolibre.fresco.service.crud.IWarehouseService;
 import org.springframework.stereotype.Service;
@@ -7,7 +8,6 @@ import java.util.List;
 
 @Service
 public class WarehouseServiceImpl implements IWarehouseService {
-
 
 
     @Override

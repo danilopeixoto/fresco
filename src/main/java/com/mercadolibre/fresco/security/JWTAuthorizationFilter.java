@@ -23,6 +23,7 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
 
     /**
      * Filtro para solicitar validación por token
+     *
      * @param request
      * @param response
      * @param chain
@@ -52,6 +53,7 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
 
     /**
      * Método para validar el token
+     *
      * @param request
      * @return
      */
@@ -77,14 +79,18 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
 
     /**
      * Verifica si existe la cabecera "Authorization"  y cuyo valor comience con "Bearer "
+     *
      * @param request
      * @param res
      * @return
      */
     private boolean existeJWTToken(HttpServletRequest request, HttpServletResponse res) {
         String authenticationHeader = request.getHeader(HEADER);
-        if (authenticationHeader == null || !authenticationHeader.startsWith(PREFIX))
+
+        if (authenticationHeader == null || !authenticationHeader.startsWith(PREFIX)) {
             return false;
+        }
+
         return true;
     }
 

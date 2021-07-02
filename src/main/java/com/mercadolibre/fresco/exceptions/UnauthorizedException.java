@@ -6,5 +6,4 @@ public class UnauthorizedException extends RuntimeException {
     public UnauthorizedException(String detail) {
         super(DESCRIPTION + ". " + detail);
     }
-
 }

@@ -5,9 +5,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
-@Table(name="user_roles")
+@Table(name = "user_roles")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -16,9 +17,9 @@ public class Role {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique=true)
+    @Column(unique = true)
     private String roleCode;
 
-    @OneToOne(mappedBy = "role", cascade = CascadeType.ALL)
-    private User user;
+    @OneToMany(mappedBy = "role", cascade = CascadeType.ALL)
+    private List<User> users;
 }

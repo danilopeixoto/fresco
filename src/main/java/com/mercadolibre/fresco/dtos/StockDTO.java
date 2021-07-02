@@ -29,11 +29,11 @@ public class StockDTO {
     public Float minimumTemperature;
 
     @NotNull(message = "initialQuantity cannot be null.")
-    @Min(value = 0, message ="initialQuantity cannot be less than 0.")
+    @Min(value = 0, message = "initialQuantity cannot be less than 0.")
     public Integer initialQuantity;
 
     @NotNull(message = "currentQuantity cannot be null.")
-    @Min(value = 0, message ="currentQuantity cannot be less than 0.")
+    @Min(value = 0, message = "currentQuantity cannot be less than 0.")
     public Integer currentQuantity;
 
     @NotNull(message = "manufacturingDate cannot be null.")

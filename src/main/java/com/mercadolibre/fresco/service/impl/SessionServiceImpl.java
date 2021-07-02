@@ -2,13 +2,12 @@ package com.mercadolibre.fresco.service.impl;
 
 import com.mercadolibre.fresco.dtos.response.AccountResponseDTO;
 import com.mercadolibre.fresco.exceptions.ApiException;
-import com.mercadolibre.fresco.model.Account;
-import com.mercadolibre.fresco.repository.AccountRepository;
+import com.mercadolibre.fresco.model.User;
+import com.mercadolibre.fresco.repository.UserRepository;
 import com.mercadolibre.fresco.service.ISessionService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import javassist.NotFoundException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.stereotype.Service;
@@ -19,27 +18,20 @@ import java.util.stream.Collectors;
 
 @Service
 public class SessionServiceImpl implements ISessionService {
-    private final AccountRepository accountRepository;
+    private final String SECRET = "mySecretKey";
 
-    public SessionServiceImpl(AccountRepository accountRepository) {
-        this.accountRepository = accountRepository;
+    private final UserRepository userRepository;
+
+    public SessionServiceImpl(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
-    /**
-     * Realiza la validación del usuario y contraseña ingresado.
-     * En caso de ser correcto, devuelve la cuenta con el token necesario para realizar las demás consultas.
-     *
-     * @param username
-     * @param password
-     * @return
-     * @throws NotFoundException
-     */
     @Override
     public AccountResponseDTO login(String username, String password) throws ApiException {
-        Account account = accountRepository.findByUsernameAndPassword(username, password);
+        User userAccount = userRepository.findByUsernameAndPassword(username, password);
 
-        if (account != null) {
-            String token = getJWTToken(username);
+        if (userAccount != null) {
+            String token = getJWTToken(username, userAccount.getRole().getRoleCode());
             AccountResponseDTO user = new AccountResponseDTO();
             user.setUsername(username);
             user.setToken(token);
@@ -51,13 +43,13 @@ public class SessionServiceImpl implements ISessionService {
 
     /**
      * Genera un token para un usuario específico, válido por 10'
+     *
      * @param username
      * @return
      */
-    private String getJWTToken(String username) {
-        String secretKey = "mySecretKey";
+    private String getJWTToken(String username, String roleCode) {
         List<GrantedAuthority> grantedAuthorities = AuthorityUtils
-                .commaSeparatedStringToAuthorityList("ROLE_USER");
+                .commaSeparatedStringToAuthorityList(roleCode);
         String token = Jwts
                 .builder()
                 .setId("softtekJWT")
@@ -69,13 +61,14 @@ public class SessionServiceImpl implements ISessionService {
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + 600000))
                 .signWith(SignatureAlgorithm.HS512,
-                        secretKey.getBytes()).compact();
+                        SECRET.getBytes()).compact();
 
         return "Bearer " + token;
     }
 
     /**
      * Decodifica un token para poder obtener los componentes que contiene el mismo
+     *
      * @param token
      * @return
      */
@@ -87,6 +80,7 @@ public class SessionServiceImpl implements ISessionService {
 
     /**
      * Permite obtener el username según el token indicado
+     *
      * @param token
      * @return
      */
