@@ -46,4 +46,9 @@ public class ProductServiceImpl implements IProductService {
     public List<Product> findAll() {
         return this.productRepository.findAll();
     }
+
+    @Override
+    public List<Product> findProductsByCategoryCode(String categoryCode) {
+        return this.productRepository.findByProductCategory(categoryCode);
+    }
 }
