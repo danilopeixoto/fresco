@@ -4,6 +4,7 @@ import com.mercadolibre.fresco.model.OrderedProduct;
 import com.mercadolibre.fresco.model.ProductCategory;
 import com.mercadolibre.fresco.model.Stock;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -14,6 +15,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
+@Builder(toBuilder = true)
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

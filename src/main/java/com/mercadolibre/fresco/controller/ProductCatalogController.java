@@ -1,14 +1,8 @@
 package com.mercadolibre.fresco.controller;
 
 
-import com.mercadolibre.fresco.dtos.InboundOrderDTO;
-import com.mercadolibre.fresco.dtos.ProductsDTO;
-import com.mercadolibre.fresco.dtos.response.InboundOrderResponseDTO;
 import com.mercadolibre.fresco.dtos.response.ProductResponseDTO;
-import com.mercadolibre.fresco.exceptions.ApiError;
-import com.mercadolibre.fresco.exceptions.NotFoundException;
-import com.mercadolibre.fresco.exceptions.UnauthorizedException;
-import com.mercadolibre.fresco.service.IInboundOrderService;
+import com.mercadolibre.fresco.model.enumeration.EProductCategory;
 import com.mercadolibre.fresco.service.crud.IProductService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -16,19 +10,17 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Tag(name = "Products")
+@Tag(name = "Product catalog")
 @RequestMapping(path = "/api/v1/fresh-products")
 @RestController
-public class ProductController {
+public class ProductCatalogController {
     private final IProductService productService;
 
-    public ProductController(IProductService productService) {
+    public ProductCatalogController(IProductService productService) {
         this.productService = productService;
     }
 
@@ -67,7 +59,7 @@ public class ProductController {
     })
     @GetMapping(path = "/list")
     @ResponseBody
-    public List<ProductResponseDTO> listByCategory(@RequestParam(required = true) String querytype) {
-        return this.productService.listByCategory(querytype);
+    public List<ProductResponseDTO> listByCategory(@RequestParam(required = true) EProductCategory querytype) {
+        return this.productService.findProductsByCategoryCode(querytype.getCategory());
     }
 }

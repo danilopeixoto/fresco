@@ -1,15 +1,12 @@
 package com.mercadolibre.fresco.controller;
 
 
-import com.mercadolibre.fresco.dtos.InboundOrderDTO;
-import com.mercadolibre.fresco.dtos.ProductsDTO;
 import com.mercadolibre.fresco.dtos.PurchaseOrderDTO;
-import com.mercadolibre.fresco.dtos.response.InboundOrderResponseDTO;
 import com.mercadolibre.fresco.dtos.response.ProductResponseDTO;
 import com.mercadolibre.fresco.exceptions.ApiError;
 import com.mercadolibre.fresco.exceptions.NotFoundException;
 import com.mercadolibre.fresco.exceptions.UnauthorizedException;
-import com.mercadolibre.fresco.service.crud.IProductService;
+import com.mercadolibre.fresco.service.IPurchaseOrderService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -17,6 +14,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -54,15 +52,16 @@ public class PurchaseOrderController {
     @PreAuthorize("hasAuthority('BUYER')")
     @PostMapping(path = "/", consumes = "application/json")
     @ResponseBody
-    public PurchaseOrderDTO create(PurchaseOrderDTO purchaseOrderDTO) throws UnauthorizedException {
-        return this.purchaseOrderService.create(purchaseOrderDTO);
+    public PurchaseOrderDTO create(Authentication authentication, PurchaseOrderDTO purchaseOrderDTO)
+            throws UnauthorizedException {
+        return this.purchaseOrderService.create(authentication.getName(), purchaseOrderDTO);
     }
 
     /**
      * ================================
      * Get purchase order by ID
      *
-     * @param querytype
+     * @param id
      * @return List
      */
     @Operation(summary = "Get purchase order products by category", responses = {
@@ -80,9 +79,9 @@ public class PurchaseOrderController {
     @PreAuthorize("hasAuthority('BUYER')")
     @GetMapping(path = "/list", consumes = "application/json")
     @ResponseBody
-    public List<ProductResponseDTO> findById(@RequestParam(required = true) Long querytype)
+    public List<ProductResponseDTO> findById(Authentication authentication, @RequestParam(required = true) Long id)
             throws UnauthorizedException {
-        return this.purchaseOrderService.listProductsByCategory(querytype);
+        return this.purchaseOrderService.listProductsByCategory(authentication.getName(), id);
     }
 
     /**
@@ -112,7 +111,8 @@ public class PurchaseOrderController {
     @PreAuthorize("hasAuthority('BUYER')")
     @PutMapping(path = "/", consumes = "application/json")
     @ResponseBody
-    public PurchaseOrderDTO updateOrder(@Validated @RequestBody PurchaseOrderDTO purchaseOrderDTO) throws UnauthorizedException, NotFoundException {
-        return this.purchaseOrderService.update(purchaseOrderDTO);
+    public PurchaseOrderDTO updateOrder(Authentication authentication, @Validated @RequestBody PurchaseOrderDTO purchaseOrderDTO)
+            throws UnauthorizedException, NotFoundException {
+        return this.purchaseOrderService.update(authentication.getName(), purchaseOrderDTO);
     }
 }

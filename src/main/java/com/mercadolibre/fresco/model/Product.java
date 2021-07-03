@@ -40,8 +40,4 @@ public class Product {
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "product_category_id", referencedColumnName = "id")
     private ProductCategory productCategory;
-
-
-
-
 }

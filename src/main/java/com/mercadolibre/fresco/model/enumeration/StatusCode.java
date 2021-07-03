@@ -12,4 +12,7 @@ public enum StatusCode {
         this.status = status;
     }
 
+    public String getStatus() {
+        return this.status;
+    }
 }
