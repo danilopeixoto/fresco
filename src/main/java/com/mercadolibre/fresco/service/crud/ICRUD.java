@@ -3,9 +3,9 @@ package com.mercadolibre.fresco.service.crud;
 import java.util.List;
 
 public interface ICRUD<DTO> {
-    DTO create(DTO dto);
+    //DTO create(Object dto);
 
-    DTO update(DTO dto);
+    //DTO update(Object dto);
 
     void delete(Long id);
 

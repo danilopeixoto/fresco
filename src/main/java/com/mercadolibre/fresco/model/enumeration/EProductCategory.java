@@ -10,4 +10,8 @@ public enum EProductCategory {
     EProductCategory(String category) {
         this.category = category;
     }
+
+    public String getCategory() {
+        return this.category;
+    }
 }
