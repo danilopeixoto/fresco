@@ -1,7 +1,5 @@
 package com.mercadolibre.fresco.exceptions;
 
-import lombok.Builder;
-
 public class ApiError {
     private String error;
     private String message;

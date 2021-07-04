@@ -1,15 +1,13 @@
 package com.mercadolibre.fresco.unit.service;
 
-import com.mercadolibre.fresco.dtos.response.AccountResponseDTO;
 import com.mercadolibre.fresco.exceptions.ApiException;
-import com.mercadolibre.fresco.model.User;
 import com.mercadolibre.fresco.repository.UserRepository;
 import com.mercadolibre.fresco.service.impl.SessionServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
 class SessionServiceImplTest {
