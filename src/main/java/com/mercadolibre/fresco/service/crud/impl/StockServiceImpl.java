@@ -4,7 +4,6 @@ import com.mercadolibre.fresco.exceptions.ApiException;
 import com.mercadolibre.fresco.model.Stock;
 import com.mercadolibre.fresco.repository.StockRepository;
 import com.mercadolibre.fresco.service.crud.IStockService;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -29,14 +28,15 @@ public class StockServiceImpl implements IStockService {
     }
 
     @Override
-    public void delete(Long id) {}
+    public void delete(Long id) {
+    }
 
     @Override
     public Stock findById(Long id) {
         Stock stock = stockRepository.findById(id).orElse(null);
-        if(stock != null){
+        if (stock != null) {
             return stock;
-        }else{
+        } else {
             throw new ApiException("404", "Stock not found", 404);
         }
     }
@@ -45,9 +45,9 @@ public class StockServiceImpl implements IStockService {
     public List<Stock> findAll() {
         List<Stock> stocks = stockRepository.findAll();
 
-        if(stocks.size() == 0){
+        if (stocks.size() == 0) {
             throw new ApiException("404", "Stock not found", 404);
-        }else{
+        } else {
             return stocks;
         }
     }
@@ -55,7 +55,7 @@ public class StockServiceImpl implements IStockService {
     @Override
     public Stock updateCurrentQuantityById(Long id, Integer cur_quantity) {
         this.findById(id);
-        if(cur_quantity < 0){
+        if (cur_quantity < 0) {
             throw new ApiException("400", "Current Quantity cannot be less than 0.", 400);
         }
         return stockRepository.updateCurrentQuantityById(id, cur_quantity);
@@ -64,9 +64,9 @@ public class StockServiceImpl implements IStockService {
     @Override
     public List<Stock> checkStockWithProductAvailability(String productCode, int quantity) {
         List<Stock> stocks = stockRepository.findByProductCodeWithCurrentQuantity(productCode, quantity);
-        if(stocks.size() > 0){
+        if (stocks.size() > 0) {
             return stocks;
-        }else{
+        } else {
             throw new ApiException("400", "Not enough Product " + productCode + " available units for this purchase.", 400);
         }
     }

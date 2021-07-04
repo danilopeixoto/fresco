@@ -1,13 +1,14 @@
 package com.mercadolibre.fresco.service.crud;
 
-import com.mercadolibre.fresco.dtos.response.ProductResponseDTO;
+import com.mercadolibre.fresco.model.Product;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-public interface IProductService extends ICRUD<ProductResponseDTO> {
-    ProductResponseDTO findByProductCode(String productCode);
+public interface IProductService extends ICRUD<Product> {
+    Product findByProductCode(String productCode);
 
-    List<ProductResponseDTO> findAll();
-    List<ProductResponseDTO> findProductsByCategoryCode(@Param("categoryCode") String categoryCode);
+    List<Product> findAll();
+
+    List<Product> findProductsByCategoryCode(@Param("categoryCode") String categoryCode);
 }

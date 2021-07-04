@@ -1,7 +1,6 @@
 package com.mercadolibre.fresco.service.crud;
 
 import com.mercadolibre.fresco.model.Stock;
-import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 

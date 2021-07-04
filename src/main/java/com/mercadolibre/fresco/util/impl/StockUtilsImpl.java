@@ -1,6 +1,6 @@
 package com.mercadolibre.fresco.util.impl;
 
-/*import com.mercadolibre.fresco.dtos.SectionDTO;
+import com.mercadolibre.fresco.dtos.SectionDTO;
 import com.mercadolibre.fresco.dtos.StockDTO;
 import com.mercadolibre.fresco.model.Stock;
 import com.mercadolibre.fresco.service.crud.IProductService;
@@ -37,4 +37,4 @@ public class StockUtilsImpl implements StockUtils {
         ));
         return stock;
     }
-}*/
+}

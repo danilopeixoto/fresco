@@ -6,7 +6,6 @@ import com.mercadolibre.fresco.service.crud.ISectionService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Locale;
 
 @Service
 public class SectionServiceImpl implements ISectionService {

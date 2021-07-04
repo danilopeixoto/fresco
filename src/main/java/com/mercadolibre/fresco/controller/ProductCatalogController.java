@@ -3,7 +3,7 @@ package com.mercadolibre.fresco.controller;
 
 import com.mercadolibre.fresco.dtos.response.ProductResponseDTO;
 import com.mercadolibre.fresco.model.enumeration.EProductCategory;
-import com.mercadolibre.fresco.service.crud.IProductService;
+import com.mercadolibre.fresco.service.IProductCatalogService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -18,10 +18,10 @@ import java.util.List;
 @RequestMapping(path = "/api/v1/fresh-products")
 @RestController
 public class ProductCatalogController {
-    private final IProductService productService;
+    private final IProductCatalogService productCatalogService;
 
-    public ProductCatalogController(IProductService productService) {
-        this.productService = productService;
+    public ProductCatalogController(IProductCatalogService productCatalogService) {
+        this.productCatalogService = productCatalogService;
     }
 
     /**
@@ -40,7 +40,7 @@ public class ProductCatalogController {
     @GetMapping(path = "/")
     @ResponseBody
     public List<ProductResponseDTO> listAll() {
-        return this.productService.findAll();
+        return this.productCatalogService.findAll();
     }
 
     /**
@@ -60,6 +60,6 @@ public class ProductCatalogController {
     @GetMapping(path = "/list")
     @ResponseBody
     public List<ProductResponseDTO> listByCategory(@RequestParam(required = true) EProductCategory querytype) {
-        return this.productService.findProductsByCategoryCode(querytype.getCategory());
+        return this.productCatalogService.findProductsByCategoryCode(querytype);
     }
 }
