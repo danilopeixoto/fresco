@@ -15,7 +15,7 @@ import java.time.LocalDate;
 public class InfoStockDTO {
     private int batchNumber;
     private int currentQuantity;
-    private LocalDate dueData;
+    private LocalDate dueDate;
     private String sectionCode;
     private String warehouseCode;
 }

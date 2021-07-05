@@ -1,5 +1,6 @@
 package com.mercadolibre.fresco.service.crud.impl;
 
+import com.mercadolibre.fresco.dtos.InfoStockDTO;
 import com.mercadolibre.fresco.exceptions.ApiException;
 import com.mercadolibre.fresco.exceptions.NotFoundException;
 import com.mercadolibre.fresco.model.Stock;
@@ -83,6 +84,15 @@ public class StockServiceImpl implements IStockService {
         List<Stock> stocks = stockRepository.findByProductCodeWithCurrentQuantity(productCode, quantity);
         if (stocks.isEmpty()) {
             throw new ApiException("400", "Not enough Product " + productCode + " available units for this purchase.", 400);
+        }
+        return stocks;
+    }
+
+    @Override
+    public List<InfoStockDTO> findWithSectionAndWarehouseByProductCode(String productCode) {
+        List<InfoStockDTO> stocks = stockRepository.findWithSectionAndWarehouseByProductCode(productCode);
+        if (stocks.isEmpty()){
+            throw new NotFoundException("Products not found");
         }
         return stocks;
     }

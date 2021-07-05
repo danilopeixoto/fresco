@@ -1,10 +1,15 @@
 package com.mercadolibre.fresco.service.impl;
 
+import com.mercadolibre.fresco.dtos.InfoStockDTO;
 import com.mercadolibre.fresco.dtos.response.ProductResponseDTO;
+import com.mercadolibre.fresco.dtos.response.ProductStockResponseDTO;
 import com.mercadolibre.fresco.exceptions.NotFoundException;
+import com.mercadolibre.fresco.model.Stock;
 import com.mercadolibre.fresco.model.enumeration.EProductCategory;
 import com.mercadolibre.fresco.service.IProductCatalogService;
 import com.mercadolibre.fresco.service.crud.IProductService;
+import com.mercadolibre.fresco.service.crud.IStockService;
+import com.mercadolibre.fresco.service.crud.IWarehouseSection;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -15,10 +20,12 @@ import java.util.stream.Collectors;
 public class ProductCatalogServiceImpl implements IProductCatalogService {
     private IProductService productService;
     private ModelMapper modelMapper;
+    private IStockService stockService;
 
-    public ProductCatalogServiceImpl(IProductService productService, ModelMapper modelMapper) {
+    public ProductCatalogServiceImpl(IProductService productService, ModelMapper modelMapper, IStockService stockService) {
         this.productService = productService;
         this.modelMapper = modelMapper;
+        this.stockService = stockService;
     }
 
     @Override
@@ -49,5 +56,12 @@ public class ProductCatalogServiceImpl implements IProductCatalogService {
         }
 
         return products;
+    }
+
+    @Override
+    public List<ProductStockResponseDTO> findStocksByProductCode(String productCode) {
+        List<InfoStockDTO> stocks = stockService.findWithSectionAndWarehouseByProductCode(productCode);
+
+        return null;
     }
 }
