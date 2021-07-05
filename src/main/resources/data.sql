@@ -5,9 +5,9 @@ INSERT INTO `sections` (`id`, `section_code`, `product_category_id`) VALUES ('1'
 INSERT INTO `sections` (`id`, `section_code`, `product_category_id`) VALUES ('2', "RF", '2');
 INSERT INTO `sections` (`id`, `section_code`, `product_category_id`) VALUES ('3', "FF", '3');
 
-INSERT INTO `warehouse_section` (`warehouse_id`, `section_id`, `id`) VALUES ('1', '1', '1');
-INSERT INTO `warehouse_section` (`warehouse_id`, `section_id`, `id`) VALUES ('1', '2', '2');
-INSERT INTO `warehouse_section` (`warehouse_id`, `section_id`, `id`) VALUES ('1', '3', '3');
+INSERT INTO `warehouse_section` (`warehouse_id`, `section_id`, `id`, `capacity`, `quantity`) VALUES ('1', '1', '1', '10000', '0');
+INSERT INTO `warehouse_section` (`warehouse_id`, `section_id`, `id`, `capacity`, `quantity`) VALUES ('1', '2', '2', '20000', '0');
+INSERT INTO `warehouse_section` (`warehouse_id`, `section_id`, `id`, `capacity`, `quantity`) VALUES ('1', '3', '3', '15000', '0');
 
 INSERT INTO `product_categories` (`id`, `category_code`, `name`) VALUES ('1', "FS", "Fresh");
 INSERT INTO `product_categories` (`id`, `category_code`, `name`) VALUES ('2', "RF", "Refrigerado");

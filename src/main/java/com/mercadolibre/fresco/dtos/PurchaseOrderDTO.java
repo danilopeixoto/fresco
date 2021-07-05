@@ -14,18 +14,18 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PurchaseOrderDTO {
-    @NotNull
-    private Long id;
+  @NotNull
+  private Long id;
 
-    @NotNull(message = "date cannot be null.")
-    private LocalDate date;
+  @NotNull(message = "date cannot be null.")
+  private LocalDate date;
 
-    @NotNull(message = "buyerId cannot be null.")
-    private String buyerId;
+  @NotNull(message = "buyerId cannot be null.")
+  private String buyerId;
 
-    @NotNull(message = "orderStatus cannot be null.")
-    private OrderStatusDTO orderStatus;
+  @NotNull(message = "orderStatus cannot be null.")
+  private OrderStatusDTO orderStatus;
 
-    @NotNull(message = "products cannot be null.")
-    private List<ProductsDTO> products;
+  @NotNull(message = "products cannot be null.")
+  private List<ProductsDTO> products;
 }

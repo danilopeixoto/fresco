@@ -11,5 +11,5 @@ import java.util.List;
 @Builder(toBuilder = true)
 @Data
 public class InboundOrderResponseDTO {
-    public List<StockDTO> batchStock;
+  public List<StockDTO> batchStock;
 }

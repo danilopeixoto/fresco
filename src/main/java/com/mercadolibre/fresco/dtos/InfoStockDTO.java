@@ -13,9 +13,9 @@ import java.time.LocalDate;
 @NoArgsConstructor
 
 public class InfoStockDTO {
-    private int batchNumber;
-    private int currentQuantity;
-    private LocalDate dueData;
-    private String sectionCode;
-    private String warehouseCode;
+  private int batchNumber;
+  private int currentQuantity;
+  private LocalDate dueData;
+  private String sectionCode;
+  private String warehouseCode;
 }

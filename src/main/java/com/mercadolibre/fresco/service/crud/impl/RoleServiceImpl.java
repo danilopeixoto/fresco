@@ -10,34 +10,34 @@ import java.util.List;
 @Service
 public class RoleServiceImpl implements IRoleService {
 
-    private RoleRepository roleRepository;
+  private RoleRepository roleRepository;
 
-    public RoleServiceImpl(RoleRepository roleRepository) {
-        this.roleRepository = roleRepository;
-    }
+  public RoleServiceImpl(RoleRepository roleRepository) {
+    this.roleRepository = roleRepository;
+  }
 
-    @Override
-    public Role create(Role role) {
-        return null;
-    }
+  @Override
+  public Role create(Role role) {
+    return null;
+  }
 
-    @Override
-    public Role update(Role role) {
-        return null;
-    }
+  @Override
+  public Role update(Role role) {
+    return null;
+  }
 
-    @Override
-    public void delete(Long id) {
+  @Override
+  public void delete(Long id) {
 
-    }
+  }
 
-    @Override
-    public Role findById(Long id) {
-        return null;
-    }
+  @Override
+  public Role findById(Long id) {
+    return null;
+  }
 
-    @Override
-    public List<Role> findAll() {
-        return null;
-    }
+  @Override
+  public List<Role> findAll() {
+    return null;
+  }
 }

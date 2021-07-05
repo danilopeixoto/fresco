@@ -5,5 +5,5 @@ import com.mercadolibre.fresco.dtos.StockDTO;
 import com.mercadolibre.fresco.model.Stock;
 
 public interface StockUtils {
-    Stock convertDtoToEntity(StockDTO stockDTO, SectionDTO sectionDTO);
+  Stock convertDtoToEntity(StockDTO stockDTO, SectionDTO sectionDTO);
 }

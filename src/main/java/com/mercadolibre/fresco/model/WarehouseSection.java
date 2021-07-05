@@ -13,19 +13,21 @@ import javax.persistence.*;
 @AllArgsConstructor
 public class WarehouseSection {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "section_id", referencedColumnName = "id")
-    private Section section;
+  private Integer capacity;
+  private Integer quantity;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "warehouse_id", referencedColumnName = "id")
-    private Warehouse warehouse;
+  @OneToOne(cascade = CascadeType.ALL)
+  @JoinColumn(name = "section_id", referencedColumnName = "id")
+  private Section section;
 
-    @OneToOne(mappedBy = "warehouseSection", cascade = CascadeType.ALL)
-    private Stock stock;
+  @OneToOne(cascade = CascadeType.ALL)
+  @JoinColumn(name = "warehouse_id", referencedColumnName = "id")
+  private Warehouse warehouse;
 
+  @OneToOne(mappedBy = "warehouseSection", cascade = CascadeType.ALL)
+  private Stock stock;
 }

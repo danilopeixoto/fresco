@@ -5,7 +5,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 @Table(name = "warehouses")
@@ -14,17 +13,17 @@ import java.util.List;
 @AllArgsConstructor
 public class Warehouse {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-    @Column(unique = true)
-    private String warehouseCode;
+  @Column(unique = true)
+  private String warehouseCode;
 
-    @OneToOne(mappedBy = "warehouse", cascade = CascadeType.ALL)
-    private WarehouseSection warehouseSection;
+  @OneToOne(mappedBy = "warehouse", cascade = CascadeType.ALL)
+  private WarehouseSection warehouseSection;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "agent_id", referencedColumnName = "id")
-    private User agent;
+  @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+  @JoinColumn(name = "agent_id", referencedColumnName = "id")
+  private User agent;
 }

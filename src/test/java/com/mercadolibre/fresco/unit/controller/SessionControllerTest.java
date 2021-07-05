@@ -15,29 +15,29 @@ import static org.mockito.Mockito.when;
 
 class SessionControllerTest {
 
-    SessionController controller;
-    ISessionService service = Mockito.mock(ISessionService.class);
+  SessionController controller;
+  ISessionService service = Mockito.mock(ISessionService.class);
 
-    @BeforeEach
-    void setUp() throws NotFoundException {
-        when(service.login("user_one", "contra12"))
-                .thenThrow(new ApiException("401", "Wrong username or password", 401));
-        when(service.login("user_one", "contra123"))
-                .thenReturn(new AccountResponseDTO("user_one", "contra123", "TOKEN"));
-        controller = new SessionController(service);
-    }
+  @BeforeEach
+  void setUp() throws NotFoundException {
+    when(service.login("user_one", "contra12"))
+      .thenThrow(new ApiException("401", "Wrong username or password", 401));
+    when(service.login("user_one", "contra123"))
+      .thenReturn(new AccountResponseDTO("user_one", "contra123", "TOKEN"));
+    controller = new SessionController(service);
+  }
 
-    @Test
-    void loginFail() throws Exception {
-        assertThrows(ApiException.class, () -> controller.login("user_one", "contra12"),
-                "Wrong username or password");
-    }
+  @Test
+  void loginFail() throws Exception {
+    assertThrows(ApiException.class, () -> controller.login("user_one", "contra12"),
+      "Wrong username or password");
+  }
 
-    @Test
-    void loginOk() throws Exception {
-        AccountResponseDTO accountDTO = controller.login("user_one", "contra123");
-        assertEquals("user_one", accountDTO.getUsername());
-        assertEquals("contra123", accountDTO.getPassword());
-        assertEquals("TOKEN", accountDTO.getToken());
-    }
+  @Test
+  void loginOk() throws Exception {
+    AccountResponseDTO accountDTO = controller.login("user_one", "contra123");
+    assertEquals("user_one", accountDTO.getUsername());
+    assertEquals("contra123", accountDTO.getPassword());
+    assertEquals("TOKEN", accountDTO.getToken());
+  }
 }

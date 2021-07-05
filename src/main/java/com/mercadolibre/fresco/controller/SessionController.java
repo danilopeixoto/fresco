@@ -16,37 +16,37 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(path = "/api/v1")
 @RestController
 public class SessionController {
-    private final ISessionService service;
+  private final ISessionService service;
 
-    public SessionController(ISessionService sessionService) {
-        this.service = sessionService;
-    }
+  public SessionController(ISessionService sessionService) {
+    this.service = sessionService;
+  }
 
-    /**
-     * Validate username and password
-     * If valid, it returns the account with the necessary token to send other requests.
-     *
-     * @param username
-     * @param password
-     * @return AccountResponseDTO
-     * @throws NotFoundException
-     */
-    @Operation(summary = "Sign-in to user account", responses = {
-            @ApiResponse(
-                    responseCode = "200",
-                    content = @Content(
-                            schema = @Schema(implementation = AccountResponseDTO.class),
-                            mediaType = "application/json")),
-            @ApiResponse(
-                    responseCode = "404",
-                    content = @Content(
-                            schema = @Schema(implementation = ApiError.class),
-                            mediaType = "application/json"))
-    })
-    @PostMapping("/sign-in")
-    public AccountResponseDTO login(
-            @RequestParam("username") String username, @RequestParam("password") String password)
-            throws NotFoundException {
-        return service.login(username, password);
-    }
+  /**
+   * Validate username and password
+   * If valid, it returns the account with the necessary token to send other requests.
+   *
+   * @param username
+   * @param password
+   * @return AccountResponseDTO
+   * @throws NotFoundException
+   */
+  @Operation(summary = "Sign-in to user account", responses = {
+    @ApiResponse(
+      responseCode = "200",
+      content = @Content(
+        schema = @Schema(implementation = AccountResponseDTO.class),
+        mediaType = "application/json")),
+    @ApiResponse(
+      responseCode = "404",
+      content = @Content(
+        schema = @Schema(implementation = ApiError.class),
+        mediaType = "application/json"))
+  })
+  @PostMapping("/sign-in")
+  public AccountResponseDTO login(
+    @RequestParam("username") String username, @RequestParam("password") String password)
+    throws NotFoundException {
+    return service.login(username, password);
+  }
 }

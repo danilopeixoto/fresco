@@ -16,17 +16,17 @@ import java.util.List;
 @Data
 public class CountryHouseDTO {
 
-    @JsonIgnore
-    private Integer id;
+  @JsonIgnore
+  private Integer id;
 
-    @NotNull(message = "Name es requerido")
-    @Size(min = 3, message = "Name debe tener un minimo de 3 caracteres")
-    private String name;
+  @NotNull(message = "Name es requerido")
+  @Size(min = 3, message = "Name debe tener un minimo de 3 caracteres")
+  private String name;
 
-    @NotNull(message = "Country es requerido")
-    @Size(min = 3, message = "Country debe tener un minimo de 3 caracteres")
-    private String country;
+  @NotNull(message = "Country es requerido")
+  @Size(min = 3, message = "Country debe tener un minimo de 3 caracteres")
+  private String country;
 
-    @JsonIgnore
-    private List<AccountResponseDTO> accounts;
+  @JsonIgnore
+  private List<AccountResponseDTO> accounts;
 }

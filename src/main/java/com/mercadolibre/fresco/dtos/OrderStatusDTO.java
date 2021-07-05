@@ -13,8 +13,8 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 public class OrderStatusDTO {
 
-    @NotNull(message = "statusCode cannot be null.")
-    private String statusCode;
+  @NotNull(message = "statusCode cannot be null.")
+  private String statusCode;
 }
 
 

@@ -2,17 +2,17 @@ package com.mercadolibre.fresco.model.enumeration;
 
 public enum StatusCode {
 
-    APROVADO("Approved"),
-    PENDENTE("Pending"),
-    CANCELADO("CANCELED");
+  APROVADO("Approved"),
+  PENDENTE("Pending"),
+  CANCELADO("CANCELED");
 
-    private String status;
+  private String status;
 
-    StatusCode(String status) {
-        this.status = status;
-    }
+  StatusCode(String status) {
+    this.status = status;
+  }
 
-    public String getStatus() {
-        return this.status;
-    }
+  public String getStatus() {
+    return this.status;
+  }
 }

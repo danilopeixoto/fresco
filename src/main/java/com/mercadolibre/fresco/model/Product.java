@@ -16,28 +16,28 @@ import java.util.List;
 @NoArgsConstructor
 public class Product {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-    @Column(unique = true)
-    private String productCode;
+  @Column(unique = true)
+  private String productCode;
 
-    @Column(name = "min_temp")
-    private Float minimumTemperature;
-    @Column(name = "manufacturing_date")
-    private LocalDate manufacturingDate;
-    private LocalDateTime manufacturingTime;
-    private LocalDate dueDate;
-    private Float price;
+  @Column(name = "min_temp")
+  private Float minimumTemperature;
+  @Column(name = "manufacturing_date")
+  private LocalDate manufacturingDate;
+  private LocalDateTime manufacturingTime;
+  private LocalDate dueDate;
+  private Float price;
 
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
-    private List<Stock> stocks;
+  @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+  private List<Stock> stocks;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "product")
-    private List<OrderedProduct> orderedProducts;
+  @OneToMany(cascade = CascadeType.ALL, mappedBy = "product")
+  private List<OrderedProduct> orderedProducts;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "product_category_id", referencedColumnName = "id")
-    private ProductCategory productCategory;
+  @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+  @JoinColumn(name = "product_category_id", referencedColumnName = "id")
+  private ProductCategory productCategory;
 }

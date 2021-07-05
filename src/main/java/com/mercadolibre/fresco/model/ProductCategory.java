@@ -14,19 +14,19 @@ import java.util.List;
 @AllArgsConstructor
 public class ProductCategory {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long Id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long Id;
 
-    @Column(nullable = false)
-    private String categoryCode;
+  @Column(nullable = false)
+  private String categoryCode;
 
-    @Column(nullable = false)
-    private String name;
+  @Column(nullable = false)
+  private String name;
 
-    @OneToMany(mappedBy = "productCategory", cascade = CascadeType.ALL)
-    private List<Product> products;
+  @OneToMany(mappedBy = "productCategory", cascade = CascadeType.ALL)
+  private List<Product> products;
 
-    @OneToMany(mappedBy = "productCategory", cascade = CascadeType.ALL)
-    private List<Section> sections;
+  @OneToMany(mappedBy = "productCategory", cascade = CascadeType.ALL)
+  private List<Section> sections;
 }

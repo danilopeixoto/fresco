@@ -12,9 +12,9 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 @NoArgsConstructor
 public class SectionDTO {
-    @NotNull(message = "sectionCode cannot be null.")
-    public String sectionCode;
+  @NotNull(message = "sectionCode cannot be null.")
+  public String sectionCode;
 
-    @NotNull(message = "warehouseCode cannot be null.")
-    public String warehouseCode;
+  @NotNull(message = "warehouseCode cannot be null.")
+  public String warehouseCode;
 }

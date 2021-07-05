@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface SectionRepository extends JpaRepository<Section, Long> {
 
-    @Query(value = "SELECT id FROM sections WHERE section_code = :sectionCode", nativeQuery = true)
-    Long getIdBySectionCode(@Param("sectionCode") String sectionCode);
+  @Query(value = "SELECT id FROM sections WHERE section_code = :sectionCode", nativeQuery = true)
+  Long getIdBySectionCode(@Param("sectionCode") String sectionCode);
 
 }

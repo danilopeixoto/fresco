@@ -11,31 +11,31 @@ import com.mercadolibre.fresco.util.StockUtils;
 
 public class StockUtilsImpl implements StockUtils {
 
-    private final IProductService productService;
-    private final IWarehouseService warehouseService;
-    private final ISectionService sectionService;
-    private final IWarehouseSection warehouseSection;
+  private final IProductService productService;
+  private final IWarehouseService warehouseService;
+  private final ISectionService sectionService;
+  private final IWarehouseSection warehouseSection;
 
-    public StockUtilsImpl(IProductService productService, IWarehouseService warehouseService,
-                          ISectionService sectionService, IWarehouseSection warehouseSection) {
-        this.productService = productService;
-        this.warehouseService = warehouseService;
-        this.sectionService = sectionService;
-        this.warehouseSection = warehouseSection;
-    }
+  public StockUtilsImpl(IProductService productService, IWarehouseService warehouseService,
+                        ISectionService sectionService, IWarehouseSection warehouseSection) {
+    this.productService = productService;
+    this.warehouseService = warehouseService;
+    this.sectionService = sectionService;
+    this.warehouseSection = warehouseSection;
+  }
 
-    @Override
-    public Stock convertDtoToEntity(StockDTO stockDTO, SectionDTO sectionDTO) {
-        Stock stock = new Stock();
-        stock.setBatchNumber(stockDTO.getBatchNumber());
-        stock.setCurrentQuantity(stockDTO.getCurrentQuantity());
-        stock.setCurrentTemperature(stockDTO.getCurrentTemperature());
-        stock.setInitialQuantity(stockDTO.getInitialQuantity());
-        stock.setProduct(this.productService.findByProductCode(stockDTO.getProductCode()));
-        stock.setWarehouseSection(this.warehouseSection.findByWarehouseAndSectionId(
-                warehouseService.getWarehouseIdByCode(sectionDTO.warehouseCode),
-                sectionService.getIdBySectionCode(sectionDTO.sectionCode)
-        ));
-        return stock;
-    }
+  @Override
+  public Stock convertDtoToEntity(StockDTO stockDTO, SectionDTO sectionDTO) {
+    Stock stock = new Stock();
+    stock.setBatchNumber(stockDTO.getBatchNumber());
+    stock.setCurrentQuantity(stockDTO.getCurrentQuantity());
+    stock.setCurrentTemperature(stockDTO.getCurrentTemperature());
+    stock.setInitialQuantity(stockDTO.getInitialQuantity());
+    stock.setProduct(this.productService.findByProductCode(stockDTO.getProductCode()));
+    stock.setWarehouseSection(this.warehouseSection.findByWarehouseAndSectionId(
+      warehouseService.getWarehouseIdByCode(sectionDTO.warehouseCode),
+      sectionService.getIdBySectionCode(sectionDTO.sectionCode)
+    ));
+    return stock;
+  }
 }

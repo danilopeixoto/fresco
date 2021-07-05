@@ -1,10 +1,10 @@
 package com.mercadolibre.fresco.exceptions;
 
 public class BadRequestException extends RuntimeException {
-    private static final String DESCRIPTION = "Bad Request Exception";
+  private static final String DESCRIPTION = "Bad Request Exception";
 
-    public BadRequestException(String detail) {
-        super(DESCRIPTION + ". " + detail);
-    }
+  public BadRequestException(String detail) {
+    super(DESCRIPTION + ". " + detail);
+  }
 
 }

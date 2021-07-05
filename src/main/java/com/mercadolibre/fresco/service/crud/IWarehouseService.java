@@ -5,8 +5,8 @@ import org.springframework.data.repository.query.Param;
 
 public interface IWarehouseService extends ICRUD<Warehouse> {
 
-    Long getWarehouseIdByCode(@Param("warehouseCode") String warehouseCode);
+  Long getWarehouseIdByCode(@Param("warehouseCode") String warehouseCode);
 
-    Warehouse findWarehouseByCode(@Param("warehouseCode") String warehouseCode);
+  Warehouse findWarehouseByCode(@Param("warehouseCode") String warehouseCode);
 
 }

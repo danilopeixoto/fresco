@@ -21,47 +21,47 @@ import java.util.concurrent.ExecutorService;
 @EnableScheduling
 public class ExecutorConfig implements AsyncConfigurer, SchedulingConfigurer {
 
-    public static final String ASYNC_EXECUTOR = "asyncExecutor";
+  public static final String ASYNC_EXECUTOR = "asyncExecutor";
 
-    @Value("${async.executor.pool-size:16}")
-    private int asyncPoolSize;
+  @Value("${async.executor.pool-size:16}")
+  private int asyncPoolSize;
 
-    @Value("${async.executor.prefix:async-}")
-    private String asyncPoolPrefix;
+  @Value("${async.executor.prefix:async-}")
+  private String asyncPoolPrefix;
 
-    @Value("${async.executor.await-termination:60}")
-    private int asyncPoolAwaitTermination;
+  @Value("${async.executor.await-termination:60}")
+  private int asyncPoolAwaitTermination;
 
-    @Value("${scheduler.executor.pool-size:4}")
-    private int schedulerPoolSize;
+  @Value("${scheduler.executor.pool-size:4}")
+  private int schedulerPoolSize;
 
-    @Value("${scheduler.executor.prefix:job-scheduler-}")
-    private String schedulerPrefix;
+  @Value("${scheduler.executor.prefix:job-scheduler-}")
+  private String schedulerPrefix;
 
-    @Override
-    @Bean(name = ASYNC_EXECUTOR, destroyMethod = "shutdown")
-    public ExecutorService getAsyncExecutor() {
-        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
-        executor.setThreadNamePrefix(this.asyncPoolPrefix);
-        executor.setCorePoolSize(this.asyncPoolSize);
-        executor.setMaxPoolSize(this.asyncPoolSize);
-        executor.setAwaitTerminationSeconds(this.asyncPoolAwaitTermination);
-        executor.initialize();
-        return MeliExecutors.trace(executor.getThreadPoolExecutor());
-    }
+  @Override
+  @Bean(name = ASYNC_EXECUTOR, destroyMethod = "shutdown")
+  public ExecutorService getAsyncExecutor() {
+    ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+    executor.setThreadNamePrefix(this.asyncPoolPrefix);
+    executor.setCorePoolSize(this.asyncPoolSize);
+    executor.setMaxPoolSize(this.asyncPoolSize);
+    executor.setAwaitTerminationSeconds(this.asyncPoolAwaitTermination);
+    executor.initialize();
+    return MeliExecutors.trace(executor.getThreadPoolExecutor());
+  }
 
-    @Override
-    public AsyncUncaughtExceptionHandler getAsyncUncaughtExceptionHandler() {
-        return new SimpleAsyncUncaughtExceptionHandler();
-    }
+  @Override
+  public AsyncUncaughtExceptionHandler getAsyncUncaughtExceptionHandler() {
+    return new SimpleAsyncUncaughtExceptionHandler();
+  }
 
-    @Override
-    public void configureTasks(ScheduledTaskRegistrar taskRegistrar) {
-        ThreadPoolTaskScheduler scheduler = new ThreadPoolTaskScheduler();
-        scheduler.setPoolSize(this.schedulerPoolSize);
-        scheduler.setThreadNamePrefix(this.schedulerPrefix);
-        scheduler.setWaitForTasksToCompleteOnShutdown(true);
-        scheduler.initialize();
-        taskRegistrar.setScheduler(scheduler);
-    }
+  @Override
+  public void configureTasks(ScheduledTaskRegistrar taskRegistrar) {
+    ThreadPoolTaskScheduler scheduler = new ThreadPoolTaskScheduler();
+    scheduler.setPoolSize(this.schedulerPoolSize);
+    scheduler.setThreadNamePrefix(this.schedulerPrefix);
+    scheduler.setWaitForTasksToCompleteOnShutdown(true);
+    scheduler.initialize();
+    taskRegistrar.setScheduler(scheduler);
+  }
 }

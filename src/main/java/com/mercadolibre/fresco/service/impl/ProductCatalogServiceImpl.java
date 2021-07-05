@@ -13,41 +13,41 @@ import java.util.stream.Collectors;
 
 @Service
 public class ProductCatalogServiceImpl implements IProductCatalogService {
-    private IProductService productService;
-    private ModelMapper modelMapper;
+  private IProductService productService;
+  private ModelMapper modelMapper;
 
-    public ProductCatalogServiceImpl(IProductService productService, ModelMapper modelMapper) {
-        this.productService = productService;
-        this.modelMapper = modelMapper;
+  public ProductCatalogServiceImpl(IProductService productService, ModelMapper modelMapper) {
+    this.productService = productService;
+    this.modelMapper = modelMapper;
+  }
+
+  @Override
+  public List<ProductResponseDTO> findAll() throws NotFoundException {
+    List<ProductResponseDTO> products = this.productService
+      .findAll()
+      .stream()
+      .map(product -> this.modelMapper.map(product, ProductResponseDTO.class))
+      .collect(Collectors.toList());
+
+    if (products.isEmpty()) {
+      throw new NotFoundException("Product list not found.");
     }
 
-    @Override
-    public List<ProductResponseDTO> findAll() throws NotFoundException {
-        List<ProductResponseDTO> products = this.productService
-            .findAll()
-            .stream()
-            .map(product -> this.modelMapper.map(product, ProductResponseDTO.class))
-            .collect(Collectors.toList());
+    return products;
+  }
 
-        if (products.isEmpty()) {
-            throw new NotFoundException("Product list not found.");
-        }
+  @Override
+  public List<ProductResponseDTO> findProductsByCategoryCode(EProductCategory category) throws NotFoundException {
+    List<ProductResponseDTO> products = this.productService
+      .findProductsByCategoryCode(category.getCategory())
+      .stream()
+      .map(product -> this.modelMapper.map(product, ProductResponseDTO.class))
+      .collect(Collectors.toList());
 
-        return products;
+    if (products.isEmpty()) {
+      throw new NotFoundException("Product list not found.");
     }
 
-    @Override
-    public List<ProductResponseDTO> findProductsByCategoryCode(EProductCategory category) throws NotFoundException {
-        List<ProductResponseDTO> products = this.productService
-            .findProductsByCategoryCode(category.getCategory())
-            .stream()
-            .map(product -> this.modelMapper.map(product, ProductResponseDTO.class))
-            .collect(Collectors.toList());
-
-        if (products.isEmpty()) {
-            throw new NotFoundException("Product list not found.");
-        }
-
-        return products;
-    }
+    return products;
+  }
 }
