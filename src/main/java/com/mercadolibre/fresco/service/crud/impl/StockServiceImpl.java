@@ -34,22 +34,19 @@ public class StockServiceImpl implements IStockService {
     @Override
     public Stock findById(Long id) {
         Stock stock = stockRepository.findById(id).orElse(null);
-        if (stock != null) {
-            return stock;
-        } else {
+        if (stock == null) {
             throw new ApiException("404", "Stock not found", 404);
         }
+        return stock;
     }
 
     @Override
     public List<Stock> findAll() {
         List<Stock> stocks = stockRepository.findAll();
-
-        if (stocks.size() == 0) {
+        if (stocks.isEmpty()) {
             throw new ApiException("404", "Stock not found", 404);
-        } else {
-            return stocks;
         }
+        return stocks;
     }
 
     @Override
@@ -64,10 +61,9 @@ public class StockServiceImpl implements IStockService {
     @Override
     public List<Stock> checkStockWithProductAvailability(String productCode, int quantity) {
         List<Stock> stocks = stockRepository.findByProductCodeWithCurrentQuantity(productCode, quantity);
-        if (stocks.size() > 0) {
-            return stocks;
-        } else {
+        if (stocks.isEmpty()) {
             throw new ApiException("400", "Not enough Product " + productCode + " available units for this purchase.", 400);
         }
+        return stocks;
     }
 }

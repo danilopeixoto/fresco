@@ -1,5 +1,7 @@
 package com.mercadolibre.fresco.service.crud.impl;
 
+import com.mercadolibre.fresco.exceptions.BadRequestException;
+import com.mercadolibre.fresco.exceptions.NotFoundException;
 import com.mercadolibre.fresco.model.Product;
 import com.mercadolibre.fresco.repository.ProductRepository;
 import com.mercadolibre.fresco.service.crud.IProductService;
@@ -18,12 +20,19 @@ public class ProductServiceImpl implements IProductService {
 
     @Override
     public Product create(Product product) {
+        if (this.productRepository.findByProductCode(product.getProductCode()) == null){
+            throw new BadRequestException("Product " + product.getProductCode() + " already exists!");
+        }
         return productRepository.save(product);
     }
 
     @Override
     public Product update(Product product) {
-        return null;
+        if (this.productRepository.findByProductCode(product.getProductCode()) == null){
+            throw new NotFoundException("Product " + product.getProductCode() + " not found!");
+        }
+
+        return this.productRepository.save(product);
     }
 
     @Override
@@ -44,11 +53,19 @@ public class ProductServiceImpl implements IProductService {
 
     @Override
     public List<Product> findAll() {
-        return this.productRepository.findAll();
+        List<Product> products =  this.productRepository.findAll();
+        if (products.isEmpty()){
+            throw new NotFoundException("Products not exists!");
+        }
+        return products;
     }
 
     @Override
     public List<Product> findProductsByCategoryCode(String categoryCode) {
-        return this.productRepository.findByProductCategory(categoryCode);
+        List<Product> products = this.productRepository.findByProductCategory(categoryCode);
+        if (products.isEmpty()){
+            throw new NotFoundException("Products not exists!");
+        }
+        return products;
     }
 }
