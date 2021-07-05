@@ -27,6 +27,7 @@ public class StockUtilsImpl implements StockUtils {
     @Override
     public Stock convertDtoToEntity(StockDTO stockDTO, SectionDTO sectionDTO) {
         Stock stock = new Stock();
+        stock.setBatchNumber(stockDTO.getBatchNumber());
         stock.setCurrentQuantity(stockDTO.getCurrentQuantity());
         stock.setCurrentTemperature(stockDTO.getCurrentTemperature());
         stock.setInitialQuantity(stockDTO.getInitialQuantity());

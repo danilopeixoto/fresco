@@ -17,6 +17,8 @@ public class Stock {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "batch_number")
+    private Integer batchNumber;
     @Column(name = "init_quantity")
     private Integer initialQuantity;
     @Column(name = "cur_quantity")
