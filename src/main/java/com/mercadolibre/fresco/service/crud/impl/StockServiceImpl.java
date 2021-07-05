@@ -1,12 +1,15 @@
 package com.mercadolibre.fresco.service.crud.impl;
 
 import com.mercadolibre.fresco.exceptions.ApiException;
+import com.mercadolibre.fresco.exceptions.NotFoundException;
 import com.mercadolibre.fresco.model.Stock;
 import com.mercadolibre.fresco.repository.StockRepository;
 import com.mercadolibre.fresco.service.crud.IStockService;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class StockServiceImpl implements IStockService {
@@ -48,6 +51,23 @@ public class StockServiceImpl implements IStockService {
         }
         return stocks;
     }
+
+    @Override
+    public  List<Stock> findByProductCode(String productCode){
+        List<Stock> stocks = this.stockRepository.findByProductCode(productCode);
+        if (stocks.isEmpty()){
+            throw new NotFoundException("Products not found");
+        }
+
+        LocalDate futureTime = LocalDate.now().plusWeeks(3);
+
+        List<Stock> validStock = stocks.stream()
+                .filter(validDate -> validDate.getProduct().getDueDate().isAfter(futureTime))
+                .collect(Collectors.toList());
+
+        return stocks;
+    }
+
 
     @Override
     public Stock updateCurrentQuantityById(Long id, Integer cur_quantity) {
