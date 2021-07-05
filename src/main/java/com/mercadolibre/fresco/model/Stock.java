@@ -1,19 +1,19 @@
 package com.mercadolibre.fresco.model;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.checkerframework.common.aliasing.qual.Unique;
 
 import javax.persistence.*;
 
+@Builder(toBuilder = true)
 @Entity
 @Table(name = "stocks")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class Stock {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -34,6 +34,4 @@ public class Stock {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "warehouse_section_id", referencedColumnName = "id")
     private WarehouseSection warehouseSection;
-
-
 }

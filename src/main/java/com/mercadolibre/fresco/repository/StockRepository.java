@@ -25,4 +25,5 @@ public interface StockRepository extends JpaRepository<Stock, Long> {
     @Query(value = "SELECT * FROM stocks INNER JOIN products ON products.id = stocks.product_id WHERE products.product_code = :productCode and stocks.cur_quantity >= :quantity", nativeQuery = true)
     List<Stock> findByProductCodeWithCurrentQuantity(@Param("productCode") String productCode, @Param("quantity") Integer quantity);
 
+    void deleteByBatchNumber(Integer batchNumber);
 }

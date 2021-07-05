@@ -4,6 +4,7 @@ package com.mercadolibre.fresco.controller;
 import com.mercadolibre.fresco.dtos.InboundOrderDTO;
 import com.mercadolibre.fresco.dtos.response.InboundOrderResponseDTO;
 import com.mercadolibre.fresco.exceptions.ApiError;
+import com.mercadolibre.fresco.exceptions.BadRequestException;
 import com.mercadolibre.fresco.exceptions.NotFoundException;
 import com.mercadolibre.fresco.exceptions.UnauthorizedException;
 import com.mercadolibre.fresco.service.IInboundOrderService;
@@ -13,6 +14,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -40,6 +42,11 @@ public class InboundOrderController {
                             schema = @Schema(implementation = InboundOrderResponseDTO.class),
                             mediaType = "application/json")),
             @ApiResponse(
+                    responseCode = "400",
+                    content = @Content(
+                            schema = @Schema(implementation = ApiError.class),
+                            mediaType = "application/json")),
+            @ApiResponse(
                     responseCode = "401",
                     content = @Content(
                             schema = @Schema(implementation = ApiError.class),
@@ -53,9 +60,9 @@ public class InboundOrderController {
     @PreAuthorize("hasAuthority('REP')")
     @PostMapping(path = "/", consumes = "application/json")
     @ResponseBody
-    public InboundOrderResponseDTO create(@Validated @RequestBody InboundOrderDTO inboundOrderDTO)
-            throws UnauthorizedException, NotFoundException {
-        return this.inboundOrderService.create(inboundOrderDTO);
+    public InboundOrderResponseDTO create(Authentication authentication, @Validated @RequestBody InboundOrderDTO inboundOrderDTO)
+            throws UnauthorizedException, NotFoundException, BadRequestException {
+        return this.inboundOrderService.create(authentication.getName(), inboundOrderDTO);
     }
 
     /**
@@ -72,6 +79,11 @@ public class InboundOrderController {
                             schema = @Schema(implementation = InboundOrderResponseDTO.class),
                             mediaType = "application/json")),
             @ApiResponse(
+                    responseCode = "400",
+                    content = @Content(
+                            schema = @Schema(implementation = ApiError.class),
+                            mediaType = "application/json")),
+            @ApiResponse(
                     responseCode = "401",
                     content = @Content(
                             schema = @Schema(implementation = ApiError.class),
@@ -85,7 +97,8 @@ public class InboundOrderController {
     @PreAuthorize("hasAuthority('REP')")
     @PutMapping(path = "/", consumes = "application/json")
     @ResponseBody
-    public InboundOrderResponseDTO update(@Validated @RequestBody InboundOrderDTO inboundOrderDTO) throws UnauthorizedException, NotFoundException {
-        return this.inboundOrderService.update(inboundOrderDTO);
+    public InboundOrderResponseDTO update(Authentication authentication, @Validated @RequestBody InboundOrderDTO inboundOrderDTO)
+            throws UnauthorizedException, NotFoundException, BadRequestException {
+        return this.inboundOrderService.update(authentication.getName(), inboundOrderDTO);
     }
 }

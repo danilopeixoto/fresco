@@ -24,10 +24,10 @@ public class ProductCatalogServiceImpl implements IProductCatalogService {
     @Override
     public List<ProductResponseDTO> findAll() throws NotFoundException {
         List<ProductResponseDTO> products = this.productService
-            .findAll()
-            .stream()
-            .map(product -> this.modelMapper.map(product, ProductResponseDTO.class))
-            .collect(Collectors.toList());
+                .findAll()
+                .stream()
+                .map(product -> this.modelMapper.map(product, ProductResponseDTO.class))
+                .collect(Collectors.toList());
 
         if (products.isEmpty()) {
             throw new NotFoundException("Product list not found.");
@@ -39,10 +39,10 @@ public class ProductCatalogServiceImpl implements IProductCatalogService {
     @Override
     public List<ProductResponseDTO> findProductsByCategoryCode(EProductCategory category) throws NotFoundException {
         List<ProductResponseDTO> products = this.productService
-            .findProductsByCategoryCode(category.getCategory())
-            .stream()
-            .map(product -> this.modelMapper.map(product, ProductResponseDTO.class))
-            .collect(Collectors.toList());
+                .findProductsByCategoryCode(category.getCategory())
+                .stream()
+                .map(product -> this.modelMapper.map(product, ProductResponseDTO.class))
+                .collect(Collectors.toList());
 
         if (products.isEmpty()) {
             throw new NotFoundException("Product list not found.");

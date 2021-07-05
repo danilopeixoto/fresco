@@ -36,7 +36,7 @@ public class SectionServiceImpl implements ISectionService {
     public Long getIdBySectionCode(String sectionCode) {
         sectionCode = sectionCode.toUpperCase();
         Long sectionId = this.sectionRepository.getIdBySectionCode(sectionCode);
-        if (sectionId == null){
+        if (sectionId == null) {
         }
         return sectionId;
     }
@@ -44,7 +44,7 @@ public class SectionServiceImpl implements ISectionService {
     @Override
     public Section findById(Long id) {
         Section section = this.sectionRepository.findById(id).get();
-        if (section == null){
+        if (section == null) {
             throw new NotFoundException("Section with " + id + " not found!");
         }
         return section;
@@ -53,7 +53,7 @@ public class SectionServiceImpl implements ISectionService {
     @Override
     public List<Section> findAll() {
         List<Section> sections = this.sectionRepository.findAll();
-        if (sections.isEmpty()){
+        if (sections.isEmpty()) {
             throw new NotFoundException("Sections not found!");
         }
         return sections;

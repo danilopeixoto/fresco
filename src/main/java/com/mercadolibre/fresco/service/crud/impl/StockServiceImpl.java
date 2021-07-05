@@ -53,9 +53,9 @@ public class StockServiceImpl implements IStockService {
     }
 
     @Override
-    public  List<Stock> findByProductCode(String productCode){
+    public List<Stock> findByProductCode(String productCode) {
         List<Stock> stocks = this.stockRepository.findByProductCode(productCode);
-        if (stocks.isEmpty()){
+        if (stocks.isEmpty()) {
             throw new NotFoundException("Products not found");
         }
 
@@ -85,5 +85,10 @@ public class StockServiceImpl implements IStockService {
             throw new ApiException("400", "Not enough Product " + productCode + " available units for this purchase.", 400);
         }
         return stocks;
+    }
+
+    @Override
+    public void deleteByBatchNumber(Integer batchNumber) {
+        this.stockRepository.deleteByBatchNumber(batchNumber);
     }
 }

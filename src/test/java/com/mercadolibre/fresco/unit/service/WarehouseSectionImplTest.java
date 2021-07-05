@@ -3,15 +3,13 @@ package com.mercadolibre.fresco.unit.service;
 import com.mercadolibre.fresco.model.Section;
 import com.mercadolibre.fresco.model.Warehouse;
 import com.mercadolibre.fresco.model.WarehouseSection;
-import com.mercadolibre.fresco.repository.WarehouseRepository;
 import com.mercadolibre.fresco.repository.WarehouseSectionRepository;
 import com.mercadolibre.fresco.service.crud.impl.WarehouseSectionImpl;
-import com.mercadolibre.fresco.service.crud.impl.WarehouseServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
 public class WarehouseSectionImplTest {
@@ -30,7 +28,7 @@ public class WarehouseSectionImplTest {
         Section section = new Section(1L, "REFRIGERADOS", null);
         WarehouseSection warehouseSection = new WarehouseSection(1L, section, warehouse, null);
         when(warehouseSectionRepository.findByWarehouseAndSectionId(1L, 1L)).thenReturn(warehouseSection);
-        WarehouseSection testWarehouseSection = this.warehouseSection.findByWarehouseAndSectionId(1L,1L);
+        WarehouseSection testWarehouseSection = this.warehouseSection.findByWarehouseAndSectionId(1L, 1L);
         assertEquals(1L, testWarehouseSection.getId());
         assertEquals("REFRIGERADOS", testWarehouseSection.getSection().getSectionCode());
         assertEquals("WAREHOUSE_TESTE", testWarehouseSection.getWarehouse().getWarehouseCode());
