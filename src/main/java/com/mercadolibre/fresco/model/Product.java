@@ -1,10 +1,12 @@
 package com.mercadolibre.fresco.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -14,7 +16,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Product {
+public class Product implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,12 +31,13 @@ public class Product {
     private LocalDate manufacturingDate;
     private LocalDateTime manufacturingTime;
     private LocalDate dueDate;
-    private Float price;
+    private Double price;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private List<Stock> stocks;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "product")
+    @JsonManagedReference
     private List<OrderedProduct> orderedProducts;
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
