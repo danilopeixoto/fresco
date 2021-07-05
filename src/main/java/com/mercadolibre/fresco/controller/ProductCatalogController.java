@@ -2,6 +2,7 @@ package com.mercadolibre.fresco.controller;
 
 
 import com.mercadolibre.fresco.dtos.response.ProductResponseDTO;
+import com.mercadolibre.fresco.exceptions.NotFoundException;
 import com.mercadolibre.fresco.model.enumeration.EProductCategory;
 import com.mercadolibre.fresco.service.IProductCatalogService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -35,11 +36,16 @@ public class ProductCatalogController {
                     responseCode = "200",
                     content = @Content(
                             array = @ArraySchema(schema = @Schema(implementation = ProductResponseDTO.class)),
+                            mediaType = "application/json")),
+            @ApiResponse(
+                    responseCode = "404",
+                    content = @Content(
+                            array = @ArraySchema(schema = @Schema(implementation = ProductResponseDTO.class)),
                             mediaType = "application/json"))
     })
     @GetMapping(path = "/")
     @ResponseBody
-    public List<ProductResponseDTO> listAll() {
+    public List<ProductResponseDTO> listAll() throws NotFoundException {
         return this.productCatalogService.findAll();
     }
 
@@ -55,11 +61,16 @@ public class ProductCatalogController {
                     responseCode = "200",
                     content = @Content(
                             array = @ArraySchema(schema = @Schema(implementation = ProductResponseDTO.class)),
+                            mediaType = "application/json")),
+            @ApiResponse(
+                    responseCode = "404",
+                    content = @Content(
+                            array = @ArraySchema(schema = @Schema(implementation = ProductResponseDTO.class)),
                             mediaType = "application/json"))
     })
     @GetMapping(path = "/list")
     @ResponseBody
-    public List<ProductResponseDTO> listByCategory(@RequestParam(required = true) EProductCategory querytype) {
-        return this.productCatalogService.findProductsByCategoryCode(querytype);
+    public List<ProductResponseDTO> listByCategory(@RequestParam(required = true) EProductCategory category) throws NotFoundException {
+        return this.productCatalogService.findProductsByCategoryCode(category);
     }
 }
