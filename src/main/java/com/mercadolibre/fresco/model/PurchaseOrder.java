@@ -16,16 +16,16 @@ import java.util.List;
 @AllArgsConstructor
 public class PurchaseOrder {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
-  private StatusCode statusCode;
-  private LocalDate date;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private StatusCode statusCode;
+    private LocalDate date;
 
-  @OneToMany(cascade = CascadeType.ALL, mappedBy = "purchaseOrder")
-  private List<OrderedProduct> orderedProducts;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "purchaseOrder")
+    private List<OrderedProduct> orderedProducts;
 
-  @OneToOne(cascade = CascadeType.ALL)
-  @JoinColumn(name = "user_id", referencedColumnName = "id")
-  private User user;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private User user;
 }

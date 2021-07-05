@@ -12,21 +12,21 @@ import static org.mockito.Mockito.when;
 
 class SessionServiceImplTest {
 
-  UserRepository repository = Mockito.mock(UserRepository.class);
-  SessionServiceImpl service;
+    UserRepository repository = Mockito.mock(UserRepository.class);
+    SessionServiceImpl service;
 
-  @BeforeEach
-  void setUp() {
-    this.service = new SessionServiceImpl(repository);
-  }
+    @BeforeEach
+    void setUp() {
+        this.service = new SessionServiceImpl(repository);
+    }
 
 
-  @Test
-  void loginFail() {
-    when(repository.findByUsernameAndPassword("user", "invalid")).thenReturn(null);
-    assertThrows(ApiException.class, () -> service.login("user", "invalid"),
-      "Wrong username or password");
-  }
+    @Test
+    void loginFail() {
+        when(repository.findByUsernameAndPassword("user", "invalid")).thenReturn(null);
+        assertThrows(ApiException.class, () -> service.login("user", "invalid"),
+                "Wrong username or password");
+    }
 
     /* @Test
     void loginOk() {

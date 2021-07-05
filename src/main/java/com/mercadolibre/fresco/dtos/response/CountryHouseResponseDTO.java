@@ -13,6 +13,6 @@ import org.springframework.validation.annotation.Validated;
 @Builder(toBuilder = true)
 @Data
 public class CountryHouseResponseDTO {
-  private String message;
-  private CountryHouseDTO countryHouse;
+    private String message;
+    private CountryHouseDTO countryHouse;
 }

@@ -13,11 +13,11 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProductResponseDTO {
-  private Long id;
-  private String productCode;
-  private Float minimumTemperature;
-  private LocalDate manufacturingDate;
-  private LocalDateTime manufacturingTime;
-  private LocalDate dueDate;
-  private Float price;
+    private Long id;
+    private String productCode;
+    private Float minimumTemperature;
+    private LocalDate manufacturingDate;
+    private LocalDateTime manufacturingTime;
+    private LocalDate dueDate;
+    private Float price;
 }

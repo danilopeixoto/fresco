@@ -5,7 +5,7 @@ import org.springframework.data.repository.query.Param;
 
 public interface ISectionService extends ICRUD<Section> {
 
-  Long getIdBySectionCode(@Param("sectionCode") String sectionCode);
+    Long getIdBySectionCode(@Param("sectionCode") String sectionCode);
 
 
 }

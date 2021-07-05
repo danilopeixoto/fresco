@@ -14,8 +14,8 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 @TestPropertySource(properties = {"SCOPE_SUFFIX = integration_test"})
 public abstract class IntegrationTest {
 
-  @AfterEach
-  protected void afterEach() {
-    RequestMockHolder.clear();
-  }
+    @AfterEach
+    protected void afterEach() {
+        RequestMockHolder.clear();
+    }
 }

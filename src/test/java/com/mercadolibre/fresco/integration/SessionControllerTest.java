@@ -13,28 +13,28 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 class SessionControllerTest extends ControllerTest {
 
-  private static final String PATH = "/api/v1";
+    private static final String PATH = "/api/v1";
 
-  @Autowired
-  MockMvc mockMvc;
+    @Autowired
+    MockMvc mockMvc;
 
-  @Test
-  void loginFail() throws Exception {
-    this.mockMvc.perform(MockMvcRequestBuilders.post(PATH + "/sign-in")
-      .contentType(MediaType.APPLICATION_JSON)
-      .param("username", "user_one")
-      .param("password", "contra12"))
-      .andDo(print())
-      .andExpect(status().isNotFound());
-  }
+    @Test
+    void loginFail() throws Exception {
+        this.mockMvc.perform(MockMvcRequestBuilders.post(PATH + "/sign-in")
+                .contentType(MediaType.APPLICATION_JSON)
+                .param("username", "user_one")
+                .param("password", "contra12"))
+                .andDo(print())
+                .andExpect(status().isNotFound());
+    }
 
-  @Test
-  void loginOk() throws Exception {
-    this.mockMvc.perform(MockMvcRequestBuilders.post(PATH + "/sign-in")
-      .contentType(MediaType.APPLICATION_JSON)
-      .param("username", "user_one")
-      .param("password", "contra123"))
-      .andDo(print())
-      .andExpect(status().isOk());
-  }
+    @Test
+    void loginOk() throws Exception {
+        this.mockMvc.perform(MockMvcRequestBuilders.post(PATH + "/sign-in")
+                .contentType(MediaType.APPLICATION_JSON)
+                .param("username", "user_one")
+                .param("password", "contra123"))
+                .andDo(print())
+                .andExpect(status().isOk());
+    }
 }

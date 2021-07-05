@@ -16,14 +16,14 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CountryHouse {
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
-  private String name;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String name;
 
-  @Unique
-  private String country;
+    @Unique
+    private String country;
 
-  @OneToMany(mappedBy = "countryHouse", cascade = CascadeType.ALL)
-  private List<User> users;
+    @OneToMany(mappedBy = "countryHouse", cascade = CascadeType.ALL)
+    private List<User> users;
 }

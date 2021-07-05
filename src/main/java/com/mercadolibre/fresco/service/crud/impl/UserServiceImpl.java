@@ -12,40 +12,40 @@ import java.util.List;
 
 @Service("userDetailsService")
 public class UserServiceImpl implements IUserService {
-  private static UserRepository userRepository;
+    private static UserRepository userRepository;
 
-  public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-    User retrievedUser = this.userRepository.findByUsername(username);
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User retrievedUser = this.userRepository.findByUsername(username);
 
-    if (retrievedUser == null) {
-      throw new UsernameNotFoundException("Wrong username or password");
+        if (retrievedUser == null) {
+            throw new UsernameNotFoundException("Wrong username or password");
+        }
+
+        return UserDetailsMapper.build(retrievedUser);
     }
 
-    return UserDetailsMapper.build(retrievedUser);
-  }
+    @Override
+    public User create(User user) {
+        return null;
+    }
 
-  @Override
-  public User create(User user) {
-    return null;
-  }
+    @Override
+    public User update(User user) {
+        return null;
+    }
 
-  @Override
-  public User update(User user) {
-    return null;
-  }
+    @Override
+    public void delete(Long id) {
 
-  @Override
-  public void delete(Long id) {
+    }
 
-  }
+    @Override
+    public User findById(Long id) {
+        return null;
+    }
 
-  @Override
-  public User findById(Long id) {
-    return null;
-  }
-
-  @Override
-  public List<User> findAll() {
-    return null;
-  }
+    @Override
+    public List<User> findAll() {
+        return null;
+    }
 }

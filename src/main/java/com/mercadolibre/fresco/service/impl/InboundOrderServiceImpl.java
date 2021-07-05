@@ -24,134 +24,134 @@ import java.util.stream.Collectors;
 
 @Service
 public class InboundOrderServiceImpl implements IInboundOrderService {
-  private IWarehouseService warehouseService;
-  private IProductService productService;
-  private IStockService stockService;
+    private IWarehouseService warehouseService;
+    private IProductService productService;
+    private IStockService stockService;
 
-  public InboundOrderServiceImpl(IWarehouseService warehouseService, IProductService productService) {
-    this.warehouseService = warehouseService;
-    this.productService = productService;
-  }
-
-  @Transactional
-  @Override
-  public InboundOrderResponseDTO create(String username, InboundOrderDTO inboundOrderDTO)
-    throws NotFoundException, BadRequestException, UnauthorizedException {
-    SectionDTO sectionDTO = inboundOrderDTO.getSection();
-    Warehouse warehouse = this.warehouseService.findWarehouseByCode(sectionDTO.getWarehouseCode());
-
-    if (warehouse == null) {
-      throw new NotFoundException("Warehouse not found.");
+    public InboundOrderServiceImpl(IWarehouseService warehouseService, IProductService productService) {
+        this.warehouseService = warehouseService;
+        this.productService = productService;
     }
 
-    if (!warehouse.getAgent().getUsername().equals(username)) {
-      throw new UnauthorizedException("Agent not allowed.");
+    @Transactional
+    @Override
+    public InboundOrderResponseDTO create(String username, InboundOrderDTO inboundOrderDTO)
+            throws NotFoundException, BadRequestException, UnauthorizedException {
+        SectionDTO sectionDTO = inboundOrderDTO.getSection();
+        Warehouse warehouse = this.warehouseService.findWarehouseByCode(sectionDTO.getWarehouseCode());
+
+        if (warehouse == null) {
+            throw new NotFoundException("Warehouse not found.");
+        }
+
+        if (!warehouse.getAgent().getUsername().equals(username)) {
+            throw new UnauthorizedException("Agent not allowed.");
+        }
+
+        WarehouseSection warehouseSection = warehouse.getWarehouseSection();
+        Section section = warehouseSection.getSection();
+
+        if (!section.getSectionCode().equals(sectionDTO.getSectionCode())) {
+            throw new BadRequestException("Invalid warehouse section.");
+        }
+
+        List<StockDTO> stocks = inboundOrderDTO.getBatchStock();
+
+        List<Product> products = stocks
+                .stream()
+                .map(StockDTO::getProductCode)
+                .map(code -> this.productService.findByProductCode(code))
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
+
+        long stockSize = stocks.size();
+
+        if (stockSize != products.size()) {
+            throw new NotFoundException("Some product not found.");
+        }
+
+        if (products
+                .stream()
+                .filter(product -> product
+                        .getProductCategory()
+                        .getCategoryCode()
+                        .equals(section
+                                .getProductCategory()
+                                .getCategoryCode()))
+                .count() != stockSize) {
+            throw new BadRequestException("Some product category and section mismatched.");
+        }
+
+        long totalQuantity = stocks
+                .stream()
+                .map(stock -> stock.getCurrentQuantity().longValue())
+                .reduce(0L, Long::sum);
+
+        if (totalQuantity + warehouseSection.getQuantity() > warehouseSection.getCapacity()) {
+            throw new BadRequestException("Stock maximum capacity reached.");
+        }
+
+        try {
+            Streams
+                    .zip(
+                            stocks.stream(),
+                            products.stream(),
+                            AbstractMap.SimpleEntry::new)
+                    .map(s -> Stock
+                            .builder()
+                            .batchNumber(s.getKey().getBatchNumber())
+                            .currentQuantity(s.getKey().getCurrentQuantity())
+                            .currentTemperature(s.getKey().getCurrentTemperature())
+                            .initialQuantity(s.getKey().getInitialQuantity())
+                            .warehouseSection(warehouseSection)
+                            .product(s.getValue())
+                            .build())
+                    .forEach(s -> this.stockService.create(s));
+        } catch (DataIntegrityViolationException e) {
+            throw new BadRequestException("Batch number already exists.");
+        }
+
+        return InboundOrderResponseDTO
+                .builder()
+                .batchStock(stocks)
+                .build();
     }
 
-    WarehouseSection warehouseSection = warehouse.getWarehouseSection();
-    Section section = warehouseSection.getSection();
+    @Transactional
+    @Override
+    public InboundOrderResponseDTO update(String username, InboundOrderDTO inboundOrderDTO)
+            throws NotFoundException, BadRequestException, UnauthorizedException {
+        SectionDTO sectionDTO = inboundOrderDTO.getSection();
+        Warehouse warehouse = this.warehouseService.findWarehouseByCode(sectionDTO.getWarehouseCode());
 
-    if (!section.getSectionCode().equals(sectionDTO.getSectionCode())) {
-      throw new BadRequestException("Invalid warehouse section.");
+        if (warehouse == null) {
+            throw new NotFoundException("Warehouse not found.");
+        }
+
+        if (!warehouse.getAgent().getUsername().equals(username)) {
+            throw new UnauthorizedException("Agent not allowed.");
+        }
+
+        WarehouseSection warehouseSection = warehouse.getWarehouseSection();
+        Section section = warehouseSection.getSection();
+
+        if (!section.getSectionCode().equals(sectionDTO.getSectionCode())) {
+            throw new BadRequestException("Invalid warehouse section.");
+        }
+
+        List<Integer> batchNumbers = inboundOrderDTO
+                .getBatchStock()
+                .stream()
+                .map(StockDTO::getBatchNumber)
+                .collect(Collectors.toList());
+
+        try {
+            batchNumbers
+                    .forEach(bn -> this.stockService.deleteByBatchNumber(bn));
+        } catch (Exception e) {
+            throw new NotFoundException("Some stock not found.");
+        }
+
+        return this.create(username, inboundOrderDTO);
     }
-
-    List<StockDTO> stocks = inboundOrderDTO.getBatchStock();
-
-    List<Product> products = stocks
-      .stream()
-      .map(StockDTO::getProductCode)
-      .map(code -> this.productService.findByProductCode(code))
-      .filter(Objects::nonNull)
-      .collect(Collectors.toList());
-
-    long stockSize = stocks.size();
-
-    if (stockSize != products.size()) {
-      throw new NotFoundException("Some product not found.");
-    }
-
-    if (products
-      .stream()
-      .filter(product -> product
-        .getProductCategory()
-        .getCategoryCode()
-        .equals(section
-          .getProductCategory()
-          .getCategoryCode()))
-      .count() != stockSize) {
-      throw new BadRequestException("Some product category and section mismatched.");
-    }
-
-    long totalQuantity = stocks
-      .stream()
-      .map(stock -> stock.getCurrentQuantity().longValue())
-      .reduce(0L, Long::sum);
-
-    if (totalQuantity + warehouseSection.getQuantity() > warehouseSection.getCapacity()) {
-      throw new BadRequestException("Stock maximum capacity reached.");
-    }
-
-    try {
-      Streams
-        .zip(
-          stocks.stream(),
-          products.stream(),
-          AbstractMap.SimpleEntry::new)
-        .map(s -> Stock
-          .builder()
-          .batchNumber(s.getKey().getBatchNumber())
-          .currentQuantity(s.getKey().getCurrentQuantity())
-          .currentTemperature(s.getKey().getCurrentTemperature())
-          .initialQuantity(s.getKey().getInitialQuantity())
-          .warehouseSection(warehouseSection)
-          .product(s.getValue())
-          .build())
-        .forEach(s -> this.stockService.create(s));
-    } catch (DataIntegrityViolationException e) {
-      throw new BadRequestException("Batch number already exists.");
-    }
-
-    return InboundOrderResponseDTO
-      .builder()
-      .batchStock(stocks)
-      .build();
-  }
-
-  @Transactional
-  @Override
-  public InboundOrderResponseDTO update(String username, InboundOrderDTO inboundOrderDTO)
-    throws NotFoundException, BadRequestException, UnauthorizedException {
-    SectionDTO sectionDTO = inboundOrderDTO.getSection();
-    Warehouse warehouse = this.warehouseService.findWarehouseByCode(sectionDTO.getWarehouseCode());
-
-    if (warehouse == null) {
-      throw new NotFoundException("Warehouse not found.");
-    }
-
-    if (!warehouse.getAgent().getUsername().equals(username)) {
-      throw new UnauthorizedException("Agent not allowed.");
-    }
-
-    WarehouseSection warehouseSection = warehouse.getWarehouseSection();
-    Section section = warehouseSection.getSection();
-
-    if (!section.getSectionCode().equals(sectionDTO.getSectionCode())) {
-      throw new BadRequestException("Invalid warehouse section.");
-    }
-
-    List<Integer> batchNumbers = inboundOrderDTO
-      .getBatchStock()
-      .stream()
-      .map(StockDTO::getBatchNumber)
-      .collect(Collectors.toList());
-
-    try {
-      batchNumbers
-        .forEach(bn -> this.stockService.deleteByBatchNumber(bn));
-    } catch (Exception e) {
-      throw new NotFoundException("Some stock not found.");
-    }
-
-    return this.create(username, inboundOrderDTO);
-  }
 }

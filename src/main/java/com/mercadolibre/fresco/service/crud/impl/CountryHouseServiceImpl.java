@@ -15,68 +15,68 @@ import java.util.stream.Collectors;
 
 @Service
 public class CountryHouseServiceImpl implements ICountryHouseService {
-  private CountryHouseRepository countryHouseRepository;
+    private CountryHouseRepository countryHouseRepository;
 
-  private ModelMapper modelMapper;
+    private ModelMapper modelMapper;
 
-  public CountryHouseServiceImpl(CountryHouseRepository countryHouseRepository, ModelMapper modelMapper) {
-    this.countryHouseRepository = countryHouseRepository;
-    this.modelMapper = modelMapper;
-  }
-
-  @Override
-  @Transactional
-  public CountryHouseDTO create(CountryHouseDTO countryHouseDTO) {
-    if (countryHouseRepository.findByCountry(countryHouseDTO.getCountry()) == null) {
-      CountryHouse newCountryHouse = modelMapper.map(countryHouseDTO, CountryHouse.class);
-      countryHouseRepository.save(newCountryHouse);
-    } else {
-      countryHouseDTO = null;
+    public CountryHouseServiceImpl(CountryHouseRepository countryHouseRepository, ModelMapper modelMapper) {
+        this.countryHouseRepository = countryHouseRepository;
+        this.modelMapper = modelMapper;
     }
 
-    return countryHouseDTO;
-  }
+    @Override
+    @Transactional
+    public CountryHouseDTO create(CountryHouseDTO countryHouseDTO) {
+        if (countryHouseRepository.findByCountry(countryHouseDTO.getCountry()) == null) {
+            CountryHouse newCountryHouse = modelMapper.map(countryHouseDTO, CountryHouse.class);
+            countryHouseRepository.save(newCountryHouse);
+        } else {
+            countryHouseDTO = null;
+        }
 
-  @Override
-  @Transactional
-  public CountryHouseDTO update(CountryHouseDTO countryHouseDTO) {
-    CountryHouse newCountryHouse = modelMapper.map(countryHouseDTO, CountryHouse.class);
-    countryHouseRepository.save(newCountryHouse);
-    return countryHouseDTO;
-  }
-
-  @Override
-  @Transactional
-  public void delete(Long id) {
-    Optional<CountryHouse> opt = countryHouseRepository.findById(id);
-    if (!opt.isPresent()) {
-      throw new NoSuchElementException("No existe empleado con el id: " + id);
+        return countryHouseDTO;
     }
-    countryHouseRepository.deleteById(id);
-  }
 
-  @Override
-  public CountryHouseDTO findById(Long id) {
-    Optional<CountryHouse> opt = countryHouseRepository.findById(id);
-
-    if (!opt.isPresent()) {
-      throw new NoSuchElementException("No existe empleado con el id: " + id);
+    @Override
+    @Transactional
+    public CountryHouseDTO update(CountryHouseDTO countryHouseDTO) {
+        CountryHouse newCountryHouse = modelMapper.map(countryHouseDTO, CountryHouse.class);
+        countryHouseRepository.save(newCountryHouse);
+        return countryHouseDTO;
     }
-    return modelMapper.map(opt.get(), CountryHouseDTO.class);
-  }
 
-  @Override
-  public List<CountryHouseDTO> findAll() {
-    List<CountryHouseDTO> countryHousesDTO = countryHouseRepository.findAll()
-      .stream()
-      .map(countryHouse -> modelMapper.map(countryHouse, CountryHouseDTO.class))
-      .collect(Collectors.toList());
-    return countryHousesDTO;
-  }
+    @Override
+    @Transactional
+    public void delete(Long id) {
+        Optional<CountryHouse> opt = countryHouseRepository.findById(id);
+        if (!opt.isPresent()) {
+            throw new NoSuchElementException("No existe empleado con el id: " + id);
+        }
+        countryHouseRepository.deleteById(id);
+    }
 
-  @Override
-  public CountryHouseDTO findByCountry(String country) {
-    CountryHouse contryHouse = countryHouseRepository.findByCountry(country);
-    return modelMapper.map(contryHouse, CountryHouseDTO.class);
-  }
+    @Override
+    public CountryHouseDTO findById(Long id) {
+        Optional<CountryHouse> opt = countryHouseRepository.findById(id);
+
+        if (!opt.isPresent()) {
+            throw new NoSuchElementException("No existe empleado con el id: " + id);
+        }
+        return modelMapper.map(opt.get(), CountryHouseDTO.class);
+    }
+
+    @Override
+    public List<CountryHouseDTO> findAll() {
+        List<CountryHouseDTO> countryHousesDTO = countryHouseRepository.findAll()
+                .stream()
+                .map(countryHouse -> modelMapper.map(countryHouse, CountryHouseDTO.class))
+                .collect(Collectors.toList());
+        return countryHousesDTO;
+    }
+
+    @Override
+    public CountryHouseDTO findByCountry(String country) {
+        CountryHouse contryHouse = countryHouseRepository.findByCountry(country);
+        return modelMapper.map(contryHouse, CountryHouseDTO.class);
+    }
 }

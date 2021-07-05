@@ -13,18 +13,18 @@ import javax.persistence.*;
 @AllArgsConstructor
 public class Section {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-  @Column(unique = true)
-  private String sectionCode;
+    @Column(unique = true)
+    private String sectionCode;
 
-  @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-  @JoinColumn(name = "product_category_id", nullable = false)
-  private ProductCategory productCategory;
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "product_category_id", nullable = false)
+    private ProductCategory productCategory;
 
-  @OneToOne(mappedBy = "section", cascade = CascadeType.ALL)
-  private WarehouseSection warehouseSection;
+    @OneToOne(mappedBy = "section", cascade = CascadeType.ALL)
+    private WarehouseSection warehouseSection;
 }
 

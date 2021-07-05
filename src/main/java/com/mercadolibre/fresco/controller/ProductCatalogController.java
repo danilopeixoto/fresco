@@ -19,58 +19,58 @@ import java.util.List;
 @RequestMapping(path = "/api/v1/fresh-products")
 @RestController
 public class ProductCatalogController {
-  private final IProductCatalogService productCatalogService;
+    private final IProductCatalogService productCatalogService;
 
-  public ProductCatalogController(IProductCatalogService productCatalogService) {
-    this.productCatalogService = productCatalogService;
-  }
+    public ProductCatalogController(IProductCatalogService productCatalogService) {
+        this.productCatalogService = productCatalogService;
+    }
 
-  /**
-   * ================================
-   * List all products
-   *
-   * @return List
-   */
-  @Operation(summary = "List all products", responses = {
-    @ApiResponse(
-      responseCode = "200",
-      content = @Content(
-        array = @ArraySchema(schema = @Schema(implementation = ProductResponseDTO.class)),
-        mediaType = "application/json")),
-    @ApiResponse(
-      responseCode = "404",
-      content = @Content(
-        array = @ArraySchema(schema = @Schema(implementation = ProductResponseDTO.class)),
-        mediaType = "application/json"))
-  })
-  @GetMapping(path = "/")
-  @ResponseBody
-  public List<ProductResponseDTO> listAll() throws NotFoundException {
-    return this.productCatalogService.findAll();
-  }
+    /**
+     * ================================
+     * List all products
+     *
+     * @return List
+     */
+    @Operation(summary = "List all products", responses = {
+            @ApiResponse(
+                    responseCode = "200",
+                    content = @Content(
+                            array = @ArraySchema(schema = @Schema(implementation = ProductResponseDTO.class)),
+                            mediaType = "application/json")),
+            @ApiResponse(
+                    responseCode = "404",
+                    content = @Content(
+                            array = @ArraySchema(schema = @Schema(implementation = ProductResponseDTO.class)),
+                            mediaType = "application/json"))
+    })
+    @GetMapping(path = "/")
+    @ResponseBody
+    public List<ProductResponseDTO> listAll() throws NotFoundException {
+        return this.productCatalogService.findAll();
+    }
 
-  /**
-   * ================================
-   * List products by category
-   *
-   * @param querytype
-   * @return List
-   */
-  @Operation(summary = "List products by category", responses = {
-    @ApiResponse(
-      responseCode = "200",
-      content = @Content(
-        array = @ArraySchema(schema = @Schema(implementation = ProductResponseDTO.class)),
-        mediaType = "application/json")),
-    @ApiResponse(
-      responseCode = "404",
-      content = @Content(
-        array = @ArraySchema(schema = @Schema(implementation = ProductResponseDTO.class)),
-        mediaType = "application/json"))
-  })
-  @GetMapping(path = "/list")
-  @ResponseBody
-  public List<ProductResponseDTO> listByCategory(@RequestParam(required = true) EProductCategory category) throws NotFoundException {
-    return this.productCatalogService.findProductsByCategoryCode(category);
-  }
+    /**
+     * ================================
+     * List products by category
+     *
+     * @param querytype
+     * @return List
+     */
+    @Operation(summary = "List products by category", responses = {
+            @ApiResponse(
+                    responseCode = "200",
+                    content = @Content(
+                            array = @ArraySchema(schema = @Schema(implementation = ProductResponseDTO.class)),
+                            mediaType = "application/json")),
+            @ApiResponse(
+                    responseCode = "404",
+                    content = @Content(
+                            array = @ArraySchema(schema = @Schema(implementation = ProductResponseDTO.class)),
+                            mediaType = "application/json"))
+    })
+    @GetMapping(path = "/list")
+    @ResponseBody
+    public List<ProductResponseDTO> listByCategory(@RequestParam(required = true) EProductCategory category) throws NotFoundException {
+        return this.productCatalogService.findProductsByCategoryCode(category);
+    }
 }

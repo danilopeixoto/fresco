@@ -12,20 +12,20 @@ import static org.mockito.Mockito.when;
 
 public class SectionServiceImplTest {
 
-  SectionRepository sectionRepository = Mockito.mock(SectionRepository.class);
-  SectionServiceImpl sectionService;
+    SectionRepository sectionRepository = Mockito.mock(SectionRepository.class);
+    SectionServiceImpl sectionService;
 
-  @BeforeEach
-  void setup() {
-    this.sectionService = new SectionServiceImpl(sectionRepository);
-  }
+    @BeforeEach
+    void setup() {
+        this.sectionService = new SectionServiceImpl(sectionRepository);
+    }
 
-  @Test
-  void shouldGetIdBySectionCode() {
-    Section section = new Section(1L, "Refrigerados", null, null);
-    when(sectionRepository.getIdBySectionCode("Refrigerados")).thenReturn(1L);
-    Long testId = sectionService.getIdBySectionCode("Refrigerados");
-    assertEquals(1L, testId);
-  }
+    @Test
+    void shouldGetIdBySectionCode() {
+        Section section = new Section(1L, "Refrigerados", null, null);
+        when(sectionRepository.getIdBySectionCode("Refrigerados")).thenReturn(1L);
+        Long testId = sectionService.getIdBySectionCode("Refrigerados");
+        assertEquals(1L, testId);
+    }
 
 }

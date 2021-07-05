@@ -6,9 +6,9 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface IProductService extends ICRUD<Product> {
-  Product findByProductCode(String productCode);
+    Product findByProductCode(String productCode);
 
-  List<Product> findAll();
+    List<Product> findAll();
 
-  List<Product> findProductsByCategoryCode(@Param("categoryCode") String categoryCode);
+    List<Product> findProductsByCategoryCode(@Param("categoryCode") String categoryCode);
 }

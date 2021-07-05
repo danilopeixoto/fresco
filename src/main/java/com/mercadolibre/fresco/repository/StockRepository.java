@@ -12,18 +12,18 @@ import java.util.List;
 @Repository
 public interface StockRepository extends JpaRepository<Stock, Long> {
 
-  @Transactional
-  @Query(value = "UPDATE stocks SET cur_quantity = :cur_quantity WHERE id = :id", nativeQuery = true)
-  Stock updateCurrentQuantityById(@Param("id") Long id, @Param("cur_quantity") int cur_quantity);
+    @Transactional
+    @Query(value = "UPDATE stocks SET cur_quantity = :cur_quantity WHERE id = :id", nativeQuery = true)
+    Stock updateCurrentQuantityById(@Param("id") Long id, @Param("cur_quantity") int cur_quantity);
 
-  @Query(value = "SELECT * FROM stocks INNER JOIN products ON products.id = stocks.product_id WHERE products.product_code = :productCode", nativeQuery = true)
-  List<Stock> findByProductCode(@Param("productCode") String productCode);
+    @Query(value = "SELECT * FROM stocks INNER JOIN products ON products.id = stocks.product_id WHERE products.product_code = :productCode", nativeQuery = true)
+    List<Stock> findByProductCode(@Param("productCode") String productCode);
 
-  @Query(value = "SELECT * from stocks WHERE product_id = :productId", nativeQuery = true)
-  List<Stock> findByProductId(@Param("productId") Long productId);
+    @Query(value = "SELECT * from stocks WHERE product_id = :productId", nativeQuery = true)
+    List<Stock> findByProductId(@Param("productId") Long productId);
 
-  @Query(value = "SELECT * FROM stocks INNER JOIN products ON products.id = stocks.product_id WHERE products.product_code = :productCode and stocks.cur_quantity >= :quantity", nativeQuery = true)
-  List<Stock> findByProductCodeWithCurrentQuantity(@Param("productCode") String productCode, @Param("quantity") Integer quantity);
+    @Query(value = "SELECT * FROM stocks INNER JOIN products ON products.id = stocks.product_id WHERE products.product_code = :productCode and stocks.cur_quantity >= :quantity", nativeQuery = true)
+    List<Stock> findByProductCodeWithCurrentQuantity(@Param("productCode") String productCode, @Param("quantity") Integer quantity);
 
-  void deleteByBatchNumber(Integer batchNumber);
+    void deleteByBatchNumber(Integer batchNumber);
 }

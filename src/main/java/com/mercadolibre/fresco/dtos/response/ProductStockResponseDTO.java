@@ -14,8 +14,8 @@ import java.util.List;
 @NoArgsConstructor
 public class ProductStockResponseDTO {
 
-  private String productId;
+    private String productId;
 
-  private List<InfoStockDTO> batchStock;
+    private List<InfoStockDTO> batchStock;
 
 }
