@@ -6,8 +6,10 @@ import java.util.List;
 
 public interface IStockService extends ICRUD<Stock> {
 
-    public Stock updateCurrentQuantityById(Long id, Integer cur_quantity);
 
-    public List<Stock> checkStockWithProductAvailability(String productCode, int quantity);
+    List<Stock> findByProductCode(String productCode);
+    Stock updateCurrentQuantityById(Long id, Integer cur_quantity);
+
+    List<Stock> checkStockWithProductAvailability(String productCode, int quantity);
 
 }
