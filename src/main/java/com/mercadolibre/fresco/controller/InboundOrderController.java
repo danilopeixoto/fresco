@@ -53,7 +53,7 @@ public class InboundOrderController {
     @PreAuthorize("hasAuthority('REP')")
     @PostMapping(path = "/", consumes = "application/json")
     @ResponseBody
-    public InboundOrderResponseDTO createOrder(@Validated @RequestBody InboundOrderDTO inboundOrderDTO)
+    public InboundOrderResponseDTO create(@Validated @RequestBody InboundOrderDTO inboundOrderDTO)
             throws UnauthorizedException, NotFoundException {
         return this.inboundOrderService.create(inboundOrderDTO);
     }
@@ -85,7 +85,7 @@ public class InboundOrderController {
     @PreAuthorize("hasAuthority('REP')")
     @PutMapping(path = "/", consumes = "application/json")
     @ResponseBody
-    public InboundOrderResponseDTO updateOrder(@Validated @RequestBody InboundOrderDTO inboundOrderDTO) throws UnauthorizedException, NotFoundException {
+    public InboundOrderResponseDTO update(@Validated @RequestBody InboundOrderDTO inboundOrderDTO) throws UnauthorizedException, NotFoundException {
         return this.inboundOrderService.update(inboundOrderDTO);
     }
 }
