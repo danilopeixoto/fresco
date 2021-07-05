@@ -1,5 +1,6 @@
 package com.mercadolibre.fresco.service.crud.impl;
 
+import com.mercadolibre.fresco.exceptions.NotFoundException;
 import com.mercadolibre.fresco.model.Section;
 import com.mercadolibre.fresco.repository.SectionRepository;
 import com.mercadolibre.fresco.service.crud.ISectionService;
@@ -34,17 +35,27 @@ public class SectionServiceImpl implements ISectionService {
     @Override
     public Long getIdBySectionCode(String sectionCode) {
         sectionCode = sectionCode.toUpperCase();
-        return this.sectionRepository.getIdBySectionCode(sectionCode);
+        Long sectionId = this.sectionRepository.getIdBySectionCode(sectionCode);
+        if (sectionId == null){
+        }
+        return sectionId;
     }
 
     @Override
     public Section findById(Long id) {
-        return this.sectionRepository.findById(id)
-                .orElse(null);
+        Section section = this.sectionRepository.findById(id).get();
+        if (section == null){
+            throw new NotFoundException("Section with " + id + " not found!");
+        }
+        return section;
     }
 
     @Override
     public List<Section> findAll() {
-        return this.sectionRepository.findAll();
+        List<Section> sections = this.sectionRepository.findAll();
+        if (sections.isEmpty()){
+            throw new NotFoundException("Sections not found!");
+        }
+        return sections;
     }
 }
