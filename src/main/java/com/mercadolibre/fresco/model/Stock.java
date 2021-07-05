@@ -3,6 +3,7 @@ package com.mercadolibre.fresco.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.checkerframework.common.aliasing.qual.Unique;
 
 import javax.persistence.*;
 
@@ -17,7 +18,7 @@ public class Stock {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "batch_number")
+    @Column(name = "batch_number", unique = true)
     private Integer batchNumber;
     @Column(name = "init_quantity")
     private Integer initialQuantity;

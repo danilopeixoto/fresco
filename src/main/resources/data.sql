@@ -19,12 +19,12 @@ VALUES ('2', 'QUEIJO', '5.0', curdate(), curtime(), '2021-08-25','8.0','2');
 INSERT INTO `products` (`id`, `product_code`, `min_temp`, `manufacturing_date`, `manufacturing_time`, `due_date`,`price`,`product_category_id`)
 VALUES ('3','SORVETE', '1.0', curdate(), curtime(), '2021-07-15','5.4','3');
 
-INSERT INTO `stocks` (`id`, `init_quantity`, `cur_quantity`, `cur_temp`, `product_id`, `warehouse_section_id`)
-VALUES('1', '100', '50','-5.0','1', '2');
-INSERT INTO `stocks` (`id`, `init_quantity`, `cur_quantity`, `cur_temp`, `product_id`, `warehouse_section_id`)
-VALUES('2', '30', '20','3.0','2', '2');
-INSERT INTO `stocks` (`id`, `init_quantity`, `cur_quantity`, `cur_temp`, `product_id`, `warehouse_section_id`)
-VALUES('3', '10', '5','0.0','3', '2');
+INSERT INTO `stocks` (`id`, `init_quantity`, `batch_number`, `cur_quantity`, `cur_temp`, `product_id`, `warehouse_section_id`)
+VALUES('1', '100', '1', '50','-5.0','1', '2');
+INSERT INTO `stocks` (`id`, `init_quantity`, `batch_number`, `cur_quantity`, `cur_temp`, `product_id`, `warehouse_section_id`)
+VALUES('2', '30', '2', '20','3.0','2', '2');
+INSERT INTO `stocks` (`id`, `init_quantity`, `batch_number`, `cur_quantity`, `cur_temp`, `product_id`, `warehouse_section_id`)
+VALUES('3', '10', '3', '5','0.0','3', '2');
 
 INSERT INTO `user_roles` (`id`, `role_code`) VALUES ('1', 'ADMIN');
 INSERT INTO `user_roles` (`id`, `role_code`) VALUES ('2', 'BUYER');

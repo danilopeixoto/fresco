@@ -6,10 +6,12 @@ import com.mercadolibre.fresco.model.enumeration.EProductCategory;
 import com.mercadolibre.fresco.service.IProductCatalogService;
 import com.mercadolibre.fresco.service.crud.IProductService;
 import org.modelmapper.ModelMapper;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Service
 public class ProductCatalogServiceImpl implements IProductCatalogService {
     private IProductService productService;
     private ModelMapper modelMapper;
