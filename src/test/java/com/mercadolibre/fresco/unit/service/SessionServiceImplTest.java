@@ -28,12 +28,12 @@ class SessionServiceImplTest {
                 "Wrong username or password");
     }
 
-//    @Test
-//    void loginOk() {
-//        User userAccount = new User(null, "User", "Pass", null, null);
-//        when(repository.findByUsernameAndPassword("User", "Pass")).thenReturn(userAccount);
-//        AccountResponseDTO accountDTO = service.login("User", "Pass");
-//        assertEquals("User", accountDTO.getUsername());
-//        assertTrue(accountDTO.getToken().startsWith("Bearer"));
-//    }
+    /* @Test
+    void loginOk() {
+        User userAccount = new User(null, "User", "Pass", null, null);
+        when(repository.findByUsernameAndPassword("User", "Pass")).thenReturn(userAccount);
+        AccountResponseDTO accountDTO = service.login("User", "Pass");
+        assertEquals("User", accountDTO.getUsername());
+        assertTrue(accountDTO.getToken().startsWith("Bearer"));
+    } */
 }
