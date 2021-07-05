@@ -65,7 +65,7 @@ public class StockServiceImpl implements IStockService {
                 .filter(validDate -> validDate.getProduct().getDueDate().isAfter(futureTime))
                 .collect(Collectors.toList());
 
-        return stocks;
+        return validStock;
     }
 
 
