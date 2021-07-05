@@ -1,8 +1,9 @@
-INSERT INTO `warehouses` (`id`, `warehouse_code`) VALUES ('1', 'WAREHOUSE_TESTE');
+INSERT INTO `warehouses` (`id`, `warehouse_code`, `agent_id``) VALUES ('1', 'WAREHOUSE_TESTE', '1');
+INSERT INTO `warehouses` (`id`, `warehouse_code`, `agent_id``) VALUES ('2', 'WAREHOUSE_TWO', '1');
 
-INSERT INTO `sections` (`id`, `section_code`) VALUES ('1', "FRESCOS");
-INSERT INTO `sections` (`id`, `section_code`) VALUES ('2', "REFRIGERADOS");
-INSERT INTO `sections` (`id`, `section_code`) VALUES ('3', "CONGELADOS");
+INSERT INTO `sections` (`id`, `section_code`, `product_category_id`) VALUES ('1', "FS", '1');
+INSERT INTO `sections` (`id`, `section_code`, `product_category_id`) VALUES ('2', "RF", '2');
+INSERT INTO `sections` (`id`, `section_code`, `product_category_id`) VALUES ('3', "FF", '3');
 
 INSERT INTO `warehouse_section` (`warehouse_id`, `section_id`, `id`) VALUES ('1', '1', '1');
 INSERT INTO `warehouse_section` (`warehouse_id`, `section_id`, `id`) VALUES ('1', '2', '2');
@@ -39,4 +40,4 @@ INSERT INTO `country_houses` (`id`, `country`, `name`) VALUES ('4', 'Colombia', 
 INSERT INTO `user_accounts` (`id`, `username`, `password`, `role_id`, `country_house_id`) VALUES ('1', 'testAdmin', 'teste1000', '1', '1');
 INSERT INTO `user_accounts` (`id`, `username`, `password`, `role_id`, `country_house_id`) VALUES ('2', 'testBuyer', 'teste1000', '2', '2');
 INSERT INTO `user_accounts` (`id`, `username`, `password`, `role_id`, `country_house_id`) VALUES ('3', 'testSeller', 'teste1000', '3', '3');
-INSERT INTO `user_accounts` (`id`, `username`, `password`, `role_id`, `country_house_id`) VALUES ('4', 'testRep', 'teste1000', '4', '4');
+INSERT INTO `user_accounts` (`id`, `username`, `password`, `role_id`, `country_house_id`) VALUES ('4', 'testRep', 'teste1000', '4', '4', '1');

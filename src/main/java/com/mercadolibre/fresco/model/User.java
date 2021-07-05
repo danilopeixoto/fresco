@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "user_accounts")
@@ -32,4 +33,7 @@ public class User {
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private PurchaseOrder purchaseOrder;
+
+    @OneToMany(mappedBy = "agent", cascade = CascadeType.ALL)
+    private List<Warehouse> warehouses;
 }

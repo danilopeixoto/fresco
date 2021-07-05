@@ -26,4 +26,7 @@ public class ProductCategory {
 
     @OneToMany(mappedBy = "productCategory", cascade = CascadeType.ALL)
     private List<Product> products;
+
+    @OneToMany(mappedBy = "productCategory", cascade = CascadeType.ALL)
+    private List<Section> sections;
 }

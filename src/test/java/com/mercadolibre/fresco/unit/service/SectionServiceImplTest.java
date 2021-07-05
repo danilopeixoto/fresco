@@ -22,9 +22,9 @@ public class SectionServiceImplTest {
 
     @Test
     void shouldGetIdBySectionCode() {
-        Section section = new Section(1L,"REFRIGERADOS", null);
-        when(sectionRepository.getIdBySectionCode("REFRIGERADOS")).thenReturn(1L);
-        Long testId = sectionService.getIdBySectionCode("REFRIGERADOS");
+        Section section = new Section(1L,"Refrigerados", null, null);
+        when(sectionRepository.getIdBySectionCode("Refrigerados")).thenReturn(1L);
+        Long testId = sectionService.getIdBySectionCode("Refrigerados");
         assertEquals(1L, testId);
     }
 

@@ -12,4 +12,7 @@ public interface WarehouseRepository extends JpaRepository<Warehouse, Long> {
     @Query(value = "SELECT id FROM warehouses WHERE warehouse_code = :warehouseCode", nativeQuery = true)
     Long getWarehouseIdByCode(@Param("warehouseCode") String warehouseCode);
 
+    @Query(value = "SELECT * FROM warehouses WHERE warehouse_code = :warehouseCode", nativeQuery = true)
+    Warehouse findWarehouseByCode(@Param("warehouseCode") String warehouseCode);
+
 }
