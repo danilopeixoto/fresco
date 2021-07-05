@@ -20,6 +20,10 @@ public class Section {
     @Column(unique = true)
     private String sectionCode;
 
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "product_category_id", nullable = false)
+    private ProductCategory productCategory;
+
     @OneToOne(mappedBy = "section", cascade = CascadeType.ALL)
     private WarehouseSection warehouseSection;
 }

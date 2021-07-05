@@ -26,5 +26,4 @@ public class CountryHouse {
 
     @OneToMany(mappedBy = "countryHouse", cascade = CascadeType.ALL)
     private List<User> users;
-
 }
