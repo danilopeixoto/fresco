@@ -12,8 +12,7 @@ public interface ISessionService {
      *
      * @param username
      * @param password
-     * @return
-     * @throws NotFoundException
+     * @return AccountResponseDTO
      */
     AccountResponseDTO login(String username, String password) throws NotFoundException;
 }

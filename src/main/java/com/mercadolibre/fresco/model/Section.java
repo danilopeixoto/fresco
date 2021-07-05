@@ -18,9 +18,9 @@ public class Section {
     private Long id;
 
     @Column(unique = true)
-    private String section_code;
+    private String sectionCode;
 
-    @OneToOne(mappedBy="section", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "section", cascade = CascadeType.ALL)
     private WarehouseSection warehouseSection;
 }
 

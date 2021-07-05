@@ -15,7 +15,8 @@ spring:
     hibernate:
       sql: debug
       ddl-auto: create-drop # create-drop para crear las entidades, una vez creadas y finalizado el mododel cambiar a none
+      globally_quoted_identifiers: true
     database-platform: org.hibernate.dialect.MySQL8Dialect
 
 server:
-  port: 8082 # no cambiar en prod
+  port: 8080 # no cambiar en prod

@@ -3,12 +3,14 @@ package com.mercadolibre.fresco.config;
 import com.mercadolibre.fresco.security.JWTAuthorizationFilter;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 @Configuration
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
@@ -18,9 +20,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/api/v1/sign-in").permitAll()
                 .antMatchers(HttpMethod.GET, "/ping").permitAll()
-                .antMatchers(HttpMethod.GET, "/v3/api-docs").permitAll()
+                .antMatchers(HttpMethod.GET, "/docs/v1/openapi", "/docs/v1/openapi/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/docs/v1", "/docs/swagger-ui.html", "/docs/swagger-ui/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/fake").permitAll()
-
                 .anyRequest().authenticated();
     }
 }

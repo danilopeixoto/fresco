@@ -1,6 +1,7 @@
 package com.mercadolibre.fresco.dtos;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -8,10 +9,11 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.List;
 
+@Builder(toBuilder = true)
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class OrderDTO {
+public class InboundOrderDTO {
     @NotNull(message = "orderNumber cannot be null.")
     public Long orderNumber;
 
@@ -19,9 +21,8 @@ public class OrderDTO {
     public LocalDate orderDate;
 
     @NotNull(message = "section cannot be null.")
-    public SectionDTO sectionDTO;
+    public SectionDTO section;
 
     @NotNull(message = "batchStockDTO cannot be null.")
-    public List<StockDTO> batchStockDTO;
-
+    public List<StockDTO> batchStock;
 }
