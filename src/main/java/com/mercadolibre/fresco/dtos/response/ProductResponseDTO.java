@@ -9,7 +9,6 @@ import javax.persistence.Entity;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-@Entity
 @Builder(toBuilder = true)
 @Data
 @AllArgsConstructor
