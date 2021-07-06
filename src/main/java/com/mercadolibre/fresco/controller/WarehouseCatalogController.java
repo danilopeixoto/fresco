@@ -2,59 +2,39 @@ package com.mercadolibre.fresco.controller;
 
 
 import com.mercadolibre.fresco.dtos.response.ProductResponseDTO;
+import com.mercadolibre.fresco.dtos.response.WarehousesProductCountResponseDTO;
 import com.mercadolibre.fresco.exceptions.NotFoundException;
+import com.mercadolibre.fresco.exceptions.UnauthorizedException;
 import com.mercadolibre.fresco.model.enumeration.EProductCategory;
 import com.mercadolibre.fresco.service.IProductCatalogService;
+import com.mercadolibre.fresco.service.IWarehouseCatalogService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Tag(name = "Product catalog")
-@RequestMapping(path = "/api/v1/fresh-products")
+@Tag(name = "Warehouse catalog")
+@RequestMapping(path = "/api/v1/warehouse")
 @RestController
-public class ProductCatalogController {
-    private final IProductCatalogService productCatalogService;
+public class WarehouseCatalogController {
+    private final IWarehouseCatalogService warehouseCatalogService;
 
-    public ProductCatalogController(IProductCatalogService productCatalogService) {
-        this.productCatalogService = productCatalogService;
+    public WarehouseCatalogController(IWarehouseCatalogService warehouseCatalogService) {
+        this.warehouseCatalogService = warehouseCatalogService;
     }
 
     /**
      * ================================
-     * List all products
+     * Count products by product code and group by warehouse code
      *
-     * @return List
-     */
-    @Operation(summary = "List all products", responses = {
-            @ApiResponse(
-                    responseCode = "200",
-                    content = @Content(
-                            array = @ArraySchema(schema = @Schema(implementation = ProductResponseDTO.class)),
-                            mediaType = "application/json")),
-            @ApiResponse(
-                    responseCode = "404",
-                    content = @Content(
-                            array = @ArraySchema(schema = @Schema(implementation = ProductResponseDTO.class)),
-                            mediaType = "application/json"))
-    })
-    @GetMapping(path = "/")
-    @ResponseBody
-    public List<ProductResponseDTO> listAll() throws NotFoundException {
-        return this.productCatalogService.findAll();
-    }
-
-    /**
-     * ================================
-     * List products by category
-     *
-     * @param category
-     * @return List
+     * @param productCode
+     * @return WarehousesProductCountResponseDTO
      */
     @Operation(summary = "List products by category", responses = {
             @ApiResponse(
@@ -63,14 +43,21 @@ public class ProductCatalogController {
                             array = @ArraySchema(schema = @Schema(implementation = ProductResponseDTO.class)),
                             mediaType = "application/json")),
             @ApiResponse(
+                    responseCode = "401",
+                    content = @Content(
+                            array = @ArraySchema(schema = @Schema(implementation = ProductResponseDTO.class)),
+                            mediaType = "application/json")),
+            @ApiResponse(
                     responseCode = "404",
                     content = @Content(
                             array = @ArraySchema(schema = @Schema(implementation = ProductResponseDTO.class)),
                             mediaType = "application/json"))
     })
-    @GetMapping(path = "/list")
+    @PreAuthorize("hasAuthority('REP')")
+    @GetMapping
     @ResponseBody
-    public List<ProductResponseDTO> listByCategory(@RequestParam(required = true) EProductCategory category) throws NotFoundException {
-        return this.productCatalogService.findProductsByCategoryCode(category);
+    public WarehousesProductCountResponseDTO groupCount(@RequestParam(required = true) String productCode)
+            throws NotFoundException, UnauthorizedException {
+        return this.warehouseCatalogService.groupByWarehouseCodeCountByProductCode(productCode);
     }
 }
