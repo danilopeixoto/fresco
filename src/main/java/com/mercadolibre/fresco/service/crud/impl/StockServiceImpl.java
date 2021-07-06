@@ -93,8 +93,8 @@ public class StockServiceImpl implements IStockService {
     }
 
     @Override
-    public List<InfoStockDTO> findWithSectionAndWarehouseByProductCode(String productCode) {
-        List<Object[]> stocks = stockRepository.findWithSectionAndWarehouseByProductCode(productCode);
+    public List<InfoStockDTO> findWithSectionAndWarehouseByProductCode(String username, String productCode) {
+        List<Object[]> stocks = stockRepository.findWithSectionAndWarehouseByProductCode(username,productCode);
         if (stocks.isEmpty()){
             throw new ApiException("404", "Product not found.", 404);
         }
