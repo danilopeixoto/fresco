@@ -10,7 +10,6 @@ import org.springframework.stereotype.Repository;
 public interface WarehouseSectionRepository extends JpaRepository<WarehouseSection, Long> {
 
     @Query(value = "SELECT * FROM warehouse_section WHERE warehouse_id = :warehouseId AND section_id = :sectionId", nativeQuery = true)
-    WarehouseSection findByWarehouseAndSectionId(@Param("warehouseId") Long warehouseId,
-                                                 @Param("sectionId") Long sectionId);
+    WarehouseSection findByWarehouseAndSectionId(@Param("warehouseId") Long warehouseId, @Param("sectionId") Long sectionId);
 
 }

@@ -1,7 +1,10 @@
 package com.mercadolibre.fresco.controller;
 
 
+import com.mercadolibre.fresco.dtos.InfoStockDTO;
 import com.mercadolibre.fresco.dtos.response.ProductResponseDTO;
+import com.mercadolibre.fresco.dtos.response.ProductStockResponseDTO;
+import com.mercadolibre.fresco.exceptions.ApiError;
 import com.mercadolibre.fresco.exceptions.NotFoundException;
 import com.mercadolibre.fresco.model.enumeration.EProductCategory;
 import com.mercadolibre.fresco.service.IProductCatalogService;
@@ -11,6 +14,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -72,5 +76,31 @@ public class ProductCatalogController {
     @ResponseBody
     public List<ProductResponseDTO> listByCategory(@RequestParam(required = true) EProductCategory category) throws NotFoundException {
         return this.productCatalogService.findProductsByCategoryCode(category);
+    }
+
+    /**
+     * ================================
+     * List stocks of a product by productCode
+     *
+     * @param productCode
+     * @return List
+     */
+    @Operation(summary = "List stocks of a product by productCode", responses = {
+            @ApiResponse(
+                    responseCode = "200",
+                    content = @Content(
+                            array = @ArraySchema(schema = @Schema(implementation = ProductStockResponseDTO.class)),
+                            mediaType = "application/json")),
+            @ApiResponse(
+                    responseCode = "404",
+                    content = @Content(
+                            schema = @Schema(implementation = ApiError.class),
+                            mediaType = "application/json"))
+    })
+    @PreAuthorize("hasAuthority('REP')")
+    @GetMapping(path = "/list/stocks")
+    @ResponseBody
+    public ProductStockResponseDTO listStockByProductCode(@RequestParam(required = true) String productCode) {
+        return this.productCatalogService.findStocksByProductCode(productCode);
     }
 }
