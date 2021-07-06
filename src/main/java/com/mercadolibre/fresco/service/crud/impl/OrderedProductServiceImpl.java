@@ -27,7 +27,7 @@ public class OrderedProductServiceImpl implements OrderedProductService {
         OrderedProduct orderedProductToBeUpdated = this.orderedProductRepository
                 .findByProductCodeAndOrderId(productsDTO.getProductId(), orderId);
 
-        if(orderedProductToBeUpdated == null) {
+        if (orderedProductToBeUpdated == null) {
             OrderedProduct orderedProduct = new OrderedProduct().toBuilder()
                     .product(this.productService.findByProductCode(productsDTO.getProductId()))
                     .purchaseOrder(this.purchaseOrderService.findPurchaseOrderById(orderId))

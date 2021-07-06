@@ -1,8 +1,6 @@
 package com.mercadolibre.fresco.unit.service;
 
 import com.mercadolibre.fresco.dtos.ProductsDTO;
-import com.mercadolibre.fresco.dtos.PurchaseOrderDTO;
-import com.mercadolibre.fresco.dtos.response.PurchaseOrderResponseDTO;
 import com.mercadolibre.fresco.model.OrderedProduct;
 import com.mercadolibre.fresco.model.Product;
 import com.mercadolibre.fresco.model.ProductCategory;

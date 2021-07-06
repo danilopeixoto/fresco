@@ -1,6 +1,7 @@
 package com.mercadolibre.fresco.service.crud.impl;
 
 import com.mercadolibre.fresco.dtos.ProductsDTO;
+import com.mercadolibre.fresco.dtos.InfoStockDTO;
 import com.mercadolibre.fresco.exceptions.ApiException;
 import com.mercadolibre.fresco.exceptions.NotFoundException;
 import com.mercadolibre.fresco.model.OrderedProduct;
@@ -14,6 +15,10 @@ import java.lang.invoke.MethodHandle;
 import java.lang.reflect.Method;
 import java.time.LocalDate;
 import java.util.Comparator;
+import javax.persistence.Tuple;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -105,8 +110,9 @@ public class StockServiceImpl implements IStockService {
     @Override
     public List<Stock> findByProductCode(String productCode) {
         List<Stock> stocks = this.stockRepository.findByProductCode(productCode);
-        if (stocks.isEmpty()) {
-            throw new NotFoundException("Products not found");
+
+        if (stocks.isEmpty()){
+            throw new ApiException("404", "Product not found", 404);
         }
 
         return stocks;
@@ -129,6 +135,25 @@ public class StockServiceImpl implements IStockService {
         return stocks;
     }
 
+    @Override
+    public List<InfoStockDTO> findWithSectionAndWarehouseByProductCode(String username, String productCode) {
+        List<Object[]> stocks = stockRepository.findWithSectionAndWarehouseByProductCode(username,productCode);
+        if (stocks.isEmpty()){
+            throw new ApiException("404", "Product not found.", 404);
+        }
+
+        List<InfoStockDTO> infoStockDTOS = new ArrayList<>();
+
+        stocks.forEach( stock -> infoStockDTOS.add(new InfoStockDTO((Integer)stock[0],
+                                (Integer) stock[1],
+                                LocalDate.parse(stock[2].toString()),
+                                stock[3].toString(),
+                                stock[4].toString()))
+        );
+
+        return infoStockDTOS;
+    }
+  
     @Override
     public void deleteByBatchNumber(Integer batchNumber) {
         this.stockRepository.deleteByBatchNumber(batchNumber);

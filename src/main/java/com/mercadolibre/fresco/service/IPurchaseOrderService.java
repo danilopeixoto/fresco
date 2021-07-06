@@ -5,7 +5,6 @@ import com.mercadolibre.fresco.dtos.PurchaseOrderDTO;
 import com.mercadolibre.fresco.dtos.response.ProductResponseDTO;
 import com.mercadolibre.fresco.dtos.response.PurchaseOrderResponseDTO;
 import com.mercadolibre.fresco.model.PurchaseOrder;
-import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 

@@ -7,7 +7,6 @@ import com.mercadolibre.fresco.dtos.response.PurchaseOrderResponseDTO;
 import com.mercadolibre.fresco.exceptions.ApiException;
 import com.mercadolibre.fresco.exceptions.NotFoundException;
 import com.mercadolibre.fresco.model.OrderedProduct;
-import com.mercadolibre.fresco.model.Product;
 import com.mercadolibre.fresco.model.PurchaseOrder;
 import com.mercadolibre.fresco.model.enumeration.StatusCode;
 import com.mercadolibre.fresco.repository.PurchaseOrderRepository;
@@ -17,10 +16,7 @@ import com.mercadolibre.fresco.service.crud.IProductService;
 import com.mercadolibre.fresco.service.crud.IStockService;
 import com.mercadolibre.fresco.service.crud.IUserService;
 import com.mercadolibre.fresco.service.crud.OrderedProductService;
-import com.mercadolibre.fresco.service.crud.impl.ProductServiceImpl;
-import org.aspectj.weaver.ast.Or;
 import org.springframework.context.annotation.Lazy;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -60,11 +56,11 @@ public class PurchaseOrderServiceImpl implements IPurchaseOrderService {
 
     @Override
     public PurchaseOrder findPurchaseOrderById(Long id) {
-         PurchaseOrder purchaseOrder = this.purchaseOrderRepository.findById(id)
+        PurchaseOrder purchaseOrder = this.purchaseOrderRepository.findById(id)
                 .orElse(null);
-         if(purchaseOrder == null)
-             throw new NotFoundException("Cannot find Purchase Order with ID:" + id);
-         return purchaseOrder;
+        if (purchaseOrder == null)
+            throw new NotFoundException("Cannot find Purchase Order with ID:" + id);
+        return purchaseOrder;
     }
 
     @Override
@@ -134,7 +130,7 @@ public class PurchaseOrderServiceImpl implements IPurchaseOrderService {
     private Double getTotalPrice(List<ProductsDTO> productsDTOS) {
         Double totalValue = 0.;
 
-        for(ProductsDTO productsDTO : productsDTOS) {
+        for (ProductsDTO productsDTO : productsDTOS) {
             totalValue += this.productService.findByProductCode(productsDTO.getProductId()).getPrice() * productsDTO.getQuantity();
         }
 

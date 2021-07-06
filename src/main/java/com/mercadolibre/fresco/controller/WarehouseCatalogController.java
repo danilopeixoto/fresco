@@ -5,8 +5,6 @@ import com.mercadolibre.fresco.dtos.response.ProductResponseDTO;
 import com.mercadolibre.fresco.dtos.response.WarehousesProductCountResponseDTO;
 import com.mercadolibre.fresco.exceptions.NotFoundException;
 import com.mercadolibre.fresco.exceptions.UnauthorizedException;
-import com.mercadolibre.fresco.model.enumeration.EProductCategory;
-import com.mercadolibre.fresco.service.IProductCatalogService;
 import com.mercadolibre.fresco.service.IWarehouseCatalogService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -16,8 +14,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @Tag(name = "Warehouse catalog")
 @RequestMapping(path = "/api/v1/warehouse")

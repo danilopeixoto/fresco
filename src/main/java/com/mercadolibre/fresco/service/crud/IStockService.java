@@ -2,8 +2,10 @@ package com.mercadolibre.fresco.service.crud;
 
 import com.mercadolibre.fresco.dtos.ProductsDTO;
 import com.mercadolibre.fresco.model.OrderedProduct;
+import com.mercadolibre.fresco.dtos.InfoStockDTO;
 import com.mercadolibre.fresco.model.Stock;
 
+import javax.persistence.Tuple;
 import java.util.List;
 
 public interface IStockService extends ICRUD<Stock> {
@@ -18,6 +20,9 @@ public interface IStockService extends ICRUD<Stock> {
 
     List<Stock> checkStockWithProductAvailability(String productCode, int quantity);
 
+    List<InfoStockDTO> findWithSectionAndWarehouseByProductCode(String username,String productCode);
+
     void deleteByBatchNumber(Integer batchNumber);
+
 
 }

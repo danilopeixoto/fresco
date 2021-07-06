@@ -23,6 +23,7 @@ INSERT INTO `warehouses` (`id`, `warehouse_code`, `agent_id`) VALUES ('2', 'WARE
 INSERT INTO `sections` (`id`, `section_code`, `product_category_id`) VALUES ('1', "FS", '1');
 INSERT INTO `sections` (`id`, `section_code`, `product_category_id`) VALUES ('2', "RF", '2');
 INSERT INTO `sections` (`id`, `section_code`, `product_category_id`) VALUES ('3', "FF", '3');
+
 INSERT INTO `warehouse_section` (`warehouse_id`, `section_id`, `id`) VALUES ('1', '1', '1');
 INSERT INTO `warehouse_section` (`warehouse_id`, `section_id`, `id`) VALUES ('1', '2', '2');
 INSERT INTO `warehouse_section` (`warehouse_id`, `section_id`, `id`) VALUES ('1', '3', '3');
