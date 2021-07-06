@@ -17,8 +17,8 @@ INSERT INTO `user_accounts` (`id`, `username`, `password`, `role_id`, `country_h
 INSERT INTO `user_accounts` (`id`, `username`, `password`, `role_id`, `country_house_id`) VALUES ('3', 'testSeller', 'teste1000', '3', '3');
 INSERT INTO `user_accounts` (`id`, `username`, `password`, `role_id`, `country_house_id`) VALUES ('4', 'testRep', 'teste1000', '4', '4');
 
-INSERT INTO `warehouses` (`id`, `warehouse_code`, `agent_id`) VALUES ('1', 'WAREHOUSE_TESTE', '1');
-INSERT INTO `warehouses` (`id`, `warehouse_code`, `agent_id`) VALUES ('2', 'WAREHOUSE_TWO', '1');
+INSERT INTO `warehouses` (`id`, `warehouse_code`, `agent_id`) VALUES ('1', 'WAREHOUSE_TESTE', '4');
+INSERT INTO `warehouses` (`id`, `warehouse_code`, `agent_id`) VALUES ('2', 'WAREHOUSE_TWO', '4');
 
 INSERT INTO `sections` (`id`, `section_code`, `product_category_id`) VALUES ('1', "FS", '1');
 INSERT INTO `sections` (`id`, `section_code`, `product_category_id`) VALUES ('2', "RF", '2');

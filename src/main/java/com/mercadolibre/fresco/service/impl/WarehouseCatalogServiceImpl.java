@@ -19,11 +19,11 @@ public class WarehouseCatalogServiceImpl implements IWarehouseCatalogService {
 
     @Override
     public WarehousesProductCountResponseDTO groupByWarehouseCodeCountByProductCode(String productCode) {
-        if (warehouseRepository.countProductQunatityByProductCode(productCode) == null) {
+        if (warehouseRepository.countProductQuantityByProductCode(productCode) == null) {
             throw new NotFoundException("Product " + productCode + " not exists!");
         }
 
-        List<WarehouseProductCountResponseDTO> warehouses = this.warehouseRepository.countProductQunatityByProductCode(productCode);
+        List<WarehouseProductCountResponseDTO> warehouses = this.warehouseRepository.countProductQuantityByProductCode(productCode);
 
         if (warehouses.isEmpty()) {
             throw new NotFoundException("Product " + productCode + " not exists in warehouses!");
