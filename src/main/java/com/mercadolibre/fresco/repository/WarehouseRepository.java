@@ -1,6 +1,5 @@
 package com.mercadolibre.fresco.repository;
 
-import com.mercadolibre.fresco.dtos.response.WarehouseProductCountResponseDTO;
 import com.mercadolibre.fresco.model.Warehouse;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -19,12 +18,11 @@ public interface WarehouseRepository extends JpaRepository<Warehouse, Long> {
     Warehouse findWarehouseByCode(@Param("warehouseCode") String warehouseCode);
 
     @Query(value =
-            "SELECT  SUM(s.cur_quantity) as total_quantity,  w.warehouse_code FROM warehouses w " +
+            "SELECT w.warehouse_code as warehouse_code, SUM(s.cur_quantity) as total_quantity FROM warehouses w " +
                     "INNER JOIN warehouse_section ws ON ws.warehouse_id = w.id " +
                     "INNER JOIN stocks s ON s.warehouse_section_id = ws.id " +
                     "INNER JOIN products p ON p.id = s.product_id " +
                     "WHERE p.product_code = :productCode GROUP BY w.warehouse_code"
             , nativeQuery = true)
-    List<WarehouseProductCountResponseDTO> countProductQuantityByProductCode(@Param("productCode") String productCode);
-
+    List<Object[]> countProductQuantityByProductCode(@Param("productCode") String productCode);
 }

@@ -22,6 +22,7 @@ public class WarehouseSectionImplTest {
         this.warehouseSection = new WarehouseSectionImpl(warehouseSectionRepository);
     }
 
+
     @Test
     void shouldFindByWarehouseAndSectionId() {
         Warehouse warehouse = new Warehouse(1L, "WAREHOUSE_TESTE", null, null);
@@ -33,5 +34,6 @@ public class WarehouseSectionImplTest {
         assertEquals("REFRIGERADOS", testWarehouseSection.getSection().getSectionCode());
         assertEquals("WAREHOUSE_TESTE", testWarehouseSection.getWarehouse().getWarehouseCode());
     }
+
 
 }
