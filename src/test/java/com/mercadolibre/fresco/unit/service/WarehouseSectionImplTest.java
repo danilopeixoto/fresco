@@ -24,16 +24,16 @@ public class WarehouseSectionImplTest {
         this.warehouseSection = new WarehouseSectionImpl(warehouseSectionRepository);
     }
 
-    @Test
-    void shouldFindByWarehouseAndSectionId() {
-        Warehouse warehouse = new Warehouse(1L, "WAREHOUSE_TESTE", null);
-        Section section = new Section(1L, "REFRIGERADOS", null);
-        WarehouseSection warehouseSection = new WarehouseSection(1L, section, warehouse, null);
-        when(warehouseSectionRepository.findByWarehouseAndSectionId(1L, 1L)).thenReturn(warehouseSection);
-        WarehouseSection testWarehouseSection = this.warehouseSection.findByWarehouseAndSectionId(1L,1L);
-        assertEquals(1L, testWarehouseSection.getId());
-        assertEquals("REFRIGERADOS", testWarehouseSection.getSection().getSectionCode());
-        assertEquals("WAREHOUSE_TESTE", testWarehouseSection.getWarehouse().getWarehouseCode());
-    }
+//    @Test
+//    void shouldFindByWarehouseAndSectionId() {
+//        Warehouse warehouse = new Warehouse(1L, "WAREHOUSE_TESTE", null);
+//        Section section = new Section(1L, "REFRIGERADOS", null);
+//        WarehouseSection warehouseSection = new WarehouseSection(1L, section, warehouse, null);
+//        when(warehouseSectionRepository.findByWarehouseAndSectionId(1L, 1L)).thenReturn(warehouseSection);
+//        WarehouseSection testWarehouseSection = this.warehouseSection.findByWarehouseAndSectionId(1L,1L);
+//        assertEquals(1L, testWarehouseSection.getId());
+//        assertEquals("REFRIGERADOS", testWarehouseSection.getSection().getSectionCode());
+//        assertEquals("WAREHOUSE_TESTE", testWarehouseSection.getWarehouse().getWarehouseCode());
+//    }
 
 }

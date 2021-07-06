@@ -1,5 +1,6 @@
 package com.mercadolibre.fresco.service;
 
+import com.mercadolibre.fresco.dtos.InfoStockDTO;
 import com.mercadolibre.fresco.dtos.response.ProductResponseDTO;
 import com.mercadolibre.fresco.dtos.response.ProductStockResponseDTO;
 import com.mercadolibre.fresco.model.enumeration.EProductCategory;
@@ -11,5 +12,5 @@ public interface IProductCatalogService {
 
     List<ProductResponseDTO> findProductsByCategoryCode(EProductCategory category);
 
-    List<ProductStockResponseDTO> findStocksByProductCode(String productCode);
+    ProductStockResponseDTO findStocksByProductCode(String productCode);
 }

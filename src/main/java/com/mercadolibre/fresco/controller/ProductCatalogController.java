@@ -1,6 +1,7 @@
 package com.mercadolibre.fresco.controller;
 
 
+import com.mercadolibre.fresco.dtos.InfoStockDTO;
 import com.mercadolibre.fresco.dtos.response.ProductResponseDTO;
 import com.mercadolibre.fresco.dtos.response.ProductStockResponseDTO;
 import com.mercadolibre.fresco.exceptions.ApiError;
@@ -99,7 +100,7 @@ public class ProductCatalogController {
     @PreAuthorize("hasAuthority('REP')")
     @GetMapping(path = "/list/stocks")
     @ResponseBody
-    public List<ProductStockResponseDTO> listStockByProductCode(@RequestParam(required = true) String productCode) {
+    public ProductStockResponseDTO listStockByProductCode(@RequestParam(required = true) String productCode) {
         return this.productCatalogService.findStocksByProductCode(productCode);
     }
 }

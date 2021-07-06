@@ -8,7 +8,10 @@ import com.mercadolibre.fresco.repository.StockRepository;
 import com.mercadolibre.fresco.service.crud.IStockService;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.Tuple;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -57,7 +60,7 @@ public class StockServiceImpl implements IStockService {
     public  List<Stock> findByProductCode(String productCode){
         List<Stock> stocks = this.stockRepository.findByProductCode(productCode);
         if (stocks.isEmpty()){
-            throw new NotFoundException("Products not found");
+            throw new ApiException("404", "Product not found", 404);
         }
 
         LocalDate futureTime = LocalDate.now().plusWeeks(3);
@@ -90,10 +93,22 @@ public class StockServiceImpl implements IStockService {
 
     @Override
     public List<InfoStockDTO> findWithSectionAndWarehouseByProductCode(String productCode) {
-        List<InfoStockDTO> stocks = stockRepository.findWithSectionAndWarehouseByProductCode(productCode);
+        List<Object[]> stocks = stockRepository.findWithSectionAndWarehouseByProductCode(productCode);
         if (stocks.isEmpty()){
-            throw new NotFoundException("Products not found");
+            throw new ApiException("404", "Product not found.", 404);
         }
-        return stocks;
+
+        List<InfoStockDTO> infoStockDTOS = new ArrayList<>();
+
+        stocks.forEach( stock -> infoStockDTOS.add(new InfoStockDTO((Integer)stock[0],
+                                (Integer) stock[1],
+                                LocalDate.parse(stock[2].toString()),
+                                stock[3].toString(),
+                                stock[4].toString()))
+        );
+
+
+
+        return infoStockDTOS;
     }
 }
