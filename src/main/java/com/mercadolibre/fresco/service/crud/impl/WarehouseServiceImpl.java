@@ -1,5 +1,7 @@
 package com.mercadolibre.fresco.service.crud.impl;
 
+import com.mercadolibre.fresco.dtos.response.WarehouseProductCountResponseDTO;
+import com.mercadolibre.fresco.dtos.response.WarehousesProductCountResponseDTO;
 import com.mercadolibre.fresco.exceptions.NotFoundException;
 import com.mercadolibre.fresco.model.Warehouse;
 import com.mercadolibre.fresco.repository.WarehouseRepository;
@@ -66,5 +68,24 @@ public class WarehouseServiceImpl implements IWarehouseService {
             throw new NotFoundException("Warehouses not found!");
         }
         return warehouses;
+    }
+
+    @Override
+    public WarehousesProductCountResponseDTO groupByWarehouseCodeCountByProductCode(String productCode) {
+        if (warehouseRepository.countProductQunatityByProductCode(productCode) == null){
+            throw new NotFoundException("Product " +productCode+ " not exists!");
+        }
+
+        List<WarehouseProductCountResponseDTO> warehouses = this.warehouseRepository.countProductQunatityByProductCode(productCode);
+
+        if (warehouses.isEmpty()){
+            throw new NotFoundException("Product " +productCode+ " not exists in warehouses!");
+        }
+        WarehousesProductCountResponseDTO warehousesProductCountResponseDTO = new WarehousesProductCountResponseDTO(
+                productCode,
+                warehouses
+        );
+
+        return warehousesProductCountResponseDTO;
     }
 }
