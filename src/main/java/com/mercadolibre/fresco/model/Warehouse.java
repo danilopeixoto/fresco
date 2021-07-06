@@ -20,7 +20,7 @@ public class Warehouse {
     @Column(unique = true)
     private String warehouseCode;
 
-    @OneToOne(mappedBy = "warehouse", cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "warehouse", cascade = CascadeType.ALL)
     private WarehouseSection warehouseSection;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)

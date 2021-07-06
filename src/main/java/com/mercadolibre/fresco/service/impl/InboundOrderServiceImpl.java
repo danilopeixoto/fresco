@@ -6,6 +6,7 @@ import com.mercadolibre.fresco.dtos.SectionDTO;
 import com.mercadolibre.fresco.dtos.StockDTO;
 import com.mercadolibre.fresco.dtos.response.InboundOrderResponseDTO;
 import com.mercadolibre.fresco.exceptions.ApiException;
+import com.mercadolibre.fresco.exceptions.NotFoundException;
 import com.mercadolibre.fresco.model.*;
 import com.mercadolibre.fresco.service.IInboundOrderService;
 import com.mercadolibre.fresco.service.crud.IProductService;
@@ -33,13 +34,9 @@ public class InboundOrderServiceImpl implements IInboundOrderService {
 
     @Transactional
     @Override
-    public InboundOrderResponseDTO create(String username, InboundOrderDTO inboundOrderDTO) throws ApiException {
+    public InboundOrderResponseDTO create(String username, InboundOrderDTO inboundOrderDTO) throws ApiException, NotFoundException {
         SectionDTO sectionDTO = inboundOrderDTO.getSection();
         Warehouse warehouse = this.warehouseService.findWarehouseByCode(sectionDTO.getWarehouseCode());
-
-        if (warehouse == null) {
-            throw new ApiException("404", "Warehouse not found.", 404);
-        }
 
         if (!warehouse.getAgent().getUsername().equals(username)) {
             throw new ApiException("401", "Agent not allowed.", 401);
@@ -116,13 +113,9 @@ public class InboundOrderServiceImpl implements IInboundOrderService {
 
     @Transactional
     @Override
-    public InboundOrderResponseDTO update(String username, InboundOrderDTO inboundOrderDTO) throws ApiException {
+    public InboundOrderResponseDTO update(String username, InboundOrderDTO inboundOrderDTO) throws ApiException, NotFoundException {
         SectionDTO sectionDTO = inboundOrderDTO.getSection();
         Warehouse warehouse = this.warehouseService.findWarehouseByCode(sectionDTO.getWarehouseCode());
-
-        if (warehouse == null) {
-            throw new ApiException("404", "Warehouse not found.", 404);
-        }
 
         if (!warehouse.getAgent().getUsername().equals(username)) {
             throw new ApiException("401", "Agent not allowed.", 401);

@@ -48,7 +48,8 @@ public class ProductCatalogController {
                 array = @ArraySchema(schema = @Schema(implementation = ProductResponseDTO.class)),
                 mediaType = "application/json"))
     })
-    @GetMapping(path = "/")
+    @PreAuthorize("hasAuthority('BUYER')")
+    @GetMapping
     @ResponseBody
     public List<ProductResponseDTO> listAll() throws NotFoundException {
         return this.productCatalogService.findAll();
@@ -73,9 +74,11 @@ public class ProductCatalogController {
                 array = @ArraySchema(schema = @Schema(implementation = ProductResponseDTO.class)),
                 mediaType = "application/json"))
     })
+    @PreAuthorize("hasAuthority('BUYER')")
     @GetMapping(path = "/list")
     @ResponseBody
-    public List<ProductResponseDTO> listByCategory(@RequestParam(required = true) EProductCategory category) throws NotFoundException {
+    public List<ProductResponseDTO> listByCategory(@RequestParam(required = true, defaultValue = "FS") EProductCategory category)
+        throws NotFoundException {
         return this.productCatalogService.findProductsByCategoryCode(category);
     }
 
@@ -101,9 +104,10 @@ public class ProductCatalogController {
     @PreAuthorize("hasAuthority('REP')")
     @GetMapping(path = "/list/stocks")
     @ResponseBody
-    public ProductStockResponseDTO listStockByProductCode(Authentication authentication, @RequestParam(required = true) String productCode, @RequestParam(required = false, defaultValue = "C") BatchStockOrder order) {
+    public ProductStockResponseDTO listStockByProductCode(
+        Authentication authentication,
+        @RequestParam(required = true) String productCode,
+        @RequestParam(required = false, defaultValue = "C") BatchStockOrder order) {
         return this.productCatalogService.findStocksByProductCode(authentication.getName(), productCode, order);
     }
-
-
 }

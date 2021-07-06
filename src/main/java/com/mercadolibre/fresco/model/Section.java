@@ -24,7 +24,7 @@ public class Section {
     @JoinColumn(name = "product_category_id", nullable = false)
     private ProductCategory productCategory;
 
-    @OneToOne(mappedBy = "section", cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "section", cascade = CascadeType.ALL)
     private WarehouseSection warehouseSection;
 }
 
