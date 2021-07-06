@@ -1,8 +1,10 @@
 package com.mercadolibre.fresco.controller;
 
 
+import com.mercadolibre.fresco.dtos.ProductsDTO;
 import com.mercadolibre.fresco.dtos.PurchaseOrderDTO;
 import com.mercadolibre.fresco.dtos.response.ProductResponseDTO;
+import com.mercadolibre.fresco.dtos.response.PurchaseOrderResponseDTO;
 import com.mercadolibre.fresco.exceptions.ApiError;
 import com.mercadolibre.fresco.exceptions.NotFoundException;
 import com.mercadolibre.fresco.exceptions.UnauthorizedException;
@@ -52,9 +54,9 @@ public class PurchaseOrderController {
     @PreAuthorize("hasAuthority('BUYER')")
     @PostMapping(path = "/", consumes = "application/json")
     @ResponseBody
-    public PurchaseOrderDTO create(Authentication authentication, PurchaseOrderDTO purchaseOrderDTO)
+    public PurchaseOrderResponseDTO create(Authentication authentication, @RequestBody PurchaseOrderDTO purchaseOrderDTO)
             throws UnauthorizedException {
-        return this.purchaseOrderService.create(authentication.getName(), purchaseOrderDTO);
+        return this.purchaseOrderService.create(purchaseOrderDTO);
     }
 
     /**
@@ -77,11 +79,11 @@ public class PurchaseOrderController {
                             mediaType = "application/json"))
     })
     @PreAuthorize("hasAuthority('BUYER')")
-    @GetMapping(path = "/list", consumes = "application/json")
+    @GetMapping(path = "/list")
     @ResponseBody
-    public List<ProductResponseDTO> findById(Authentication authentication, @RequestParam(required = true) Long id)
+    public List<ProductsDTO> findById(@RequestParam(required = true) Long id)
             throws UnauthorizedException {
-        return this.purchaseOrderService.listProductsByCategory(authentication.getName(), id);
+        return this.purchaseOrderService.getProductsByOrderId(id);
     }
 
     /**
@@ -111,8 +113,8 @@ public class PurchaseOrderController {
     @PreAuthorize("hasAuthority('BUYER')")
     @PutMapping(path = "/", consumes = "application/json")
     @ResponseBody
-    public PurchaseOrderDTO updateOrder(Authentication authentication, @Validated @RequestBody PurchaseOrderDTO purchaseOrderDTO)
+    public PurchaseOrderResponseDTO updateOrder(Authentication authentication, @Validated @RequestBody PurchaseOrderDTO purchaseOrderDTO)
             throws UnauthorizedException, NotFoundException {
-        return this.purchaseOrderService.update(authentication.getName(), purchaseOrderDTO);
+        return this.purchaseOrderService.update(purchaseOrderDTO);
     }
 }

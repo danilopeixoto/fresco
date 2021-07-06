@@ -4,7 +4,7 @@ import com.mercadolibre.fresco.dtos.InboundOrderDTO;
 import com.mercadolibre.fresco.dtos.response.InboundOrderResponseDTO;
 
 public interface IInboundOrderService {
-    InboundOrderResponseDTO create(InboundOrderDTO inboundOrderDTO);
+    InboundOrderResponseDTO create(String username, InboundOrderDTO inboundOrderDTO);
 
-    InboundOrderResponseDTO update(InboundOrderDTO inboundOrderDTO);
+    InboundOrderResponseDTO update(String username, InboundOrderDTO inboundOrderDTO);
 }

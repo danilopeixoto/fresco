@@ -7,7 +7,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
 public class SectionServiceImplTest {
@@ -22,7 +22,7 @@ public class SectionServiceImplTest {
 
     @Test
     void shouldGetIdBySectionCode() {
-        Section section = new Section(1L,"Refrigerados", null, null);
+        Section section = new Section(1L, "Refrigerados", null, null);
         when(sectionRepository.getIdBySectionCode("Refrigerados")).thenReturn(1L);
         Long testId = sectionService.getIdBySectionCode("Refrigerados");
         assertEquals(1L, testId);

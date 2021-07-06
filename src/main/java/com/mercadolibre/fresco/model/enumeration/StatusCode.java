@@ -4,7 +4,7 @@ public enum StatusCode {
 
     APROVADO("Approved"),
     PENDENTE("Pending"),
-    CANCELADO("CANCELED");
+    CANCELADO("Canceled");
 
     private String status;
 

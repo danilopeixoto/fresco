@@ -17,6 +17,9 @@ public class WarehouseSection {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private Integer capacity;
+    private Integer quantity;
+
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "section_id", referencedColumnName = "id")
     private Section section;
@@ -27,5 +30,4 @@ public class WarehouseSection {
 
     @OneToOne(mappedBy = "warehouseSection", cascade = CascadeType.ALL)
     private Stock stock;
-
 }

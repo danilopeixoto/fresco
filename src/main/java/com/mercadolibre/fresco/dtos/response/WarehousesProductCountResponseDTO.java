@@ -5,12 +5,13 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Builder(toBuilder = true)
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class AccountResponseDTO {
-    private String username;
-    private String password;
-    private String token;
+public class WarehousesProductCountResponseDTO {
+    private String productId;
+    private List<WarehouseProductCountResponseDTO> warehouses;
 }

@@ -23,7 +23,6 @@ INSERT INTO `warehouses` (`id`, `warehouse_code`, `agent_id`) VALUES ('2', 'WARE
 INSERT INTO `sections` (`id`, `section_code`, `product_category_id`) VALUES ('1', "FS", '1');
 INSERT INTO `sections` (`id`, `section_code`, `product_category_id`) VALUES ('2', "RF", '2');
 INSERT INTO `sections` (`id`, `section_code`, `product_category_id`) VALUES ('3', "FF", '3');
-
 INSERT INTO `warehouse_section` (`warehouse_id`, `section_id`, `id`) VALUES ('1', '1', '1');
 INSERT INTO `warehouse_section` (`warehouse_id`, `section_id`, `id`) VALUES ('1', '2', '2');
 INSERT INTO `warehouse_section` (`warehouse_id`, `section_id`, `id`) VALUES ('1', '3', '3');
@@ -34,13 +33,9 @@ INSERT INTO `products` (`id`, `product_code`,`min_temp`, `manufacturing_date`, `
 VALUES ('2', 'QUEIJO', '5.0', curdate(), curtime(), '2021-08-25','8.0','2');
 INSERT INTO `products` (`id`, `product_code`, `min_temp`, `manufacturing_date`, `manufacturing_time`, `due_date`,`price`,`product_category_id`)
 VALUES ('3','SORVETE', '1.0', curdate(), curtime(), '2021-07-15','5.4','3');
-
 INSERT INTO `stocks` (`id`, `init_quantity`, `batch_number`, `cur_quantity`, `cur_temp`, `product_id`, `warehouse_section_id`)
 VALUES('1', '100', '1', '50','-5.0','1', '2');
 INSERT INTO `stocks` (`id`, `init_quantity`, `batch_number`, `cur_quantity`, `cur_temp`, `product_id`, `warehouse_section_id`)
 VALUES('2', '30', '2', '20','3.0','2', '2');
 INSERT INTO `stocks` (`id`, `init_quantity`, `batch_number`, `cur_quantity`, `cur_temp`, `product_id`, `warehouse_section_id`)
 VALUES('3', '10', '3', '5','0.0','3', '2');
-
-
-

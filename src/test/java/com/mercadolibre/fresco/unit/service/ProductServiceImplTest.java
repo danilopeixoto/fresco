@@ -8,7 +8,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
 public class ProductServiceImplTest {
@@ -31,7 +31,7 @@ public class ProductServiceImplTest {
         assertEquals("BANANA", testProduct.getProductCode());
     }
 
-   @Test
+    @Test
     void shouldFindByCategoryCode() {
         Product banana = new Product(1L, "BANANA", null, null, null,
                 null, null, null, null, new ProductCategory(1L, "FS", "Fresh", null, null));

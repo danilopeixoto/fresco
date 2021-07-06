@@ -5,12 +5,12 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Builder(toBuilder = true)
-@Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class AccountResponseDTO {
-    private String username;
-    private String password;
-    private String token;
+@Builder(toBuilder = true)
+@Data
+public class PurchaseOrderResponseDTO {
+
+    private Double totalPrice;
+
 }

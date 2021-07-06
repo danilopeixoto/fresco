@@ -57,8 +57,9 @@ public class StockServiceImpl implements IStockService {
     }
 
     @Override
-    public  List<Stock> findByProductCode(String productCode){
+    public List<Stock> findByProductCode(String productCode) {
         List<Stock> stocks = this.stockRepository.findByProductCode(productCode);
+
         if (stocks.isEmpty()){
             throw new ApiException("404", "Product not found", 404);
         }
@@ -69,7 +70,7 @@ public class StockServiceImpl implements IStockService {
                 .filter(validDate -> validDate.getProduct().getDueDate().isAfter(futureTime))
                 .collect(Collectors.toList());
 
-        return stocks;
+        return validStock;
     }
 
 
@@ -107,8 +108,11 @@ public class StockServiceImpl implements IStockService {
                                 stock[4].toString()))
         );
 
-
-
         return infoStockDTOS;
+    }
+  
+    @Override
+    public void deleteByBatchNumber(Integer batchNumber) {
+        this.stockRepository.deleteByBatchNumber(batchNumber);
     }
 }

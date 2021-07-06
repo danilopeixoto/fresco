@@ -20,7 +20,7 @@ public class ProductServiceImpl implements IProductService {
 
     @Override
     public Product create(Product product) {
-        if (this.productRepository.findByProductCode(product.getProductCode()) == null){
+        if (this.productRepository.findByProductCode(product.getProductCode()) == null) {
             throw new BadRequestException("Product " + product.getProductCode() + " already exists!");
         }
         return productRepository.save(product);
@@ -28,7 +28,7 @@ public class ProductServiceImpl implements IProductService {
 
     @Override
     public Product update(Product product) {
-        if (this.productRepository.findByProductCode(product.getProductCode()) == null){
+        if (this.productRepository.findByProductCode(product.getProductCode()) == null) {
             throw new NotFoundException("Product " + product.getProductCode() + " not found!");
         }
 
@@ -53,8 +53,8 @@ public class ProductServiceImpl implements IProductService {
 
     @Override
     public List<Product> findAll() {
-        List<Product> products =  this.productRepository.findAll();
-        if (products.isEmpty()){
+        List<Product> products = this.productRepository.findAll();
+        if (products.isEmpty()) {
             throw new NotFoundException("Products not exists!");
         }
         return products;
@@ -63,9 +63,11 @@ public class ProductServiceImpl implements IProductService {
     @Override
     public List<Product> findProductsByCategoryCode(String categoryCode) {
         List<Product> products = this.productRepository.findByProductCategory(categoryCode);
-        if (products.isEmpty()){
+
+        if (products.isEmpty()) {
             throw new NotFoundException("Products not exists!");
         }
+
         return products;
     }
 }
