@@ -37,7 +37,7 @@ public class PurchaseOrderServiceImplTest {
     public void setup() {
         this.productService = new ProductServiceImpl(productRepository);
         this.purchaseOrderService = new PurchaseOrderServiceImpl(productService, userRepository,
-                purchaseOrderRepository, orderedProductService);
+                purchaseOrderRepository, orderedProductService, null);
     }
 
     @Test
