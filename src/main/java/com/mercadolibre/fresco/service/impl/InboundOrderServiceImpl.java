@@ -6,9 +6,6 @@ import com.mercadolibre.fresco.dtos.SectionDTO;
 import com.mercadolibre.fresco.dtos.StockDTO;
 import com.mercadolibre.fresco.dtos.response.InboundOrderResponseDTO;
 import com.mercadolibre.fresco.exceptions.ApiException;
-import com.mercadolibre.fresco.exceptions.BadRequestException;
-import com.mercadolibre.fresco.exceptions.NotFoundException;
-import com.mercadolibre.fresco.exceptions.UnauthorizedException;
 import com.mercadolibre.fresco.model.*;
 import com.mercadolibre.fresco.service.IInboundOrderService;
 import com.mercadolibre.fresco.service.crud.IProductService;
@@ -58,11 +55,11 @@ public class InboundOrderServiceImpl implements IInboundOrderService {
         List<StockDTO> stocks = inboundOrderDTO.getBatchStock();
 
         List<Product> products = stocks
-                .stream()
-                .map(StockDTO::getProductCode)
-                .map(code -> this.productService.findByProductCode(code))
-                .filter(Objects::nonNull)
-                .collect(Collectors.toList());
+            .stream()
+            .map(StockDTO::getProductCode)
+            .map(code -> this.productService.findByProductCode(code))
+            .filter(Objects::nonNull)
+            .collect(Collectors.toList());
 
         long stockSize = stocks.size();
 
@@ -71,21 +68,21 @@ public class InboundOrderServiceImpl implements IInboundOrderService {
         }
 
         if (products
-                .stream()
-                .filter(product -> product
-                        .getProductCategory()
-                        .getCategoryCode()
-                        .equals(section
-                                .getProductCategory()
-                                .getCategoryCode()))
-                .count() != stockSize) {
+            .stream()
+            .filter(product -> product
+                .getProductCategory()
+                .getCategoryCode()
+                .equals(section
+                    .getProductCategory()
+                    .getCategoryCode()))
+            .count() != stockSize) {
             throw new ApiException("400", "Some product category and section mismatched.", 400);
         }
 
         long totalQuantity = stocks
-                .stream()
-                .map(stock -> stock.getCurrentQuantity().longValue())
-                .reduce(0L, Long::sum);
+            .stream()
+            .map(stock -> stock.getCurrentQuantity().longValue())
+            .reduce(0L, Long::sum);
 
         if (totalQuantity + warehouseSection.getQuantity() > warehouseSection.getCapacity()) {
             throw new ApiException("400", "Stock maximum capacity reached.", 400);
@@ -93,28 +90,28 @@ public class InboundOrderServiceImpl implements IInboundOrderService {
 
         try {
             Streams
-                    .zip(
-                            stocks.stream(),
-                            products.stream(),
-                            AbstractMap.SimpleEntry::new)
-                    .map(s -> Stock
-                            .builder()
-                            .batchNumber(s.getKey().getBatchNumber())
-                            .currentQuantity(s.getKey().getCurrentQuantity())
-                            .currentTemperature(s.getKey().getCurrentTemperature())
-                            .initialQuantity(s.getKey().getInitialQuantity())
-                            .warehouseSection(warehouseSection)
-                            .product(s.getValue())
-                            .build())
-                    .forEach(s -> this.stockService.create(s));
+                .zip(
+                    stocks.stream(),
+                    products.stream(),
+                    AbstractMap.SimpleEntry::new)
+                .map(s -> Stock
+                    .builder()
+                    .batchNumber(s.getKey().getBatchNumber())
+                    .currentQuantity(s.getKey().getCurrentQuantity())
+                    .currentTemperature(s.getKey().getCurrentTemperature())
+                    .initialQuantity(s.getKey().getInitialQuantity())
+                    .warehouseSection(warehouseSection)
+                    .product(s.getValue())
+                    .build())
+                .forEach(s -> this.stockService.create(s));
         } catch (DataIntegrityViolationException e) {
             throw new ApiException("400", "Batch number already exists.", 400);
         }
 
         return InboundOrderResponseDTO
-                .builder()
-                .batchStock(stocks)
-                .build();
+            .builder()
+            .batchStock(stocks)
+            .build();
     }
 
     @Transactional
@@ -139,14 +136,14 @@ public class InboundOrderServiceImpl implements IInboundOrderService {
         }
 
         List<Integer> batchNumbers = inboundOrderDTO
-                .getBatchStock()
-                .stream()
-                .map(StockDTO::getBatchNumber)
-                .collect(Collectors.toList());
+            .getBatchStock()
+            .stream()
+            .map(StockDTO::getBatchNumber)
+            .collect(Collectors.toList());
 
         try {
             batchNumbers
-                    .forEach(bn -> this.stockService.deleteByBatchNumber(bn));
+                .forEach(bn -> this.stockService.deleteByBatchNumber(bn));
         } catch (Exception e) {
             throw new ApiException("404", "Some stock not found.", 404);
         }

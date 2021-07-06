@@ -40,22 +40,22 @@ public class PurchaseOrderController {
      * @return PurchaseOrderDTO
      */
     @Operation(summary = "Create new purchase order", responses = {
-            @ApiResponse(
-                    responseCode = "201",
-                    content = @Content(
-                            schema = @Schema(implementation = PurchaseOrderDTO.class),
-                            mediaType = "application/json")),
-            @ApiResponse(
-                    responseCode = "401",
-                    content = @Content(
-                            schema = @Schema(implementation = ApiError.class),
-                            mediaType = "application/json"))
+        @ApiResponse(
+            responseCode = "201",
+            content = @Content(
+                schema = @Schema(implementation = PurchaseOrderDTO.class),
+                mediaType = "application/json")),
+        @ApiResponse(
+            responseCode = "401",
+            content = @Content(
+                schema = @Schema(implementation = ApiError.class),
+                mediaType = "application/json"))
     })
     @PreAuthorize("hasAuthority('BUYER')")
     @PostMapping(path = "/", consumes = "application/json")
     @ResponseBody
     public PurchaseOrderResponseDTO create(Authentication authentication, @RequestBody PurchaseOrderDTO purchaseOrderDTO)
-            throws UnauthorizedException {
+        throws UnauthorizedException {
         return this.purchaseOrderService.create(purchaseOrderDTO);
     }
 
@@ -67,22 +67,22 @@ public class PurchaseOrderController {
      * @return List
      */
     @Operation(summary = "Get purchase order products by category", responses = {
-            @ApiResponse(
-                    responseCode = "200",
-                    content = @Content(
-                            array = @ArraySchema(schema = @Schema(implementation = ProductResponseDTO.class)),
-                            mediaType = "application/json")),
-            @ApiResponse(
-                    responseCode = "401",
-                    content = @Content(
-                            array = @ArraySchema(schema = @Schema(implementation = ApiError.class)),
-                            mediaType = "application/json"))
+        @ApiResponse(
+            responseCode = "200",
+            content = @Content(
+                array = @ArraySchema(schema = @Schema(implementation = ProductResponseDTO.class)),
+                mediaType = "application/json")),
+        @ApiResponse(
+            responseCode = "401",
+            content = @Content(
+                array = @ArraySchema(schema = @Schema(implementation = ApiError.class)),
+                mediaType = "application/json"))
     })
     @PreAuthorize("hasAuthority('BUYER')")
     @GetMapping(path = "/list")
     @ResponseBody
     public List<ProductsDTO> findById(@RequestParam(required = true) Long id)
-            throws UnauthorizedException {
+        throws UnauthorizedException {
         return this.purchaseOrderService.getProductsByOrderId(id);
     }
 
@@ -94,27 +94,27 @@ public class PurchaseOrderController {
      * @return PurchaseOrderDTO
      */
     @Operation(summary = "Update purchase order by id", responses = {
-            @ApiResponse(
-                    responseCode = "200",
-                    content = @Content(
-                            schema = @Schema(implementation = PurchaseOrderDTO.class),
-                            mediaType = "application/json")),
-            @ApiResponse(
-                    responseCode = "401",
-                    content = @Content(
-                            schema = @Schema(implementation = ApiError.class),
-                            mediaType = "application/json")),
-            @ApiResponse(
-                    responseCode = "404",
-                    content = @Content(
-                            schema = @Schema(implementation = ApiError.class),
-                            mediaType = "application/json"))
+        @ApiResponse(
+            responseCode = "200",
+            content = @Content(
+                schema = @Schema(implementation = PurchaseOrderDTO.class),
+                mediaType = "application/json")),
+        @ApiResponse(
+            responseCode = "401",
+            content = @Content(
+                schema = @Schema(implementation = ApiError.class),
+                mediaType = "application/json")),
+        @ApiResponse(
+            responseCode = "404",
+            content = @Content(
+                schema = @Schema(implementation = ApiError.class),
+                mediaType = "application/json"))
     })
     @PreAuthorize("hasAuthority('BUYER')")
     @PutMapping(path = "/", consumes = "application/json")
     @ResponseBody
     public PurchaseOrderResponseDTO updateOrder(Authentication authentication, @Validated @RequestBody PurchaseOrderDTO purchaseOrderDTO)
-            throws UnauthorizedException, NotFoundException {
+        throws UnauthorizedException, NotFoundException {
         return this.purchaseOrderService.update(purchaseOrderDTO);
     }
 }

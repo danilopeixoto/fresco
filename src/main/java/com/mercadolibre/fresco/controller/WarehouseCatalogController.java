@@ -33,27 +33,27 @@ public class WarehouseCatalogController {
      * @return WarehousesProductCountResponseDTO
      */
     @Operation(summary = "List products by category", responses = {
-            @ApiResponse(
-                    responseCode = "200",
-                    content = @Content(
-                            array = @ArraySchema(schema = @Schema(implementation = ProductResponseDTO.class)),
-                            mediaType = "application/json")),
-            @ApiResponse(
-                    responseCode = "401",
-                    content = @Content(
-                            array = @ArraySchema(schema = @Schema(implementation = ProductResponseDTO.class)),
-                            mediaType = "application/json")),
-            @ApiResponse(
-                    responseCode = "404",
-                    content = @Content(
-                            array = @ArraySchema(schema = @Schema(implementation = ProductResponseDTO.class)),
-                            mediaType = "application/json"))
+        @ApiResponse(
+            responseCode = "200",
+            content = @Content(
+                array = @ArraySchema(schema = @Schema(implementation = ProductResponseDTO.class)),
+                mediaType = "application/json")),
+        @ApiResponse(
+            responseCode = "401",
+            content = @Content(
+                array = @ArraySchema(schema = @Schema(implementation = ProductResponseDTO.class)),
+                mediaType = "application/json")),
+        @ApiResponse(
+            responseCode = "404",
+            content = @Content(
+                array = @ArraySchema(schema = @Schema(implementation = ProductResponseDTO.class)),
+                mediaType = "application/json"))
     })
     @PreAuthorize("hasAuthority('REP')")
     @GetMapping
     @ResponseBody
     public WarehousesProductCountResponseDTO groupCount(@RequestParam(required = true) String productCode)
-            throws NotFoundException, UnauthorizedException {
+        throws NotFoundException, UnauthorizedException {
         return this.warehouseCatalogService.groupByWarehouseCodeCountByProductCode(productCode);
     }
 }

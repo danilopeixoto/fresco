@@ -21,16 +21,16 @@ class SessionControllerTest {
     @BeforeEach
     void setUp() throws NotFoundException {
         when(service.login("user_one", "contra12"))
-                .thenThrow(new ApiException("401", "Wrong username or password", 401));
+            .thenThrow(new ApiException("401", "Wrong username or password", 401));
         when(service.login("user_one", "contra123"))
-                .thenReturn(new AccountResponseDTO("user_one", "contra123", "TOKEN"));
+            .thenReturn(new AccountResponseDTO("user_one", "contra123", "TOKEN"));
         controller = new SessionController(service);
     }
 
     @Test
     void loginFail() throws Exception {
         assertThrows(ApiException.class, () -> controller.login("user_one", "contra12"),
-                "Wrong username or password");
+            "Wrong username or password");
     }
 
     @Test

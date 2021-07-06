@@ -15,7 +15,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     Product findByProductCode(@Param("productCode") String productCode);
 
     @Query(value = "SELECT p.* FROM products p " +
-            "INNER JOIN product_categories pc on pc.id = p.product_category_id " +
-            "WHERE pc.category_code = :categoryCode;", nativeQuery = true)
+        "INNER JOIN product_categories pc on pc.id = p.product_category_id " +
+        "WHERE pc.category_code = :categoryCode;", nativeQuery = true)
     List<Product> findByProductCategory(@Param("categoryCode") String categoryCode);
 }

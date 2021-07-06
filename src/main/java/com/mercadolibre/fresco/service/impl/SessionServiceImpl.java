@@ -49,19 +49,19 @@ public class SessionServiceImpl implements ISessionService {
      */
     private String getJWTToken(String username, String roleCode) {
         List<GrantedAuthority> grantedAuthorities = AuthorityUtils
-                .commaSeparatedStringToAuthorityList(roleCode);
+            .commaSeparatedStringToAuthorityList(roleCode);
         String token = Jwts
-                .builder()
-                .setId("softtekJWT")
-                .setSubject(username)
-                .claim("authorities",
-                        grantedAuthorities.stream()
-                                .map(GrantedAuthority::getAuthority)
-                                .collect(Collectors.toList()))
-                .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 600000))
-                .signWith(SignatureAlgorithm.HS512,
-                        SECRET.getBytes()).compact();
+            .builder()
+            .setId("softtekJWT")
+            .setSubject(username)
+            .claim("authorities",
+                grantedAuthorities.stream()
+                    .map(GrantedAuthority::getAuthority)
+                    .collect(Collectors.toList()))
+            .setIssuedAt(new Date(System.currentTimeMillis()))
+            .setExpiration(new Date(System.currentTimeMillis() + 600000))
+            .signWith(SignatureAlgorithm.HS512,
+                SECRET.getBytes()).compact();
 
         return "Bearer " + token;
     }
@@ -74,7 +74,7 @@ public class SessionServiceImpl implements ISessionService {
      */
     private static Claims decodeJWT(String token) {
         Claims claims = Jwts.parser().setSigningKey("mySecretKey".getBytes())
-                .parseClaimsJws(token).getBody();
+            .parseClaimsJws(token).getBody();
         return claims;
     }
 

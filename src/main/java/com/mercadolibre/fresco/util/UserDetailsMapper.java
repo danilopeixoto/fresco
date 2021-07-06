@@ -10,7 +10,7 @@ import java.util.List;
 public interface UserDetailsMapper {
     static UserDetails build(User user) {
         List<GrantedAuthority> grantedAuthorities = AuthorityUtils
-                .commaSeparatedStringToAuthorityList(user.getRole().getRoleCode());
+            .commaSeparatedStringToAuthorityList(user.getRole().getRoleCode());
 
         return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), grantedAuthorities);
     }

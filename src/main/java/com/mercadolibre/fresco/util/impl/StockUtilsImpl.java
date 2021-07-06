@@ -33,8 +33,8 @@ public class StockUtilsImpl implements StockUtils {
         stock.setInitialQuantity(stockDTO.getInitialQuantity());
         stock.setProduct(this.productService.findByProductCode(stockDTO.getProductCode()));
         stock.setWarehouseSection(this.warehouseSection.findByWarehouseAndSectionId(
-                warehouseService.getWarehouseIdByCode(sectionDTO.warehouseCode),
-                sectionService.getIdBySectionCode(sectionDTO.sectionCode)
+            warehouseService.getWarehouseIdByCode(sectionDTO.warehouseCode),
+            sectionService.getIdBySectionCode(sectionDTO.sectionCode)
         ));
         return stock;
     }

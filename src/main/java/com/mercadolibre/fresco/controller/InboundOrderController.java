@@ -36,32 +36,32 @@ public class InboundOrderController {
      * @return InboundOrderResponseDTO
      */
     @Operation(summary = "Add products to inventory", responses = {
-            @ApiResponse(
-                    responseCode = "201",
-                    content = @Content(
-                            schema = @Schema(implementation = InboundOrderResponseDTO.class),
-                            mediaType = "application/json")),
-            @ApiResponse(
-                    responseCode = "400",
-                    content = @Content(
-                            schema = @Schema(implementation = ApiError.class),
-                            mediaType = "application/json")),
-            @ApiResponse(
-                    responseCode = "401",
-                    content = @Content(
-                            schema = @Schema(implementation = ApiError.class),
-                            mediaType = "application/json")),
-            @ApiResponse(
-                    responseCode = "404",
-                    content = @Content(
-                            schema = @Schema(implementation = ApiError.class),
-                            mediaType = "application/json"))
+        @ApiResponse(
+            responseCode = "201",
+            content = @Content(
+                schema = @Schema(implementation = InboundOrderResponseDTO.class),
+                mediaType = "application/json")),
+        @ApiResponse(
+            responseCode = "400",
+            content = @Content(
+                schema = @Schema(implementation = ApiError.class),
+                mediaType = "application/json")),
+        @ApiResponse(
+            responseCode = "401",
+            content = @Content(
+                schema = @Schema(implementation = ApiError.class),
+                mediaType = "application/json")),
+        @ApiResponse(
+            responseCode = "404",
+            content = @Content(
+                schema = @Schema(implementation = ApiError.class),
+                mediaType = "application/json"))
     })
     @PreAuthorize("hasAuthority('REP')")
     @PostMapping(path = "/", consumes = "application/json")
     @ResponseBody
     public InboundOrderResponseDTO create(Authentication authentication, @Validated @RequestBody InboundOrderDTO inboundOrderDTO)
-            throws UnauthorizedException, NotFoundException, BadRequestException {
+        throws UnauthorizedException, NotFoundException, BadRequestException {
         return this.inboundOrderService.create(authentication.getName(), inboundOrderDTO);
     }
 
@@ -73,32 +73,32 @@ public class InboundOrderController {
      * @return InboundOrderResponseDTO
      */
     @Operation(summary = "Update products from inventory", responses = {
-            @ApiResponse(
-                    responseCode = "201",
-                    content = @Content(
-                            schema = @Schema(implementation = InboundOrderResponseDTO.class),
-                            mediaType = "application/json")),
-            @ApiResponse(
-                    responseCode = "400",
-                    content = @Content(
-                            schema = @Schema(implementation = ApiError.class),
-                            mediaType = "application/json")),
-            @ApiResponse(
-                    responseCode = "401",
-                    content = @Content(
-                            schema = @Schema(implementation = ApiError.class),
-                            mediaType = "application/json")),
-            @ApiResponse(
-                    responseCode = "404",
-                    content = @Content(
-                            schema = @Schema(implementation = ApiError.class),
-                            mediaType = "application/json"))
+        @ApiResponse(
+            responseCode = "201",
+            content = @Content(
+                schema = @Schema(implementation = InboundOrderResponseDTO.class),
+                mediaType = "application/json")),
+        @ApiResponse(
+            responseCode = "400",
+            content = @Content(
+                schema = @Schema(implementation = ApiError.class),
+                mediaType = "application/json")),
+        @ApiResponse(
+            responseCode = "401",
+            content = @Content(
+                schema = @Schema(implementation = ApiError.class),
+                mediaType = "application/json")),
+        @ApiResponse(
+            responseCode = "404",
+            content = @Content(
+                schema = @Schema(implementation = ApiError.class),
+                mediaType = "application/json"))
     })
     @PreAuthorize("hasAuthority('REP')")
     @PutMapping(path = "/", consumes = "application/json")
     @ResponseBody
     public InboundOrderResponseDTO update(Authentication authentication, @Validated @RequestBody InboundOrderDTO inboundOrderDTO)
-            throws UnauthorizedException, NotFoundException, BadRequestException {
+        throws UnauthorizedException, NotFoundException, BadRequestException {
         return this.inboundOrderService.update(authentication.getName(), inboundOrderDTO);
     }
 }
