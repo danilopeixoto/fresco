@@ -25,5 +25,4 @@ public interface WarehouseRepository extends JpaRepository<Warehouse, Long> {
                     "WHERE p.product_code = :productCode GROUP BY w.warehouse_code"
             , nativeQuery = true)
     List<Object[]> countProductQuantityByProductCode(@Param("productCode") String productCode);
-
 }
