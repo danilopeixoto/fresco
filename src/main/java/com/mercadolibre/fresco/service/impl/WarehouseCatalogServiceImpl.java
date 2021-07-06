@@ -3,7 +3,9 @@ package com.mercadolibre.fresco.service.impl;
 import com.mercadolibre.fresco.dtos.response.WarehousesProductCountResponseDTO;
 import com.mercadolibre.fresco.exceptions.NotFoundException;
 import com.mercadolibre.fresco.service.IWarehouseCatalogService;
+import org.springframework.stereotype.Service;
 
+@Service
 public class WarehouseCatalogServiceImpl implements IWarehouseCatalogService {
     @Override
     public WarehousesProductCountResponseDTO groupByWarehouseCodeCountByProductCode(String productCode)

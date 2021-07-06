@@ -6,6 +6,7 @@ import com.mercadolibre.fresco.dtos.response.ProductResponseDTO;
 import com.mercadolibre.fresco.dtos.response.ProductStockResponseDTO;
 import com.mercadolibre.fresco.exceptions.ApiError;
 import com.mercadolibre.fresco.exceptions.NotFoundException;
+import com.mercadolibre.fresco.model.enumeration.BatchStockOrder;
 import com.mercadolibre.fresco.model.enumeration.EProductCategory;
 import com.mercadolibre.fresco.service.IProductCatalogService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -15,6 +16,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -100,7 +102,9 @@ public class ProductCatalogController {
     @PreAuthorize("hasAuthority('REP')")
     @GetMapping(path = "/list/stocks")
     @ResponseBody
-    public ProductStockResponseDTO listStockByProductCode(@RequestParam(required = true) String productCode) {
-        return this.productCatalogService.findStocksByProductCode(productCode);
+    public ProductStockResponseDTO listStockByProductCode(Authentication authentication, @RequestParam(required = true) String productCode, @RequestParam(required = false, defaultValue = "C") BatchStockOrder order) {
+        return this.productCatalogService.findStocksByProductCode(authentication.getName(), productCode, order);
     }
+
+
 }

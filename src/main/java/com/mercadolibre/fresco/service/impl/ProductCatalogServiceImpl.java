@@ -4,6 +4,7 @@ import com.mercadolibre.fresco.dtos.InfoStockDTO;
 import com.mercadolibre.fresco.dtos.response.ProductResponseDTO;
 import com.mercadolibre.fresco.dtos.response.ProductStockResponseDTO;
 import com.mercadolibre.fresco.exceptions.NotFoundException;
+import com.mercadolibre.fresco.model.enumeration.BatchStockOrder;
 import com.mercadolibre.fresco.model.enumeration.EProductCategory;
 import com.mercadolibre.fresco.service.IProductCatalogService;
 import com.mercadolibre.fresco.service.crud.IProductService;
@@ -12,6 +13,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.Tuple;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -58,12 +60,19 @@ public class ProductCatalogServiceImpl implements IProductCatalogService {
     }
 
     @Override
-    public ProductStockResponseDTO findStocksByProductCode(String productCode) {
-        List<InfoStockDTO> stocks = stockService.findWithSectionAndWarehouseByProductCode(productCode);
+    public ProductStockResponseDTO findStocksByProductCode(String username , String productCode, BatchStockOrder order) {
+        List<InfoStockDTO> stocks = stockService.findWithSectionAndWarehouseByProductCode(username ,productCode);
+
+        if(order.getOrder() == "c")
+            stocks.sort(Comparator.comparing(InfoStockDTO::getCurrentQuantity));
+        else
+            stocks.sort(Comparator.comparing(InfoStockDTO::getDueDate));
+
         ProductStockResponseDTO productStockResponseDTO = ProductStockResponseDTO.builder()
                 .productId(productCode)
                 .batchStock(stocks)
                 .build();
+
         return productStockResponseDTO;
     }
 
