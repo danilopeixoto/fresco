@@ -11,5 +11,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class WarehouseProductCountResponseDTO {
     private String warehouseCode;
-    private Integer totalQuantity;
+    private Long totalQuantity;
 }
