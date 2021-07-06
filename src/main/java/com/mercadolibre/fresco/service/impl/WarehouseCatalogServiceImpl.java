@@ -3,7 +3,6 @@ package com.mercadolibre.fresco.service.impl;
 import com.mercadolibre.fresco.dtos.response.WarehouseProductCountResponseDTO;
 import com.mercadolibre.fresco.dtos.response.WarehousesProductCountResponseDTO;
 import com.mercadolibre.fresco.exceptions.ApiException;
-import com.mercadolibre.fresco.exceptions.NotFoundException;
 import com.mercadolibre.fresco.repository.WarehouseRepository;
 import com.mercadolibre.fresco.service.IWarehouseCatalogService;
 import org.springframework.stereotype.Service;
@@ -32,14 +31,13 @@ public class WarehouseCatalogServiceImpl implements IWarehouseCatalogService {
         }
 
         List<WarehouseProductCountResponseDTO> warehouseProductCountResponseDTOS = warehouses.stream().map(
-                x -> new WarehouseProductCountResponseDTO((String) x[0] , Long.parseLong(x[1].toString()))
+            x -> new WarehouseProductCountResponseDTO((String) x[0], Long.parseLong(x[1].toString()))
         ).collect(Collectors.toList());
 
 
-
         WarehousesProductCountResponseDTO warehousesProductCountResponseDTO = new WarehousesProductCountResponseDTO(
-                productCode,
-                warehouseProductCountResponseDTOS
+            productCode,
+            warehouseProductCountResponseDTOS
         );
 
         return warehousesProductCountResponseDTO;

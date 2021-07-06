@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
-import lombok.*;
+import lombok.Builder;
 
 import java.time.LocalDate;
 
@@ -36,7 +36,8 @@ public class InfoStockDTO {
         this.warehouseCode = warehouseCode;
     }
 
-    public InfoStockDTO() {}
+    public InfoStockDTO() {
+    }
 
     public int getBatchNumber() {
         return batchNumber;

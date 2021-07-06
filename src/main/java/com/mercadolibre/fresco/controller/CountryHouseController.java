@@ -38,21 +38,21 @@ public class CountryHouseController {
      * @return ResponseEntity
      */
     @Operation(summary = "Create country house", responses = {
-            @ApiResponse(
-                    responseCode = "201",
-                    content = @Content(
-                            schema = @Schema(implementation = InboundOrderResponseDTO.class),
-                            mediaType = "application/json")),
-            @ApiResponse(
-                    responseCode = "400",
-                    content = @Content(
-                            schema = @Schema(implementation = ApiError.class),
-                            mediaType = "application/json")),
-            @ApiResponse(
-                    responseCode = "401",
-                    content = @Content(
-                            schema = @Schema(implementation = ApiError.class),
-                            mediaType = "application/json"))
+        @ApiResponse(
+            responseCode = "201",
+            content = @Content(
+                schema = @Schema(implementation = InboundOrderResponseDTO.class),
+                mediaType = "application/json")),
+        @ApiResponse(
+            responseCode = "400",
+            content = @Content(
+                schema = @Schema(implementation = ApiError.class),
+                mediaType = "application/json")),
+        @ApiResponse(
+            responseCode = "401",
+            content = @Content(
+                schema = @Schema(implementation = ApiError.class),
+                mediaType = "application/json"))
     })
     @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping(path = "/", consumes = "application/json")
@@ -66,7 +66,7 @@ public class CountryHouseController {
             response.setCountryHouse(countryHouseDTO);
             response.setMessage("Country created");
             URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
-                    .buildAndExpand(countryHouseDTO.getId()).toUri();
+                .buildAndExpand(countryHouseDTO.getId()).toUri();
             return new ResponseEntity<CountryHouseResponseDTO>(response, HttpStatus.CREATED).created(location).body(response);
         } else {
             response.setCountryHouse(newCountryHouse);

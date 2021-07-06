@@ -29,7 +29,7 @@ class ControllerExceptionHandlerTest extends ControllerTest {
     public void testUnhandledException() {
         // Given
         doThrow(new RuntimeException()).when(pingController)
-                .ping();
+            .ping();
 
         // When
         ResponseEntity<ApiError> responseEntity = this.testRestTemplate.exchange("/ping", HttpMethod.GET, this.getDefaultRequestEntity(), ApiError.class);
@@ -42,7 +42,7 @@ class ControllerExceptionHandlerTest extends ControllerTest {
     public void testApiExceptionError() {
         // Given
         doThrow(new ApiException("error", "error", HttpStatus.INTERNAL_SERVER_ERROR.value())).when(pingController)
-                .ping();
+            .ping();
 
         // When
         ResponseEntity<ApiError> responseEntity = this.testRestTemplate.exchange("/ping", HttpMethod.GET, this.getDefaultRequestEntity(), ApiError.class);
@@ -55,7 +55,7 @@ class ControllerExceptionHandlerTest extends ControllerTest {
     public void testApiExceptionWarn() {
         // Given
         doThrow(new ApiException("warn", "warn", HttpStatus.BAD_REQUEST.value())).when(pingController)
-                .ping();
+            .ping();
 
         // When
         ResponseEntity<ApiError> responseEntity = this.testRestTemplate.exchange("/ping", HttpMethod.GET, this.getDefaultRequestEntity(), ApiError.class);

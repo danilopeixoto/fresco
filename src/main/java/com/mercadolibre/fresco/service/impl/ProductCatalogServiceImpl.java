@@ -12,7 +12,6 @@ import com.mercadolibre.fresco.service.crud.IStockService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.Tuple;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -32,10 +31,10 @@ public class ProductCatalogServiceImpl implements IProductCatalogService {
     @Override
     public List<ProductResponseDTO> findAll() throws NotFoundException {
         List<ProductResponseDTO> products = this.productService
-                .findAll()
-                .stream()
-                .map(product -> this.modelMapper.map(product, ProductResponseDTO.class))
-                .collect(Collectors.toList());
+            .findAll()
+            .stream()
+            .map(product -> this.modelMapper.map(product, ProductResponseDTO.class))
+            .collect(Collectors.toList());
 
         if (products.isEmpty()) {
             throw new NotFoundException("Product list not found.");
@@ -47,10 +46,10 @@ public class ProductCatalogServiceImpl implements IProductCatalogService {
     @Override
     public List<ProductResponseDTO> findProductsByCategoryCode(EProductCategory category) throws NotFoundException {
         List<ProductResponseDTO> products = this.productService
-                .findProductsByCategoryCode(category.getCategory())
-                .stream()
-                .map(product -> this.modelMapper.map(product, ProductResponseDTO.class))
-                .collect(Collectors.toList());
+            .findProductsByCategoryCode(category.getCategory())
+            .stream()
+            .map(product -> this.modelMapper.map(product, ProductResponseDTO.class))
+            .collect(Collectors.toList());
 
         if (products.isEmpty()) {
             throw new NotFoundException("Product list not found.");
@@ -60,18 +59,18 @@ public class ProductCatalogServiceImpl implements IProductCatalogService {
     }
 
     @Override
-    public ProductStockResponseDTO findStocksByProductCode(String username , String productCode, BatchStockOrder order) {
-        List<InfoStockDTO> stocks = stockService.findWithSectionAndWarehouseByProductCode(username ,productCode);
+    public ProductStockResponseDTO findStocksByProductCode(String username, String productCode, BatchStockOrder order) {
+        List<InfoStockDTO> stocks = stockService.findWithSectionAndWarehouseByProductCode(username, productCode);
 
-        if(order.getOrder() == "c")
+        if (order.getOrder() == "c")
             stocks.sort(Comparator.comparing(InfoStockDTO::getCurrentQuantity));
         else
             stocks.sort(Comparator.comparing(InfoStockDTO::getDueDate));
 
         ProductStockResponseDTO productStockResponseDTO = ProductStockResponseDTO.builder()
-                .productId(productCode)
-                .batchStock(stocks)
-                .build();
+            .productId(productCode)
+            .batchStock(stocks)
+            .build();
 
         return productStockResponseDTO;
     }

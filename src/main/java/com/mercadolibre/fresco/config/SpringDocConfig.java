@@ -24,23 +24,23 @@ public class SpringDocConfig {
         String securitySchemeName = "bearerAuth";
 
         OpenAPI api = new OpenAPI()
-                .addSecurityItem(new SecurityRequirement().addList(securitySchemeName))
-                .components(
-                        new Components()
-                                .addSecuritySchemes(securitySchemeName,
-                                        new SecurityScheme()
-                                                .name(securitySchemeName)
-                                                .type(SecurityScheme.Type.HTTP)
-                                                .scheme("bearer")
-                                                .bearerFormat("JWT")))
-                .info(new Info().title(appName)
-                        .version(version)
-                        .description(description)
-                        .contact(new Contact().name("bootcamp12")
-                                .email("bootcamp12@mercadolibre.com")));
+            .addSecurityItem(new SecurityRequirement().addList(securitySchemeName))
+            .components(
+                new Components()
+                    .addSecuritySchemes(securitySchemeName,
+                        new SecurityScheme()
+                            .name(securitySchemeName)
+                            .type(SecurityScheme.Type.HTTP)
+                            .scheme("bearer")
+                            .bearerFormat("JWT")))
+            .info(new Info().title(appName)
+                .version(version)
+                .description(description)
+                .contact(new Contact().name("bootcamp12")
+                    .email("bootcamp12@mercadolibre.com")));
 
         api.addServersItem(new Server().url(isLocalScope() ? "http://localhost:8080" : format("https://%s_%s.furyapps.io", SCOPE_VALUE, appName))
-                .description(format("Scope %s", SCOPE_VALUE)));
+            .description(format("Scope %s", SCOPE_VALUE)));
         return api;
     }
 }

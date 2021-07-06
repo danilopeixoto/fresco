@@ -1,6 +1,5 @@
 package com.mercadolibre.fresco.service;
 
-import com.mercadolibre.fresco.dtos.InfoStockDTO;
 import com.mercadolibre.fresco.dtos.response.ProductResponseDTO;
 import com.mercadolibre.fresco.dtos.response.ProductStockResponseDTO;
 import com.mercadolibre.fresco.model.enumeration.BatchStockOrder;

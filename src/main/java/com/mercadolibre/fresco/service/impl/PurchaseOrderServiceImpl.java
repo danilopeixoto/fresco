@@ -14,7 +14,6 @@ import com.mercadolibre.fresco.repository.UserRepository;
 import com.mercadolibre.fresco.service.IPurchaseOrderService;
 import com.mercadolibre.fresco.service.crud.IProductService;
 import com.mercadolibre.fresco.service.crud.IStockService;
-import com.mercadolibre.fresco.service.crud.IUserService;
 import com.mercadolibre.fresco.service.crud.OrderedProductService;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
@@ -45,10 +44,10 @@ public class PurchaseOrderServiceImpl implements IPurchaseOrderService {
         List<ProductsDTO> productsDTOS = new ArrayList<>();
         PurchaseOrder purchaseOrder = this.findPurchaseOrderById(id);
         purchaseOrder.getOrderedProducts().forEach(
-                orderedProduct -> productsDTOS.add(new ProductsDTO()
-                        .toBuilder()
-                        .productId(orderedProduct.getProduct().getProductCode())
-                        .quantity(orderedProduct.getQuantity()).build())
+            orderedProduct -> productsDTOS.add(new ProductsDTO()
+                .toBuilder()
+                .productId(orderedProduct.getProduct().getProductCode())
+                .quantity(orderedProduct.getQuantity()).build())
         );
 
         return productsDTOS;
@@ -57,7 +56,7 @@ public class PurchaseOrderServiceImpl implements IPurchaseOrderService {
     @Override
     public PurchaseOrder findPurchaseOrderById(Long id) {
         PurchaseOrder purchaseOrder = this.purchaseOrderRepository.findById(id)
-                .orElse(null);
+            .orElse(null);
         if (purchaseOrder == null)
             throw new NotFoundException("Cannot find Purchase Order with ID:" + id);
         return purchaseOrder;
@@ -66,14 +65,14 @@ public class PurchaseOrderServiceImpl implements IPurchaseOrderService {
     @Override
     public PurchaseOrderResponseDTO create(PurchaseOrderDTO purchaseOrderDTO) {
         purchaseOrderDTO.getProducts().forEach(
-                this::validPurchaseOrder
+            this::validPurchaseOrder
         );
 
         PurchaseOrder purchaseOrder = this.buildPurchaseOrder(purchaseOrderDTO);
         this.purchaseOrderRepository.save(purchaseOrder);
 
         return new PurchaseOrderResponseDTO().toBuilder()
-                .totalPrice(this.getTotalPrice(purchaseOrderDTO.getProducts())).build();
+            .totalPrice(this.getTotalPrice(purchaseOrderDTO.getProducts())).build();
     }
 
     @Override
@@ -81,14 +80,14 @@ public class PurchaseOrderServiceImpl implements IPurchaseOrderService {
         PurchaseOrder purchaseOrderToBeUpdated = this.findPurchaseOrderById(purchaseOrderDto.getId());
 
         purchaseOrderDto.getProducts().forEach(
-                productsDTO -> this.validUpdatedPurchaseOrder(productsDTO, purchaseOrderDto.getId())
+            productsDTO -> this.validUpdatedPurchaseOrder(productsDTO, purchaseOrderDto.getId())
         );
 
         this.buildUpdatedPurchaseOrder(purchaseOrderToBeUpdated, purchaseOrderDto);
         this.purchaseOrderRepository.save(purchaseOrderToBeUpdated);
 
         return new PurchaseOrderResponseDTO().toBuilder()
-                .totalPrice(this.getTotalPrice(purchaseOrderDto.getProducts())).build();
+            .totalPrice(this.getTotalPrice(purchaseOrderDto.getProducts())).build();
     }
 
     @Override
@@ -99,8 +98,8 @@ public class PurchaseOrderServiceImpl implements IPurchaseOrderService {
     private PurchaseOrder buildUpdatedPurchaseOrder(PurchaseOrder purchaseOrderToBeUpdated,
                                                     PurchaseOrderDTO purchaseOrderDTO) {
         purchaseOrderDTO.getProducts().forEach(
-                productsDTO -> this.orderedProductService.updateOrderedProduct(purchaseOrderToBeUpdated.getId(),
-                        productsDTO)
+            productsDTO -> this.orderedProductService.updateOrderedProduct(purchaseOrderToBeUpdated.getId(),
+                productsDTO)
         );
 
         purchaseOrderToBeUpdated.setStatusCode(StatusCode.valueOf(purchaseOrderDTO.getStatusCode()));
@@ -114,10 +113,10 @@ public class PurchaseOrderServiceImpl implements IPurchaseOrderService {
 
         PurchaseOrder purchaseOrder = new PurchaseOrder();
         purchaseOrderDTO.getProducts().forEach(
-                productsDTO -> orderedProducts.add(new OrderedProduct().toBuilder()
-                        .purchaseOrder(purchaseOrder)
-                        .product(this.productService.findByProductCode(productsDTO.getProductId()))
-                        .quantity(productsDTO.getQuantity()).build())
+            productsDTO -> orderedProducts.add(new OrderedProduct().toBuilder()
+                .purchaseOrder(purchaseOrder)
+                .product(this.productService.findByProductCode(productsDTO.getProductId()))
+                .quantity(productsDTO.getQuantity()).build())
         );
         purchaseOrder.setOrderedProducts(orderedProducts);
         purchaseOrder.setStatusCode(StatusCode.valueOf(purchaseOrderDTO.getStatusCode()));
@@ -138,12 +137,12 @@ public class PurchaseOrderServiceImpl implements IPurchaseOrderService {
     }
 
     private void validPurchaseOrder(ProductsDTO productsDTO) {
-        if(this.stockService.validProductStockForPurchaseOrder(productsDTO) == null)
+        if (this.stockService.validProductStockForPurchaseOrder(productsDTO) == null)
             throw new ApiException("404", "Unavailable quantity in stock for product: " + productsDTO.getProductId(), 404);
     }
 
     private void validUpdatedPurchaseOrder(ProductsDTO productsDTO, Long orderId) {
-        if(this.stockService.validStockForExistingOrder(productsDTO, orderId) == null)
+        if (this.stockService.validStockForExistingOrder(productsDTO, orderId) == null)
             throw new ApiException("404", "Unavailable quantity in stock for product: " + productsDTO.getProductId(), 404);
     }
 

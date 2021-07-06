@@ -30,7 +30,7 @@ public class MockitoExtension implements TestInstancePostProcessor, ParameterRes
     @Override
     public boolean supportsParameter(ParameterContext parameterContext, ExtensionContext extensionContext) {
         return parameterContext.getParameter()
-                .isAnnotationPresent(Mock.class);
+            .isAnnotationPresent(Mock.class);
     }
 
     /**
@@ -55,8 +55,8 @@ public class MockitoExtension implements TestInstancePostProcessor, ParameterRes
 
     private String getMockName(Parameter parameter) {
         String explicitMockName = parameter.getAnnotation(Mock.class)
-                .name()
-                .trim();
+            .name()
+            .trim();
         if (!explicitMockName.isEmpty()) {
             return explicitMockName;
         } else if (parameter.isNamePresent()) {
