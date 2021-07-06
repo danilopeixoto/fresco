@@ -1,13 +1,19 @@
 package com.mercadolibre.fresco.service.crud.impl;
 
+import com.mercadolibre.fresco.dtos.ProductsDTO;
 import com.mercadolibre.fresco.exceptions.ApiException;
 import com.mercadolibre.fresco.exceptions.NotFoundException;
+import com.mercadolibre.fresco.model.OrderedProduct;
 import com.mercadolibre.fresco.model.Stock;
+import com.mercadolibre.fresco.repository.OrderedProductRepository;
 import com.mercadolibre.fresco.repository.StockRepository;
 import com.mercadolibre.fresco.service.crud.IStockService;
 import org.springframework.stereotype.Service;
 
+import java.lang.invoke.MethodHandle;
+import java.lang.reflect.Method;
 import java.time.LocalDate;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -15,9 +21,53 @@ import java.util.stream.Collectors;
 public class StockServiceImpl implements IStockService {
 
     private StockRepository stockRepository;
+    private OrderedProductRepository orderedProductRepository;
 
-    public StockServiceImpl(StockRepository stockRepository) {
+    public StockServiceImpl(StockRepository stockRepository, OrderedProductRepository orderedProductRepository) {
         this.stockRepository = stockRepository;
+        this.orderedProductRepository = orderedProductRepository;
+    }
+
+    private Integer getQuantityToUpdate(Long orderId, ProductsDTO productsDTO) {
+        OrderedProduct existingOrderedProduct = this.orderedProductRepository.findByProductCodeAndOrderId(productsDTO.getProductId(),
+                orderId);
+        if(existingOrderedProduct != null)
+            return  productsDTO.getQuantity() - existingOrderedProduct.getQuantity();
+        return productsDTO.getQuantity();
+    }
+
+    @Override
+    public Stock validStockForExistingOrder(ProductsDTO productsDTO, Long orderId) {
+        List<Stock> productStocks = this.findByProductCode(productsDTO.getProductId());
+
+        //Due date validate
+        productStocks = this.validStocksByDueDate(productStocks);
+
+        //Stock availability validate
+        productStocks = this.validStockAvailability(productStocks, productsDTO.getQuantity());
+
+        //Decrease amount of larger stock based on last quantity
+        if(productStocks.size() != 0) {
+            Integer actualQuantity = this.getQuantityToUpdate(orderId, productsDTO);
+            return this.decreaseAmountOfStock(productStocks, actualQuantity);
+        }
+        return null;
+    }
+
+    @Override
+    public Stock validProductStockForPurchaseOrder(ProductsDTO productsDTO) {
+        List<Stock> productStocks = this.findByProductCode(productsDTO.getProductId());
+
+        //Due date validate
+        productStocks = this.validStocksByDueDate(productStocks);
+
+        //Stock availability validate
+        productStocks = this.validStockAvailability(productStocks, productsDTO.getQuantity());
+
+        //Decrease amount of larger stock
+        if(productStocks.size() != 0)
+            return this.decreaseAmountOfStock(productStocks, productsDTO.getQuantity());
+        return null;
     }
 
     @Override
@@ -59,23 +109,15 @@ public class StockServiceImpl implements IStockService {
             throw new NotFoundException("Products not found");
         }
 
-        LocalDate futureTime = LocalDate.now().plusWeeks(3);
-
-        List<Stock> validStock = stocks.stream()
-                .filter(validDate -> validDate.getProduct().getDueDate().isAfter(futureTime))
-                .collect(Collectors.toList());
-
-        return validStock;
+        return stocks;
     }
 
 
     @Override
-    public Stock updateCurrentQuantityById(Long id, Integer cur_quantity) {
-        this.findById(id);
-        if (cur_quantity < 0) {
-            throw new ApiException("400", "Current Quantity cannot be less than 0.", 400);
-        }
-        return stockRepository.updateCurrentQuantityById(id, cur_quantity);
+    public Stock updateCurrentQuantityById(Long id, Integer purchaseQuantity) {
+        Stock stock = this.findById(id);
+        stock.setCurrentQuantity((stock.getCurrentQuantity() - purchaseQuantity));
+        return this.stockRepository.save(stock);
     }
 
     @Override
@@ -90,5 +132,31 @@ public class StockServiceImpl implements IStockService {
     @Override
     public void deleteByBatchNumber(Integer batchNumber) {
         this.stockRepository.deleteByBatchNumber(batchNumber);
+    }
+
+    private List<Stock> validStocksByDueDate(List<Stock> stocks) {
+        LocalDate futureTime = LocalDate.now().plusWeeks(1);
+
+        stocks = stocks.stream()
+                .filter(stock -> stock.getProduct().getDueDate().isAfter(futureTime))
+                .collect(Collectors.toList());
+
+        if(stocks.size() == 0)
+            throw new ApiException("404", "None stock of product found in valid due date", 404);
+
+        return stocks;
+    }
+
+    private List<Stock> validStockAvailability(List<Stock> stocks, Integer quantity) {
+        return stocks.stream()
+                .filter(stock -> stock.getCurrentQuantity() >= quantity)
+                .collect(Collectors.toList());
+    }
+
+    private Stock decreaseAmountOfStock(List<Stock> stocks, Integer quantity) {
+        Stock largerStock = stocks.stream()
+                .max(Comparator.comparing(Stock::getCurrentQuantity)).orElse(null);
+
+        return this.updateCurrentQuantityById(largerStock.getId(), quantity);
     }
 }

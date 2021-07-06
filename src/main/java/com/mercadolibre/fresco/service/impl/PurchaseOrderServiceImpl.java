@@ -4,6 +4,7 @@ import com.mercadolibre.fresco.dtos.ProductsDTO;
 import com.mercadolibre.fresco.dtos.PurchaseOrderDTO;
 import com.mercadolibre.fresco.dtos.response.ProductResponseDTO;
 import com.mercadolibre.fresco.dtos.response.PurchaseOrderResponseDTO;
+import com.mercadolibre.fresco.exceptions.ApiException;
 import com.mercadolibre.fresco.exceptions.NotFoundException;
 import com.mercadolibre.fresco.model.OrderedProduct;
 import com.mercadolibre.fresco.model.Product;
@@ -13,6 +14,7 @@ import com.mercadolibre.fresco.repository.PurchaseOrderRepository;
 import com.mercadolibre.fresco.repository.UserRepository;
 import com.mercadolibre.fresco.service.IPurchaseOrderService;
 import com.mercadolibre.fresco.service.crud.IProductService;
+import com.mercadolibre.fresco.service.crud.IStockService;
 import com.mercadolibre.fresco.service.crud.IUserService;
 import com.mercadolibre.fresco.service.crud.OrderedProductService;
 import com.mercadolibre.fresco.service.crud.impl.ProductServiceImpl;
@@ -31,13 +33,15 @@ public class PurchaseOrderServiceImpl implements IPurchaseOrderService {
     private final UserRepository userRepository;
     private final PurchaseOrderRepository purchaseOrderRepository;
     private final OrderedProductService orderedProductService;
+    private final IStockService stockService;
 
-    public PurchaseOrderServiceImpl(IProductService productService, UserRepository userRepository,
-                                    PurchaseOrderRepository purchaseOrderRepository,@Lazy OrderedProductService orderedProductService) {
+    public PurchaseOrderServiceImpl(IProductService productService, UserRepository userRepository, PurchaseOrderRepository purchaseOrderRepository,
+                                    @Lazy OrderedProductService orderedProductService, IStockService stockService) {
         this.productService = productService;
         this.userRepository = userRepository;
         this.purchaseOrderRepository = purchaseOrderRepository;
         this.orderedProductService = orderedProductService;
+        this.stockService = stockService;
     }
 
     @Override
@@ -65,6 +69,10 @@ public class PurchaseOrderServiceImpl implements IPurchaseOrderService {
 
     @Override
     public PurchaseOrderResponseDTO create(PurchaseOrderDTO purchaseOrderDTO) {
+        purchaseOrderDTO.getProducts().forEach(
+                this::validPurchaseOrder
+        );
+
         PurchaseOrder purchaseOrder = this.buildPurchaseOrder(purchaseOrderDTO);
         this.purchaseOrderRepository.save(purchaseOrder);
 
@@ -75,6 +83,10 @@ public class PurchaseOrderServiceImpl implements IPurchaseOrderService {
     @Override
     public PurchaseOrderResponseDTO update(PurchaseOrderDTO purchaseOrderDto) {
         PurchaseOrder purchaseOrderToBeUpdated = this.findPurchaseOrderById(purchaseOrderDto.getId());
+
+        purchaseOrderDto.getProducts().forEach(
+                productsDTO -> this.validUpdatedPurchaseOrder(productsDTO, purchaseOrderDto.getId())
+        );
 
         this.buildUpdatedPurchaseOrder(purchaseOrderToBeUpdated, purchaseOrderDto);
         this.purchaseOrderRepository.save(purchaseOrderToBeUpdated);
@@ -128,4 +140,15 @@ public class PurchaseOrderServiceImpl implements IPurchaseOrderService {
 
         return totalValue;
     }
+
+    private void validPurchaseOrder(ProductsDTO productsDTO) {
+        if(this.stockService.validProductStockForPurchaseOrder(productsDTO) == null)
+            throw new ApiException("404", "Unavailable quantity in stock for product: " + productsDTO.getProductId(), 404);
+    }
+
+    private void validUpdatedPurchaseOrder(ProductsDTO productsDTO, Long orderId) {
+        if(this.stockService.validStockForExistingOrder(productsDTO, orderId) == null)
+            throw new ApiException("404", "Unavailable quantity in stock for product: " + productsDTO.getProductId(), 404);
+    }
+
 }

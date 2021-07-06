@@ -18,7 +18,6 @@ import com.mercadolibre.fresco.service.impl.PurchaseOrderServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-import org.springframework.security.core.parameters.P;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -40,7 +39,7 @@ public class PurchaseOrderServiceImplTest {
     public void setup() {
         this.productService = new ProductServiceImpl(productRepository);
         this.purchaseOrderService = new PurchaseOrderServiceImpl(productService, userRepository,
-                purchaseOrderRepository, orderedProductService);
+                purchaseOrderRepository, orderedProductService, null);
     }
 
     @Test
