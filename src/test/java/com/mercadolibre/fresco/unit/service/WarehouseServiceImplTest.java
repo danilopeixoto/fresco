@@ -22,11 +22,9 @@ public class WarehouseServiceImplTest {
 
     @Test
     void shouldFindWarehouseByCode() {
-        Warehouse warehouse = new Warehouse(1L, "WAREHOUSE_TESTE", null);
+        Warehouse warehouse = new Warehouse(1L, "WAREHOUSE_TESTE", null, null);
         when(warehouseRepository.getWarehouseIdByCode("WAREHOUSE_TESTE")).thenReturn(warehouse.getId());
         Long id = this.warehouseService.getWarehouseIdByCode("WAREHOUSE_TESTE");
         assertEquals(1, id);
     }
-
-
 }

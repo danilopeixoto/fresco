@@ -24,9 +24,9 @@ public class WarehouseSectionImplTest {
 
     @Test
     void shouldFindByWarehouseAndSectionId() {
-        Warehouse warehouse = new Warehouse(1L, "WAREHOUSE_TESTE", null);
-        Section section = new Section(1L, "REFRIGERADOS", null);
-        WarehouseSection warehouseSection = new WarehouseSection(1L, section, warehouse, null);
+        Warehouse warehouse = new Warehouse(1L, "WAREHOUSE_TESTE", null, null);
+        Section section = new Section(1L, "REFRIGERADOS", null, null);
+        WarehouseSection warehouseSection = new WarehouseSection(1L, 1000, 0, section, warehouse, null);
         when(warehouseSectionRepository.findByWarehouseAndSectionId(1L, 1L)).thenReturn(warehouseSection);
         WarehouseSection testWarehouseSection = this.warehouseSection.findByWarehouseAndSectionId(1L, 1L);
         assertEquals(1L, testWarehouseSection.getId());
