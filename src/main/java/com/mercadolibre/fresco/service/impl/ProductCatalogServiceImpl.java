@@ -62,7 +62,7 @@ public class ProductCatalogServiceImpl implements IProductCatalogService {
     public ProductStockResponseDTO findStocksByProductCode(String username, String productCode, BatchStockOrder order) {
         List<InfoStockDTO> stocks = stockService.findWithSectionAndWarehouseByProductCode(username, productCode);
 
-        if (order.getOrder() == "c")
+        if (order.getOrder().equals("c"))
             stocks.sort(Comparator.comparing(InfoStockDTO::getCurrentQuantity));
         else
             stocks.sort(Comparator.comparing(InfoStockDTO::getDueDate));

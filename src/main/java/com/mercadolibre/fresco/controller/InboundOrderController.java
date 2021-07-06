@@ -58,7 +58,7 @@ public class InboundOrderController {
                 mediaType = "application/json"))
     })
     @PreAuthorize("hasAuthority('REP')")
-    @PostMapping(path = "/", consumes = "application/json")
+    @PostMapping(consumes = "application/json")
     @ResponseBody
     public InboundOrderResponseDTO create(Authentication authentication, @Validated @RequestBody InboundOrderDTO inboundOrderDTO)
         throws UnauthorizedException, NotFoundException, BadRequestException {
@@ -95,7 +95,7 @@ public class InboundOrderController {
                 mediaType = "application/json"))
     })
     @PreAuthorize("hasAuthority('REP')")
-    @PutMapping(path = "/", consumes = "application/json")
+    @PutMapping(consumes = "application/json")
     @ResponseBody
     public InboundOrderResponseDTO update(Authentication authentication, @Validated @RequestBody InboundOrderDTO inboundOrderDTO)
         throws UnauthorizedException, NotFoundException, BadRequestException {

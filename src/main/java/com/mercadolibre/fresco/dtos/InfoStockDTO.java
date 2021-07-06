@@ -23,6 +23,7 @@ public class InfoStockDTO {
     @JsonFormat(pattern = "MM-dd-yyyy")
     @JsonProperty(value = "due_date")
     private LocalDate dueDate;
+
     @JsonProperty(value = "section_code")
     private String sectionCode;
     @JsonProperty(value = "warehouse_code")
