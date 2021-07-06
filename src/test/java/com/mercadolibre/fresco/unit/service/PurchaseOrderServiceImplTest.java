@@ -1,8 +1,6 @@
 package com.mercadolibre.fresco.unit.service;
 
 import com.mercadolibre.fresco.dtos.ProductsDTO;
-import com.mercadolibre.fresco.dtos.PurchaseOrderDTO;
-import com.mercadolibre.fresco.dtos.response.PurchaseOrderResponseDTO;
 import com.mercadolibre.fresco.model.OrderedProduct;
 import com.mercadolibre.fresco.model.Product;
 import com.mercadolibre.fresco.model.ProductCategory;
@@ -18,7 +16,6 @@ import com.mercadolibre.fresco.service.impl.PurchaseOrderServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-import org.springframework.security.core.parameters.P;
 
 import java.time.LocalDate;
 import java.util.ArrayList;

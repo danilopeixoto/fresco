@@ -20,10 +20,10 @@ public interface WarehouseRepository extends JpaRepository<Warehouse, Long> {
 
     @Query(value =
             "SELECT  SUM(s.cur_quantity) as total_quantity,  w.warehouse_code FROM warehouses w" +
-            "INNER JOIN warehouse_section ws ON ws.warehouse_id = w.id" +
-            "INNER JOIN stocks s ON s.warehouse_section_id = ws.id" +
-            "INNER JOIN products p ON p.id = s.product_id" +
-            "WHERE p.product_code = :productCode GROUP BY w.warehouse_code"
+                    "INNER JOIN warehouse_section ws ON ws.warehouse_id = w.id" +
+                    "INNER JOIN stocks s ON s.warehouse_section_id = ws.id" +
+                    "INNER JOIN products p ON p.id = s.product_id" +
+                    "WHERE p.product_code = :productCode GROUP BY w.warehouse_code"
             , nativeQuery = true)
     List<WarehouseProductCountResponseDTO> countProductQunatityByProductCode(@Param("productCode") String productCode);
 
