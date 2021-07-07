@@ -5,9 +5,11 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -52,6 +54,7 @@ public class StockDTO {
     @NotNull(message = "manufacturingDate cannot be null.")
     @PastOrPresent(message = "manufacturingDate cannot be a future date.")
     public LocalDate manufacturingDate;
+
 
     @JsonDeserialize(using = LocalTimeDeserializer.class)
     @JsonSerialize(using = LocalTimeSerializer.class)
