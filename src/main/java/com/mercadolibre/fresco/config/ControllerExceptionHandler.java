@@ -2,7 +2,9 @@ package com.mercadolibre.fresco.config;
 
 import com.mercadolibre.fresco.exceptions.ApiError;
 import com.mercadolibre.fresco.exceptions.ApiException;
+import com.mercadolibre.fresco.exceptions.NotFoundException;
 import com.newrelic.api.agent.NewRelic;
+import org.aspectj.weaver.ast.Not;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -46,6 +48,15 @@ public class ControllerExceptionHandler {
         NewRelic.noticeError(e);
 
         ApiError apiError = new ApiError("internal_error", "Internal server error", HttpStatus.INTERNAL_SERVER_ERROR.value());
+        return ResponseEntity.status(apiError.getStatus())
+            .body(apiError);
+    }
+
+    @ExceptionHandler(value = {NotFoundException.class})
+    protected ResponseEntity<ApiError> handleNotFoundException(NotFoundException e) {
+        LOGGER.error(e.getMessage());
+
+        ApiError apiError = new ApiError("Not Found.", e.getMessage(), HttpStatus.NOT_FOUND.value());
         return ResponseEntity.status(apiError.getStatus())
             .body(apiError);
     }

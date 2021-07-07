@@ -113,8 +113,7 @@ public class PurchaseOrderController {
     @PreAuthorize("hasAuthority('BUYER')")
     @PutMapping(path = "/", consumes = "application/json")
     @ResponseBody
-    public PurchaseOrderResponseDTO updateOrder(Authentication authentication, @Validated @RequestBody PurchaseOrderDTO purchaseOrderDTO)
-        throws UnauthorizedException, NotFoundException {
+    public PurchaseOrderResponseDTO updateOrder(Authentication authentication, @Validated @RequestBody PurchaseOrderDTO purchaseOrderDTO) {
         return this.purchaseOrderService.update(purchaseOrderDTO);
     }
 }

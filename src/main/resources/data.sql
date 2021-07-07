@@ -8,9 +8,9 @@ INSERT INTO `user_roles` (`id`, `role_code`) VALUES ('2', 'BUYER');
 INSERT INTO `user_roles` (`id`, `role_code`) VALUES ('3', 'SELLER');
 INSERT INTO `user_roles` (`id`, `role_code`) VALUES ('4', 'REP');
 
-INSERT INTO `product_categories` (`id`, `category_code`, `name`) VALUES ('1', "FS", "Fresh");
-INSERT INTO `product_categories` (`id`, `category_code`, `name`) VALUES ('2', "RF", "Refrigerado");
-INSERT INTO `product_categories` (`id`, `category_code`, `name`) VALUES ('3', "FF", "Congelado");
+INSERT INTO `product_categories` (`id`, `category_code`, `name`) VALUES ('1', 'FS', 'Fresh');
+INSERT INTO `product_categories` (`id`, `category_code`, `name`) VALUES ('2', 'RF', 'Refrigerado');
+INSERT INTO `product_categories` (`id`, `category_code`, `name`) VALUES ('3', 'FF', 'Congelado');
 
 INSERT INTO `user_accounts` (`id`, `username`, `password`, `role_id`, `country_house_id`) VALUES ('1', 'testAdmin', 'teste1000', '1', '1');
 INSERT INTO `user_accounts` (`id`, `username`, `password`, `role_id`, `country_house_id`) VALUES ('2', 'testBuyer', 'teste1000', '2', '2');
@@ -20,9 +20,9 @@ INSERT INTO `user_accounts` (`id`, `username`, `password`, `role_id`, `country_h
 INSERT INTO `warehouses` (`id`, `warehouse_code`, `agent_id`) VALUES ('1', 'WAREHOUSE_TESTE', '4');
 INSERT INTO `warehouses` (`id`, `warehouse_code`, `agent_id`) VALUES ('2', 'WAREHOUSE_TWO', '4');
 
-INSERT INTO `sections` (`id`, `section_code`, `product_category_id`) VALUES ('1', "FS", '1');
-INSERT INTO `sections` (`id`, `section_code`, `product_category_id`) VALUES ('2', "RF", '2');
-INSERT INTO `sections` (`id`, `section_code`, `product_category_id`) VALUES ('3', "FF", '3');
+INSERT INTO `sections` (`id`, `section_code`, `product_category_id`) VALUES ('1', 'FS', '1');
+INSERT INTO `sections` (`id`, `section_code`, `product_category_id`) VALUES ('2', 'RF', '2');
+INSERT INTO `sections` (`id`, `section_code`, `product_category_id`) VALUES ('3', 'FF', '3');
 
 INSERT INTO `warehouse_section` (`warehouse_id`, `section_id`, `id`) VALUES ('1', '1', '1');
 INSERT INTO `warehouse_section` (`warehouse_id`, `section_id`, `id`) VALUES ('1', '2', '2');
