@@ -16,8 +16,6 @@ public interface IStockService extends ICRUD<Stock> {
 
     Stock updateCurrentQuantityById(Long id, Integer cur_quantity);
 
-    List<Stock> checkStockWithProductAvailability(String productCode, int quantity);
-
     List<InfoStockDTO> findWithSectionAndWarehouseByProductCode(String username, String productCode);
 
     void deleteByBatchNumber(Integer batchNumber);

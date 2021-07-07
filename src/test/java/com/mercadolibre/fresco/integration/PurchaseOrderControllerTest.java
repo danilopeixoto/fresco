@@ -21,7 +21,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -31,7 +30,6 @@ public class PurchaseOrderControllerTest extends ControllerTest{
 
     private static final String URL_PATH = "/api/v1/fresh-products/orders";
     private static final Double TOTAL_PRICE = 175.;
-    private static final Double UPDATED_TOTAL_PRICE = 350.;
     static List<ProductsDTO> productsList;
     static PurchaseOrderDTO purchaseOrderDTO;
 
