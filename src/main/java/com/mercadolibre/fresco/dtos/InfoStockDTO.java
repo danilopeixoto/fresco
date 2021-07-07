@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
-import lombok.*;
+import lombok.Builder;
 
 import java.time.LocalDate;
 
@@ -23,6 +23,7 @@ public class InfoStockDTO {
     @JsonFormat(pattern = "MM-dd-yyyy")
     @JsonProperty(value = "due_date")
     private LocalDate dueDate;
+
     @JsonProperty(value = "section_code")
     private String sectionCode;
     @JsonProperty(value = "warehouse_code")
@@ -36,7 +37,8 @@ public class InfoStockDTO {
         this.warehouseCode = warehouseCode;
     }
 
-    public InfoStockDTO() {}
+    public InfoStockDTO() {
+    }
 
     public int getBatchNumber() {
         return batchNumber;

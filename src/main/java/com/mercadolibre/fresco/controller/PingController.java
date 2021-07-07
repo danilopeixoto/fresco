@@ -20,16 +20,16 @@ public class PingController {
      * @return String
      */
     @Operation(summary = "Check API health", responses = {
-            @ApiResponse(
-                    responseCode = "200",
-                    content = @Content(
-                            schema = @Schema(implementation = AccountResponseDTO.class),
-                            mediaType = "application/json")),
-            @ApiResponse(
-                    responseCode = "500",
-                    content = @Content(
-                            schema = @Schema(implementation = ApiError.class),
-                            mediaType = "application/json"))
+        @ApiResponse(
+            responseCode = "200",
+            content = @Content(
+                schema = @Schema(implementation = AccountResponseDTO.class),
+                mediaType = "application/json")),
+        @ApiResponse(
+            responseCode = "500",
+            content = @Content(
+                schema = @Schema(implementation = ApiError.class),
+                mediaType = "application/json"))
     })
     @GetMapping("/ping")
     public String ping() {

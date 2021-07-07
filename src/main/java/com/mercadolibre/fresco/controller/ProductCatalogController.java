@@ -1,7 +1,6 @@
 package com.mercadolibre.fresco.controller;
 
 
-import com.mercadolibre.fresco.dtos.InfoStockDTO;
 import com.mercadolibre.fresco.dtos.response.ProductResponseDTO;
 import com.mercadolibre.fresco.dtos.response.ProductStockResponseDTO;
 import com.mercadolibre.fresco.exceptions.ApiError;
@@ -38,18 +37,19 @@ public class ProductCatalogController {
      * @return List
      */
     @Operation(summary = "List all products", responses = {
-            @ApiResponse(
-                    responseCode = "200",
-                    content = @Content(
-                            array = @ArraySchema(schema = @Schema(implementation = ProductResponseDTO.class)),
-                            mediaType = "application/json")),
-            @ApiResponse(
-                    responseCode = "404",
-                    content = @Content(
-                            array = @ArraySchema(schema = @Schema(implementation = ProductResponseDTO.class)),
-                            mediaType = "application/json"))
+        @ApiResponse(
+            responseCode = "200",
+            content = @Content(
+                array = @ArraySchema(schema = @Schema(implementation = ProductResponseDTO.class)),
+                mediaType = "application/json")),
+        @ApiResponse(
+            responseCode = "404",
+            content = @Content(
+                array = @ArraySchema(schema = @Schema(implementation = ProductResponseDTO.class)),
+                mediaType = "application/json"))
     })
-    @GetMapping(path = "/")
+    @PreAuthorize("hasAuthority('BUYER')")
+    @GetMapping
     @ResponseBody
     public List<ProductResponseDTO> listAll() throws NotFoundException {
         return this.productCatalogService.findAll();
@@ -63,20 +63,22 @@ public class ProductCatalogController {
      * @return List
      */
     @Operation(summary = "List products by category", responses = {
-            @ApiResponse(
-                    responseCode = "200",
-                    content = @Content(
-                            array = @ArraySchema(schema = @Schema(implementation = ProductResponseDTO.class)),
-                            mediaType = "application/json")),
-            @ApiResponse(
-                    responseCode = "404",
-                    content = @Content(
-                            array = @ArraySchema(schema = @Schema(implementation = ProductResponseDTO.class)),
-                            mediaType = "application/json"))
+        @ApiResponse(
+            responseCode = "200",
+            content = @Content(
+                array = @ArraySchema(schema = @Schema(implementation = ProductResponseDTO.class)),
+                mediaType = "application/json")),
+        @ApiResponse(
+            responseCode = "404",
+            content = @Content(
+                array = @ArraySchema(schema = @Schema(implementation = ProductResponseDTO.class)),
+                mediaType = "application/json"))
     })
+    @PreAuthorize("hasAuthority('BUYER')")
     @GetMapping(path = "/list")
     @ResponseBody
-    public List<ProductResponseDTO> listByCategory(@RequestParam(required = true) EProductCategory category) throws NotFoundException {
+    public List<ProductResponseDTO> listByCategory(@RequestParam(required = true, defaultValue = "FS") EProductCategory category)
+        throws NotFoundException {
         return this.productCatalogService.findProductsByCategoryCode(category);
     }
 
@@ -88,23 +90,24 @@ public class ProductCatalogController {
      * @return List
      */
     @Operation(summary = "List stocks of a product by productCode", responses = {
-            @ApiResponse(
-                    responseCode = "200",
-                    content = @Content(
-                            array = @ArraySchema(schema = @Schema(implementation = ProductStockResponseDTO.class)),
-                            mediaType = "application/json")),
-            @ApiResponse(
-                    responseCode = "404",
-                    content = @Content(
-                            schema = @Schema(implementation = ApiError.class),
-                            mediaType = "application/json"))
+        @ApiResponse(
+            responseCode = "200",
+            content = @Content(
+                array = @ArraySchema(schema = @Schema(implementation = ProductStockResponseDTO.class)),
+                mediaType = "application/json")),
+        @ApiResponse(
+            responseCode = "404",
+            content = @Content(
+                schema = @Schema(implementation = ApiError.class),
+                mediaType = "application/json"))
     })
     @PreAuthorize("hasAuthority('REP')")
     @GetMapping(path = "/list/stocks")
     @ResponseBody
-    public ProductStockResponseDTO listStockByProductCode(Authentication authentication, @RequestParam(required = true) String productCode, @RequestParam(required = false, defaultValue = "C") BatchStockOrder order) {
+    public ProductStockResponseDTO listStockByProductCode(
+        Authentication authentication,
+        @RequestParam(required = true) String productCode,
+        @RequestParam(required = false, defaultValue = "C") BatchStockOrder order) {
         return this.productCatalogService.findStocksByProductCode(authentication.getName(), productCode, order);
     }
-
-
 }

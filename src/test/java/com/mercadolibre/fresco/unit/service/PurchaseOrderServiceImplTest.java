@@ -37,17 +37,17 @@ public class PurchaseOrderServiceImplTest {
     public void setup() {
         this.productService = new ProductServiceImpl(productRepository);
         this.purchaseOrderService = new PurchaseOrderServiceImpl(productService, userRepository,
-                purchaseOrderRepository, orderedProductService);
+            purchaseOrderRepository, orderedProductService, null);
     }
 
     @Test
     void shouldGetProductsByOrderId() {
         PurchaseOrder purchaseOrder = new PurchaseOrder(1L, StatusCode.PENDENTE, LocalDate.now(), null, null);
         OrderedProduct banana = new OrderedProduct().toBuilder()
-                .product(new Product(1L, "BANANA", null, null, null,
-                        null, null, null, null, new ProductCategory(1L, "FS", "Fresh", null, null)))
-                .purchaseOrder(purchaseOrder)
-                .quantity(10).build();
+            .product(new Product(1L, "BANANA", null, null, null,
+                null, null, null, null, new ProductCategory(1L, "FS", "Fresh", null, null)))
+            .purchaseOrder(purchaseOrder)
+            .quantity(10).build();
         List<OrderedProduct> orderedProductList = new ArrayList<>();
         orderedProductList.add(banana);
         purchaseOrder.setOrderedProducts(orderedProductList);

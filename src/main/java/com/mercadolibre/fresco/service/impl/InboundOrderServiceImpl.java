@@ -5,9 +5,8 @@ import com.mercadolibre.fresco.dtos.InboundOrderDTO;
 import com.mercadolibre.fresco.dtos.SectionDTO;
 import com.mercadolibre.fresco.dtos.StockDTO;
 import com.mercadolibre.fresco.dtos.response.InboundOrderResponseDTO;
-import com.mercadolibre.fresco.exceptions.BadRequestException;
+import com.mercadolibre.fresco.exceptions.ApiException;
 import com.mercadolibre.fresco.exceptions.NotFoundException;
-import com.mercadolibre.fresco.exceptions.UnauthorizedException;
 import com.mercadolibre.fresco.model.*;
 import com.mercadolibre.fresco.service.IInboundOrderService;
 import com.mercadolibre.fresco.service.crud.IProductService;
@@ -35,121 +34,111 @@ public class InboundOrderServiceImpl implements IInboundOrderService {
 
     @Transactional
     @Override
-    public InboundOrderResponseDTO create(String username, InboundOrderDTO inboundOrderDTO)
-            throws NotFoundException, BadRequestException, UnauthorizedException {
+    public InboundOrderResponseDTO create(String username, InboundOrderDTO inboundOrderDTO) throws ApiException, NotFoundException {
         SectionDTO sectionDTO = inboundOrderDTO.getSection();
         Warehouse warehouse = this.warehouseService.findWarehouseByCode(sectionDTO.getWarehouseCode());
 
-        if (warehouse == null) {
-            throw new NotFoundException("Warehouse not found.");
-        }
-
         if (!warehouse.getAgent().getUsername().equals(username)) {
-            throw new UnauthorizedException("Agent not allowed.");
+            throw new ApiException("401", "Agent not allowed.", 401);
         }
 
         WarehouseSection warehouseSection = warehouse.getWarehouseSection();
         Section section = warehouseSection.getSection();
 
         if (!section.getSectionCode().equals(sectionDTO.getSectionCode())) {
-            throw new BadRequestException("Invalid warehouse section.");
+            throw new ApiException("400", "Invalid warehouse section.", 400);
         }
 
         List<StockDTO> stocks = inboundOrderDTO.getBatchStock();
 
         List<Product> products = stocks
-                .stream()
-                .map(StockDTO::getProductCode)
-                .map(code -> this.productService.findByProductCode(code))
-                .filter(Objects::nonNull)
-                .collect(Collectors.toList());
+            .stream()
+            .map(StockDTO::getProductCode)
+            .map(code -> this.productService.findByProductCode(code))
+            .filter(Objects::nonNull)
+            .collect(Collectors.toList());
 
         long stockSize = stocks.size();
 
         if (stockSize != products.size()) {
-            throw new NotFoundException("Some product not found.");
+            throw new ApiException("404", "Some product not found.", 404);
         }
 
         if (products
-                .stream()
-                .filter(product -> product
-                        .getProductCategory()
-                        .getCategoryCode()
-                        .equals(section
-                                .getProductCategory()
-                                .getCategoryCode()))
-                .count() != stockSize) {
-            throw new BadRequestException("Some product category and section mismatched.");
+            .stream()
+            .filter(product -> product
+                .getProductCategory()
+                .getCategoryCode()
+                .equals(section
+                    .getProductCategory()
+                    .getCategoryCode()))
+            .count() != stockSize) {
+            throw new ApiException("400", "Some product category and section mismatched.", 400);
         }
 
         long totalQuantity = stocks
-                .stream()
-                .map(stock -> stock.getCurrentQuantity().longValue())
-                .reduce(0L, Long::sum);
+            .stream()
+            .map(stock -> stock.getCurrentQuantity().longValue())
+            .reduce(0L, Long::sum);
 
         if (totalQuantity + warehouseSection.getQuantity() > warehouseSection.getCapacity()) {
-            throw new BadRequestException("Stock maximum capacity reached.");
+            throw new ApiException("400", "Stock maximum capacity reached.", 400);
         }
 
         try {
             Streams
-                    .zip(
-                            stocks.stream(),
-                            products.stream(),
-                            AbstractMap.SimpleEntry::new)
-                    .map(s -> Stock
-                            .builder()
-                            .batchNumber(s.getKey().getBatchNumber())
-                            .currentQuantity(s.getKey().getCurrentQuantity())
-                            .currentTemperature(s.getKey().getCurrentTemperature())
-                            .initialQuantity(s.getKey().getInitialQuantity())
-                            .warehouseSection(warehouseSection)
-                            .product(s.getValue())
-                            .build())
-                    .forEach(s -> this.stockService.create(s));
+                .zip(
+                    stocks.stream(),
+                    products.stream(),
+                    AbstractMap.SimpleEntry::new)
+                .map(s -> Stock
+                    .builder()
+                    .batchNumber(s.getKey().getBatchNumber())
+                    .currentQuantity(s.getKey().getCurrentQuantity())
+                    .currentTemperature(s.getKey().getCurrentTemperature())
+                    .initialQuantity(s.getKey().getInitialQuantity())
+                    .warehouseSection(warehouseSection)
+                    .product(s.getValue())
+                    .build())
+                .forEach(s -> this.stockService.create(s));
         } catch (DataIntegrityViolationException e) {
-            throw new BadRequestException("Batch number already exists.");
+            throw new ApiException("400", "Batch number already exists.", 400);
         }
 
         return InboundOrderResponseDTO
-                .builder()
-                .batchStock(stocks)
-                .build();
+            .builder()
+            .batchStock(stocks)
+            .build();
     }
 
     @Transactional
     @Override
-    public InboundOrderResponseDTO update(String username, InboundOrderDTO inboundOrderDTO)
-            throws NotFoundException, BadRequestException, UnauthorizedException {
+    public InboundOrderResponseDTO update(String username, InboundOrderDTO inboundOrderDTO) throws ApiException, NotFoundException {
         SectionDTO sectionDTO = inboundOrderDTO.getSection();
         Warehouse warehouse = this.warehouseService.findWarehouseByCode(sectionDTO.getWarehouseCode());
 
-        if (warehouse == null) {
-            throw new NotFoundException("Warehouse not found.");
-        }
-
         if (!warehouse.getAgent().getUsername().equals(username)) {
-            throw new UnauthorizedException("Agent not allowed.");
+            throw new ApiException("401", "Agent not allowed.", 401);
         }
 
         WarehouseSection warehouseSection = warehouse.getWarehouseSection();
         Section section = warehouseSection.getSection();
 
         if (!section.getSectionCode().equals(sectionDTO.getSectionCode())) {
-            throw new BadRequestException("Invalid warehouse section.");
+            throw new ApiException("400", "Invalid warehouse section.", 400);
         }
 
         List<Integer> batchNumbers = inboundOrderDTO
-                .getBatchStock()
-                .stream()
-                .map(StockDTO::getBatchNumber)
-                .collect(Collectors.toList());
+            .getBatchStock()
+            .stream()
+            .map(StockDTO::getBatchNumber)
+            .collect(Collectors.toList());
 
         try {
             batchNumbers
-                    .forEach(bn -> this.stockService.deleteByBatchNumber(bn));
+                .forEach(bn -> this.stockService.deleteByBatchNumber(bn));
         } catch (Exception e) {
-            throw new NotFoundException("Some stock not found.");
+            throw new ApiException("404", "Some stock not found.", 404);
         }
 
         return this.create(username, inboundOrderDTO);

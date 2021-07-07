@@ -25,14 +25,14 @@ public class OrderedProductServiceImpl implements OrderedProductService {
     @Override
     public OrderedProduct updateOrderedProduct(Long orderId, ProductsDTO productsDTO) {
         OrderedProduct orderedProductToBeUpdated = this.orderedProductRepository
-                .findByProductCodeAndOrderId(productsDTO.getProductId(), orderId);
+            .findByProductCodeAndOrderId(productsDTO.getProductId(), orderId);
 
         if (orderedProductToBeUpdated == null) {
             OrderedProduct orderedProduct = new OrderedProduct().toBuilder()
-                    .product(this.productService.findByProductCode(productsDTO.getProductId()))
-                    .purchaseOrder(this.purchaseOrderService.findPurchaseOrderById(orderId))
-                    .quantity(productsDTO.getQuantity())
-                    .build();
+                .product(this.productService.findByProductCode(productsDTO.getProductId()))
+                .purchaseOrder(this.purchaseOrderService.findPurchaseOrderById(orderId))
+                .quantity(productsDTO.getQuantity())
+                .build();
             return this.orderedProductRepository.save(orderedProduct);
         }
 

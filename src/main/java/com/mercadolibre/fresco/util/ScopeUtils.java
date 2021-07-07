@@ -12,12 +12,12 @@ public interface ScopeUtils {
 
     static void calculateScopeSuffix() {
         String suffix = Optional.ofNullable(SCOPE_VALUE)
-                .filter(StringUtils::isNoneBlank)
-                .map(scope -> {
-                    String[] tokens = scope.split("-");
-                    return tokens[tokens.length - 1];
-                })
-                .orElseThrow(() -> new IllegalArgumentException("[Assertion Fail] SCOPE must be set to startup the application."));
+            .filter(StringUtils::isNoneBlank)
+            .map(scope -> {
+                String[] tokens = scope.split("-");
+                return tokens[tokens.length - 1];
+            })
+            .orElseThrow(() -> new IllegalArgumentException("[Assertion Fail] SCOPE must be set to startup the application."));
         System.setProperty(SCOPE_SUFFIX, suffix);
     }
 

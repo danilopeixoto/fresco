@@ -21,7 +21,7 @@ public class ControllerExceptionHandler {
     public ResponseEntity<ApiError> noHandlerFoundException(HttpServletRequest req, NoHandlerFoundException ex) {
         ApiError apiError = new ApiError("route_not_found", String.format("Route %s not found", req.getRequestURI()), HttpStatus.NOT_FOUND.value());
         return ResponseEntity.status(apiError.getStatus())
-                .body(apiError);
+            .body(apiError);
     }
 
     @ExceptionHandler(value = {ApiException.class})
@@ -37,7 +37,7 @@ public class ControllerExceptionHandler {
 
         ApiError apiError = new ApiError(e.getCode(), e.getDescription(), statusCode);
         return ResponseEntity.status(apiError.getStatus())
-                .body(apiError);
+            .body(apiError);
     }
 
     @ExceptionHandler(value = {Exception.class})
@@ -47,6 +47,6 @@ public class ControllerExceptionHandler {
 
         ApiError apiError = new ApiError("internal_error", "Internal server error", HttpStatus.INTERNAL_SERVER_ERROR.value());
         return ResponseEntity.status(apiError.getStatus())
-                .body(apiError);
+            .body(apiError);
     }
 }

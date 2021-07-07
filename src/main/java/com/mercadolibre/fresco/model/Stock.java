@@ -25,13 +25,13 @@ public class Stock {
     @Column(name = "cur_quantity")
     private Integer currentQuantity;
     @Column(name = "cur_temp")
-    private Float currentTemperature;
+    private Double currentTemperature;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "product_id", referencedColumnName = "id", nullable = true)
     private Product product;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "warehouse_section_id", referencedColumnName = "id")
     private WarehouseSection warehouseSection;
 }

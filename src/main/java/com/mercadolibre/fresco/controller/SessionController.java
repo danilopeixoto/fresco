@@ -34,21 +34,21 @@ public class SessionController {
      * @throws NotFoundException
      */
     @Operation(summary = "Sign-in to user account", responses = {
-            @ApiResponse(
-                    responseCode = "200",
-                    content = @Content(
-                            schema = @Schema(implementation = AccountResponseDTO.class),
-                            mediaType = "application/json")),
-            @ApiResponse(
-                    responseCode = "404",
-                    content = @Content(
-                            schema = @Schema(implementation = ApiError.class),
-                            mediaType = "application/json"))
+        @ApiResponse(
+            responseCode = "200",
+            content = @Content(
+                schema = @Schema(implementation = AccountResponseDTO.class),
+                mediaType = "application/json")),
+        @ApiResponse(
+            responseCode = "404",
+            content = @Content(
+                schema = @Schema(implementation = ApiError.class),
+                mediaType = "application/json"))
     })
     @PostMapping("/sign-in")
     public AccountResponseDTO login(
-            @RequestParam("username") String username, @RequestParam("password") String password)
-            throws NotFoundException {
+        @RequestParam("username") String username, @RequestParam("password") String password)
+        throws NotFoundException {
         return service.login(username, password);
     }
 }

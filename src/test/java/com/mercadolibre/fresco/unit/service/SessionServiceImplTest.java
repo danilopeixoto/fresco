@@ -25,7 +25,7 @@ class SessionServiceImplTest {
     void loginFail() {
         when(repository.findByUsernameAndPassword("user", "invalid")).thenReturn(null);
         assertThrows(ApiException.class, () -> service.login("user", "invalid"),
-                "Wrong username or password");
+            "Wrong username or password");
     }
 
     /* @Test

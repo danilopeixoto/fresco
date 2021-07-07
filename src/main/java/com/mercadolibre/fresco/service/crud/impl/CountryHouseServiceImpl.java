@@ -68,9 +68,9 @@ public class CountryHouseServiceImpl implements ICountryHouseService {
     @Override
     public List<CountryHouseDTO> findAll() {
         List<CountryHouseDTO> countryHousesDTO = countryHouseRepository.findAll()
-                .stream()
-                .map(countryHouse -> modelMapper.map(countryHouse, CountryHouseDTO.class))
-                .collect(Collectors.toList());
+            .stream()
+            .map(countryHouse -> modelMapper.map(countryHouse, CountryHouseDTO.class))
+            .collect(Collectors.toList());
         return countryHousesDTO;
     }
 

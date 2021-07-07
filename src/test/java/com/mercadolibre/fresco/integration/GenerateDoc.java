@@ -23,7 +23,7 @@ class GenerateDoc extends ControllerTest {
         File outputDir = new File("docs/specs");
         ResponseEntity<String> responseEntity = this.testRestTemplate.getForEntity("/v3/api-docs", String.class);
         assertTrue(responseEntity.getStatusCode()
-                .is2xxSuccessful());
+            .is2xxSuccessful());
         assertNotNull(responseEntity.getBody());
 
         outputDir.mkdirs();
