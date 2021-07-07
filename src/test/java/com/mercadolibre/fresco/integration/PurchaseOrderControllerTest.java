@@ -14,6 +14,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDate;
@@ -81,11 +82,20 @@ public class PurchaseOrderControllerTest extends ControllerTest{
     void shouldPerformRequestAndDontFindOrder() throws Exception {
         this.mockMvc.perform(get(URL_PATH + "/list")
             .header(HttpHeaders.AUTHORIZATION, this.sessionService.login("testBuyer", "teste1000").getToken())
-            .param("id", String.valueOf(1L))
-            .contentType(MediaType.APPLICATION_JSON).content(this.objectMapper.writeValueAsString(purchaseOrderDTO)))
+            .param("id", String.valueOf(1L)))
             .andDo(print()).andExpect(status().isNotFound())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
             .andExpect(result -> Assertions.assertTrue(result.getResolvedException() instanceof NotFoundException));
+    }
+
+    @Test
+    void shouldBlockUnauthorizedUser() throws Exception {
+        this.mockMvc.perform(post(URL_PATH + "/")
+            .header(HttpHeaders.AUTHORIZATION, this.sessionService.login("testRep", "teste1000").getToken())
+            .contentType(MediaType.APPLICATION_JSON).content(this.objectMapper.writeValueAsString(purchaseOrderDTO)))
+            .andDo(print()).andExpect(status().isUnauthorized())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(result -> Assertions.assertTrue(result.getResolvedException() instanceof AccessDeniedException));
     }
 
 }

@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.NoHandlerFoundException;
@@ -57,6 +58,15 @@ public class ControllerExceptionHandler {
         LOGGER.error(e.getMessage());
 
         ApiError apiError = new ApiError("Not Found.", e.getMessage(), HttpStatus.NOT_FOUND.value());
+        return ResponseEntity.status(apiError.getStatus())
+            .body(apiError);
+    }
+
+    @ExceptionHandler(value = {AccessDeniedException.class})
+    protected ResponseEntity<ApiError> handleAccessDeniedException(AccessDeniedException e) {
+        LOGGER.error(e.getMessage());
+
+        ApiError apiError = new ApiError("Access denied.", e.getMessage(), HttpStatus.UNAUTHORIZED.value());
         return ResponseEntity.status(apiError.getStatus())
             .body(apiError);
     }
