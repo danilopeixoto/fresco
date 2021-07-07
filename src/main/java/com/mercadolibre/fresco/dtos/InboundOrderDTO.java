@@ -31,6 +31,6 @@ public class InboundOrderDTO {
     @NotNull(message = "section cannot be null.")
     public SectionDTO section;
 
-    @NotNull(message = "batchStockDTO cannot be null.")
+    @NotNull(message = "batchStock cannot be null.")
     public List<StockDTO> batchStock;
 }

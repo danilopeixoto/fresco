@@ -39,19 +39,18 @@ public class StockServiceImpl implements IStockService {
 
     @Override
     public Stock validStockForExistingOrder(ProductsDTO productsDTO, Long orderId) {
+        Integer actualQuantity = this.getQuantityToUpdate(orderId, productsDTO);
         List<Stock> productStocks = this.findByProductCode(productsDTO.getProductId());
 
         //Due date validate
         productStocks = this.validStocksByDueDate(productStocks);
 
         //Stock availability validate
-        productStocks = this.validStockAvailability(productStocks, productsDTO.getQuantity());
+        productStocks = this.validStockAvailability(productStocks, actualQuantity);
 
         //Decrease amount of larger stock based on last quantity
-        if (productStocks.size() != 0) {
-            Integer actualQuantity = this.getQuantityToUpdate(orderId, productsDTO);
+        if (productStocks.size() != 0)
             return this.decreaseAmountOfStock(productStocks, actualQuantity);
-        }
         return null;
     }
 

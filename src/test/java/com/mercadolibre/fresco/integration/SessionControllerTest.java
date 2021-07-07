@@ -22,8 +22,8 @@ class SessionControllerTest extends ControllerTest {
     void loginFail() throws Exception {
         this.mockMvc.perform(MockMvcRequestBuilders.post(PATH + "/sign-in")
             .contentType(MediaType.APPLICATION_JSON)
-            .param("username", "user_one")
-            .param("password", "contra12"))
+            .param("username", "userTest")
+            .param("password", "teste10"))
             .andDo(print())
             .andExpect(status().isNotFound());
     }
@@ -32,8 +32,8 @@ class SessionControllerTest extends ControllerTest {
     void loginOk() throws Exception {
         this.mockMvc.perform(MockMvcRequestBuilders.post(PATH + "/sign-in")
             .contentType(MediaType.APPLICATION_JSON)
-            .param("username", "user_one")
-            .param("password", "contra123"))
+            .param("username", "testAdmin")
+            .param("password", "teste1000"))
             .andDo(print())
             .andExpect(status().isOk());
     }

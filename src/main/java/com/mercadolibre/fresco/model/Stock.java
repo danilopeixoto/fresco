@@ -25,7 +25,7 @@ public class Stock {
     @Column(name = "cur_quantity")
     private Integer currentQuantity;
     @Column(name = "cur_temp")
-    private Float currentTemperature;
+    private Double currentTemperature;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "product_id", referencedColumnName = "id", nullable = true)

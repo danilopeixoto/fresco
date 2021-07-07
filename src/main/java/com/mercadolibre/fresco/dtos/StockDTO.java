@@ -5,9 +5,11 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
+
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -29,10 +31,10 @@ public class StockDTO {
     public String productCode;
 
     @NotNull(message = "currentTemperature cannot be null.")
-    public Float currentTemperature;
+    public Double currentTemperature;
 
     @NotNull(message = "minimumTemperature cannot be null.")
-    public Float minimumTemperature;
+    public Double minimumTemperature;
 
     @NotNull(message = "initialQuantity cannot be null.")
     @Min(value = 0, message = "initialQuantity cannot be less than 0.")
@@ -43,8 +45,8 @@ public class StockDTO {
     public Integer currentQuantity;
 
     @NotNull(message = "price cannot be null.")
-    @Positive(message = "currentQuantity cannot be less than 0.")
-    public Float price;
+    @Positive(message = "Price cannot be less than 0.")
+    public Double price;
 
     @JsonDeserialize(using = LocalDateDeserializer.class)
     @JsonSerialize(using = LocalDateSerializer.class)
@@ -53,9 +55,10 @@ public class StockDTO {
     @PastOrPresent(message = "manufacturingDate cannot be a future date.")
     public LocalDate manufacturingDate;
 
-    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-    @JsonSerialize(using = LocalDateTimeSerializer.class)
-    @JsonFormat(pattern = "HH-mm-ss")
+
+    @JsonDeserialize(using = LocalTimeDeserializer.class)
+    @JsonSerialize(using = LocalTimeSerializer.class)
+    @JsonFormat(pattern = "HH:mm:ss")
     @NotNull(message = "manufacturingTime cannot be null.")
     public LocalTime manufacturingTime;
 

@@ -20,14 +20,14 @@ public class WarehouseSection {
     private Integer capacity;
     private Integer quantity;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "section_id", referencedColumnName = "id")
     private Section section;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "warehouse_id", referencedColumnName = "id")
     private Warehouse warehouse;
 
-    @OneToOne(mappedBy = "warehouseSection", cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "warehouseSection", cascade = CascadeType.ALL)
     private Stock stock;
 }

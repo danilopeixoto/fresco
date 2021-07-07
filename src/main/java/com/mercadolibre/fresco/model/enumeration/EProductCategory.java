@@ -1,9 +1,9 @@
 package com.mercadolibre.fresco.model.enumeration;
 
 public enum EProductCategory {
-    FRESH("FS"),
-    REFRIGERADO("RF"),
-    CONGELADO("FF");
+    FS("FS"),
+    RF("RF"),
+    FF("FF");
 
     private String category;
 

@@ -26,7 +26,7 @@ public class Product implements Serializable {
     private String productCode;
 
     @Column(name = "min_temp")
-    private Float minimumTemperature;
+    private Double minimumTemperature;
     @Column(name = "manufacturing_date")
     private LocalDate manufacturingDate;
     private LocalDateTime manufacturingTime;
