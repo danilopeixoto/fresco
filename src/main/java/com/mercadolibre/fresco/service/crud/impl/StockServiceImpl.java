@@ -2,6 +2,7 @@ package com.mercadolibre.fresco.service.crud.impl;
 
 import com.mercadolibre.fresco.dtos.InfoStockDTO;
 import com.mercadolibre.fresco.dtos.ProductsDTO;
+import com.mercadolibre.fresco.dtos.response.aggregation.IBatchStockDueDateResponse;
 import com.mercadolibre.fresco.exceptions.ApiException;
 import com.mercadolibre.fresco.model.OrderedProduct;
 import com.mercadolibre.fresco.model.Stock;
@@ -11,6 +12,7 @@ import com.mercadolibre.fresco.service.crud.IStockService;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -148,9 +150,36 @@ public class StockServiceImpl implements IStockService {
     }
 
     @Override
+    public List<IBatchStockDueDateResponse> findStockWithProductDueDateUntilFutureDate(Integer dayQuantity) {
+        LocalDate futureTime = LocalDate.now().plusDays(dayQuantity);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+        List<IBatchStockDueDateResponse> stocks = stockRepository.findStockWithProductDueDateUntilFutureDate(futureTime.format(formatter));
+        if (stocks.isEmpty()) {
+            throw new ApiException("404", "Products not found.", 404);
+        }
+
+        return stocks;
+    }
+
+    @Override
+    public List<IBatchStockDueDateResponse> findStockWithProductDueDateUntilFutureByProductCategory(Integer dayQuantity, String productCategory) {
+        LocalDate futureTime = LocalDate.now().plusDays(dayQuantity);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+        List<IBatchStockDueDateResponse> stocks = stockRepository.findStockWithProductDueDateUntilFutureDateByProductCategory(futureTime.format(formatter), productCategory);
+        if (stocks.isEmpty()) {
+            throw new ApiException("404", "Products not found.", 404);
+        }
+
+        return stocks;
+    }
+
+    @Override
     public void deleteByBatchNumber(Integer batchNumber) {
         this.stockRepository.deleteByBatchNumber(batchNumber);
     }
+
 
     private List<Stock> validStocksByDueDate(List<Stock> stocks) {
         LocalDate futureTime = LocalDate.now().plusWeeks(1);
@@ -177,4 +206,5 @@ public class StockServiceImpl implements IStockService {
 
         return this.updateCurrentQuantityById(largerStock.getId(), quantity);
     }
+
 }

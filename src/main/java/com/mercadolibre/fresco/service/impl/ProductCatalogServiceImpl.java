@@ -3,9 +3,11 @@ package com.mercadolibre.fresco.service.impl;
 import com.mercadolibre.fresco.dtos.InfoStockDTO;
 import com.mercadolibre.fresco.dtos.response.ProductResponseDTO;
 import com.mercadolibre.fresco.dtos.response.ProductStockResponseDTO;
+import com.mercadolibre.fresco.dtos.response.aggregation.IBatchStockDueDateResponse;
 import com.mercadolibre.fresco.exceptions.NotFoundException;
 import com.mercadolibre.fresco.model.enumeration.BatchStockOrder;
 import com.mercadolibre.fresco.model.enumeration.EProductCategory;
+import com.mercadolibre.fresco.model.enumeration.EResultOrder;
 import com.mercadolibre.fresco.service.IProductCatalogService;
 import com.mercadolibre.fresco.service.crud.IProductService;
 import com.mercadolibre.fresco.service.crud.IStockService;
@@ -73,6 +75,23 @@ public class ProductCatalogServiceImpl implements IProductCatalogService {
             .build();
 
         return productStockResponseDTO;
+    }
+
+    @Override
+    public List<IBatchStockDueDateResponse> findStocksByDueDate(Integer dayQuantity) {
+        List<IBatchStockDueDateResponse> stocks = stockService.findStockWithProductDueDateUntilFutureDate(dayQuantity);
+        return stocks;
+    }
+
+    @Override
+    public List<IBatchStockDueDateResponse> findStocksByDueDateAndProductCategory(Integer dayQuantity, EProductCategory productCategory, EResultOrder order) {
+        List<IBatchStockDueDateResponse> stocks = stockService.findStockWithProductDueDateUntilFutureByProductCategory(dayQuantity, productCategory.getCategory());
+        if(order.getOrder() == "asc")
+            stocks.sort(Comparator.comparing(IBatchStockDueDateResponse::getDueDate));
+        else
+            stocks.sort((a,b) -> b.getDueDate().compareTo(a.getDueDate()));
+
+        return stocks;
     }
 
 
