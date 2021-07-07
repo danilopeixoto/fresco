@@ -166,6 +166,5 @@ public class ProductCatalogController {
     public List<IBatchStockDueDateResponse> listStockByProductCode(@RequestParam(required = true) @Min(0) Integer dayQuantity, @RequestParam(required = true) EProductCategory productCategory, @RequestParam(required = true, defaultValue = "asc") EResultOrder order) {
         return this.productCatalogService.findStocksByDueDateAndProductCategory(dayQuantity, productCategory, order);
     }
-
-
+}
 
