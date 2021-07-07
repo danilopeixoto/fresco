@@ -1,5 +1,6 @@
 package com.mercadolibre.fresco.dtos.response;
 
+import com.mercadolibre.fresco.dtos.response.aggregetion.IWarehouseProductCountDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,5 +14,5 @@ import java.util.List;
 @NoArgsConstructor
 public class WarehousesProductCountResponseDTO {
     private String productId;
-    private List<WarehouseProductCountResponseDTO> warehouses;
+    private List<IWarehouseProductCountDTO> warehouses;
 }
