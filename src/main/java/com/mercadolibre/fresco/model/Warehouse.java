@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "warehouses")
@@ -20,8 +21,8 @@ public class Warehouse {
     @Column(unique = true)
     private String warehouseCode;
 
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "warehouse", cascade = CascadeType.ALL)
-    private WarehouseSection warehouseSection;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "warehouse", cascade = CascadeType.ALL)
+    private List<WarehouseSection> warehouseSections;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "agent_id", referencedColumnName = "id")

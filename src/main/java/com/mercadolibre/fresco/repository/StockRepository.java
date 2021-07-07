@@ -45,4 +45,10 @@ public interface StockRepository extends JpaRepository<Stock, Long> {
         "INNER JOIN product_categories as pc ON pc.id = p.product_category_id " +
         "WHERE p.due_date <= :futureDate and pc.category_code = :productCategory ", nativeQuery = true)
     List<IBatchStockDueDateResponseDTO> findStockWithProductDueDateUntilFutureDateByProductCategory(@Param("futureDate") String futureDate, @Param("productCategory") String productCategory);
+
+    @Query(value = "SELECT count(warehouse_section_id) FROM stocks WHERE warehouse_section_id = :warehouseSectionId and cur_quantity > 0", nativeQuery = true)
+    Integer countStocksOnSection(@Param("warehouseSectionId") Long warehouseSectionId);
+
+    @Query(value="SELECT * from stocks WHERE batch_number = :batchNumber", nativeQuery = true)
+    Stock findByBatchNumber(@Param("batchNumber") Integer batchNumber);
 }

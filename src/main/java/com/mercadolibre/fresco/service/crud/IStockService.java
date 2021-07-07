@@ -24,4 +24,8 @@ public interface IStockService extends ICRUD<Stock> {
     void deleteByBatchNumber(Integer batchNumber);
 
     List<IBatchStockDueDateResponseDTO> findStockWithProductDueDateUntilFutureByProductCategory(Integer dayQuantity, String productCategory);
+
+    Integer countStocksOnSection(Long warehouseSectionId);
+
+    Stock findByBatchNumber(Integer batchNumber);
 }

@@ -12,4 +12,8 @@ public interface SectionRepository extends JpaRepository<Section, Long> {
     @Query(value = "SELECT id FROM sections WHERE section_code = :sectionCode", nativeQuery = true)
     Long getIdBySectionCode(@Param("sectionCode") String sectionCode);
 
+    @Query(value = "SELECT * FROM sections WHERE section_code = :sectionCode", nativeQuery = true)
+    Section getBySectionCode(@Param("sectionCode") String sectionCode);
+
+
 }
