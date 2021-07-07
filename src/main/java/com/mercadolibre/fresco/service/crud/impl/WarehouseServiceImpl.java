@@ -43,11 +43,7 @@ public class WarehouseServiceImpl implements IWarehouseService {
 
     @Override
     public Long getWarehouseIdByCode(String warehouseCode) {
-        warehouseCode = warehouseCode.toUpperCase();
-        if (warehouseCode == null) {
-            throw new NotFoundException("warehouse id not found!");
-        }
-        return this.warehouseRepository.getWarehouseIdByCode(warehouseCode);
+       return this.findWarehouseByCode(warehouseCode).getId();
     }
 
     @Override

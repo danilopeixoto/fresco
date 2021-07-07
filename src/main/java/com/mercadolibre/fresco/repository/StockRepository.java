@@ -19,10 +19,6 @@ import java.util.List;
 @Repository
 public interface StockRepository extends JpaRepository<Stock, Long> {
 
-    @Modifying
-    @Query(value = "UPDATE stocks SET cur_quantity = :cur_quantity WHERE id = :id", nativeQuery = true)
-    void updateCurrentQuantityById(@Param("id") Long id, @Param("cur_quantity") int cur_quantity);
-
     @Query(value = "SELECT * FROM stocks INNER JOIN products ON products.id = stocks.product_id WHERE products.product_code = :productCode", nativeQuery = true)
     List<Stock> findByProductCode(@Param("productCode") String productCode);
 
