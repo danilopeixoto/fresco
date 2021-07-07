@@ -1,5 +1,6 @@
 package com.mercadolibre.fresco.service.crud.impl;
 
+import com.mercadolibre.fresco.exceptions.ApiException;
 import com.mercadolibre.fresco.exceptions.NotFoundException;
 import com.mercadolibre.fresco.model.Warehouse;
 import com.mercadolibre.fresco.repository.WarehouseRepository;
@@ -33,10 +34,10 @@ public class WarehouseServiceImpl implements IWarehouseService {
     }
 
     @Override
-    public Warehouse findWarehouseByCode(String code) {
-        Warehouse warehouse = this.warehouseRepository.findWarehouseByCode(code);
+    public Warehouse findWarehouseByCode(String warehouseCode) {
+        Warehouse warehouse = this.warehouseRepository.findWarehouseByCode(warehouseCode);
         if (warehouse == null) {
-            throw new NotFoundException("Warehouse with code " + code + " not found!");
+            throw new ApiException("404","Warehouse with code " + warehouseCode + " not found!", 404);
         }
         return warehouse;
     }

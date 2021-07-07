@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "sections")
@@ -24,7 +25,7 @@ public class Section {
     @JoinColumn(name = "product_category_id", nullable = false)
     private ProductCategory productCategory;
 
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "section", cascade = CascadeType.ALL)
-    private WarehouseSection warehouseSection;
+    @OneToMany(mappedBy = "section", cascade = CascadeType.ALL)
+    private List<WarehouseSection> warehouseSections;
 }
 

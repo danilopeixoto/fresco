@@ -151,6 +151,20 @@ public class StockServiceImpl implements IStockService {
     }
 
     @Override
+    public Integer countStocksOnSection(Long warehouseSectionId) {
+        return stockRepository.countStocksOnSection(warehouseSectionId);
+    }
+
+    @Override
+    public Stock findByBatchNumber(Integer batchNumber) {
+        Stock stock = stockRepository.findByBatchNumber(batchNumber);
+        if (stock == null) {
+            throw new ApiException("404", "Stock not found.", 404);
+        }
+        return stock;
+    }
+
+    @Override
     public void deleteByBatchNumber(Integer batchNumber) {
         this.stockRepository.deleteByBatchNumber(batchNumber);
     }

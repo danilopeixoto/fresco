@@ -12,4 +12,10 @@ public interface WarehouseSectionRepository extends JpaRepository<WarehouseSecti
     @Query(value = "SELECT * FROM warehouse_section WHERE warehouse_id = :warehouseId AND section_id = :sectionId", nativeQuery = true)
     WarehouseSection findByWarehouseAndSectionId(@Param("warehouseId") Long warehouseId, @Param("sectionId") Long sectionId);
 
+    @Query(value = "SELECT ws.* FROM warehouse_section as ws " +
+        "INNER JOIN sections as s ON s.id = ws.section_id " +
+        "INNER JOIN warehouses as w ON w.id = ws.warehouse_id " +
+        "WHERE s.section_code = :sectionCode AND w.warehouse_code = :warehouseCode", nativeQuery = true)
+    WarehouseSection findByWarehouseAndSectionCode(@Param("warehouseCode") String warehouseCode, @Param("sectionCode") String sectionCode);
+
 }
