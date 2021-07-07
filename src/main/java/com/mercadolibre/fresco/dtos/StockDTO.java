@@ -1,6 +1,13 @@
 package com.mercadolibre.fresco.dtos;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -39,13 +46,22 @@ public class StockDTO {
     @Positive(message = "currentQuantity cannot be less than 0.")
     public Float price;
 
+    @JsonDeserialize(using = LocalDateDeserializer.class)
+    @JsonSerialize(using = LocalDateSerializer.class)
+    @JsonFormat(pattern = "MM-dd-yyyy")
     @NotNull(message = "manufacturingDate cannot be null.")
     @PastOrPresent(message = "manufacturingDate cannot be a future date.")
     public LocalDate manufacturingDate;
 
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @JsonFormat(pattern = "HH-mm-ss")
     @NotNull(message = "manufacturingTime cannot be null.")
     public LocalTime manufacturingTime;
 
+    @JsonDeserialize(using = LocalDateDeserializer.class)
+    @JsonSerialize(using = LocalDateSerializer.class)
+    @JsonFormat(pattern = "MM-dd-yyyy")
     @NotNull(message = "dueDate cannot be null.")
     @Future(message = "dueDate cannot be on a past date.")
     public LocalDate dueDate;
