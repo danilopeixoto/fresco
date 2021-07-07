@@ -1,7 +1,7 @@
 package com.mercadolibre.fresco.service.impl;
 
 import com.mercadolibre.fresco.dtos.response.WarehousesProductCountResponseDTO;
-import com.mercadolibre.fresco.dtos.response.aggregetion.IWarehouseProductCountDTO;
+import com.mercadolibre.fresco.dtos.response.aggregation.IWarehouseProductCountDTO;
 import com.mercadolibre.fresco.exceptions.ApiException;
 import com.mercadolibre.fresco.repository.WarehouseRepository;
 import com.mercadolibre.fresco.service.IWarehouseCatalogService;

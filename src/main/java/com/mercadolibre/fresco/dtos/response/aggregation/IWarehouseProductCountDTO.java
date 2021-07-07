@@ -1,4 +1,4 @@
-package com.mercadolibre.fresco.dtos.response.aggregetion;
+package com.mercadolibre.fresco.dtos.response.aggregation;
 
 import java.math.BigDecimal;
 

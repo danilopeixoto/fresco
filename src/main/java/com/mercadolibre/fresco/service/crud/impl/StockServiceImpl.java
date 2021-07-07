@@ -1,8 +1,8 @@
 package com.mercadolibre.fresco.service.crud.impl;
 
-import com.mercadolibre.fresco.dtos.InfoStockDTO;
 import com.mercadolibre.fresco.dtos.ProductsDTO;
-import com.mercadolibre.fresco.dtos.response.aggregation.IBatchStockDueDateResponse;
+import com.mercadolibre.fresco.dtos.response.aggregation.IBatchStockDueDateResponseDTO;
+import com.mercadolibre.fresco.dtos.response.aggregation.IInfoStockDTO;
 import com.mercadolibre.fresco.exceptions.ApiException;
 import com.mercadolibre.fresco.exceptions.NotFoundException;
 import com.mercadolibre.fresco.model.OrderedProduct;
@@ -115,30 +115,21 @@ public class StockServiceImpl implements IStockService {
     }
 
     @Override
-    public List<InfoStockDTO> findWithSectionAndWarehouseByProductCode(String username, String productCode) {
-        List<Object[]> stocks = stockRepository.findWithSectionAndWarehouseByProductCode(username, productCode);
+    public List<IInfoStockDTO> findWithSectionAndWarehouseByProductCode(String username, String productCode) {
+        List<IInfoStockDTO> stocks = stockRepository.findWithSectionAndWarehouseByProductCode(username, productCode);
         if (stocks.isEmpty()) {
             throw new ApiException("404", "Product not found.", 404);
         }
 
-        List<InfoStockDTO> infoStockDTOS = new ArrayList<>();
-
-        stocks.forEach(stock -> infoStockDTOS.add(new InfoStockDTO((Integer) stock[0],
-            (Integer) stock[1],
-            LocalDate.parse(stock[2].toString()),
-            stock[3].toString(),
-            stock[4].toString()))
-        );
-
-        return infoStockDTOS;
+        return stocks;
     }
 
     @Override
-    public List<IBatchStockDueDateResponse> findStockWithProductDueDateUntilFutureDate(Integer dayQuantity) {
+    public List<IBatchStockDueDateResponseDTO> findStockWithProductDueDateUntilFutureDate(Integer dayQuantity) {
         LocalDate futureTime = LocalDate.now().plusDays(dayQuantity);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-        List<IBatchStockDueDateResponse> stocks = stockRepository.findStockWithProductDueDateUntilFutureDate(futureTime.format(formatter));
+        List<IBatchStockDueDateResponseDTO> stocks = stockRepository.findStockWithProductDueDateUntilFutureDate(futureTime.format(formatter));
         if (stocks.isEmpty()) {
             throw new ApiException("404", "Products not found.", 404);
         }
@@ -147,11 +138,11 @@ public class StockServiceImpl implements IStockService {
     }
 
     @Override
-    public List<IBatchStockDueDateResponse> findStockWithProductDueDateUntilFutureByProductCategory(Integer dayQuantity, String productCategory) {
+    public List<IBatchStockDueDateResponseDTO> findStockWithProductDueDateUntilFutureByProductCategory(Integer dayQuantity, String productCategory) {
         LocalDate futureTime = LocalDate.now().plusDays(dayQuantity);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-        List<IBatchStockDueDateResponse> stocks = stockRepository.findStockWithProductDueDateUntilFutureDateByProductCategory(futureTime.format(formatter), productCategory);
+        List<IBatchStockDueDateResponseDTO> stocks = stockRepository.findStockWithProductDueDateUntilFutureDateByProductCategory(futureTime.format(formatter), productCategory);
         if (stocks.isEmpty()) {
             throw new ApiException("404", "Products not found.", 404);
         }
