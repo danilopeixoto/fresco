@@ -1,8 +1,8 @@
 package com.mercadolibre.fresco.service.crud;
 
-import com.mercadolibre.fresco.dtos.InfoStockDTO;
 import com.mercadolibre.fresco.dtos.ProductsDTO;
-import com.mercadolibre.fresco.dtos.response.aggregation.IBatchStockDueDateResponse;
+import com.mercadolibre.fresco.dtos.response.aggregation.IBatchStockDueDateResponseDTO;
+import com.mercadolibre.fresco.dtos.response.aggregation.IInfoStockDTO;
 import com.mercadolibre.fresco.model.Stock;
 
 import java.util.List;
@@ -17,11 +17,11 @@ public interface IStockService extends ICRUD<Stock> {
 
     Stock updateCurrentQuantityById(Long id, Integer cur_quantity);
 
-    List<InfoStockDTO> findWithSectionAndWarehouseByProductCode(String username, String productCode);
+    List<IInfoStockDTO> findWithSectionAndWarehouseByProductCode(String username, String productCode);
 
-    List<IBatchStockDueDateResponse> findStockWithProductDueDateUntilFutureDate(Integer dayQuantity);
+    List<IBatchStockDueDateResponseDTO> findStockWithProductDueDateUntilFutureDate(Integer dayQuantity);
 
     void deleteByBatchNumber(Integer batchNumber);
 
-    List<IBatchStockDueDateResponse> findStockWithProductDueDateUntilFutureByProductCategory(Integer dayQuantity, String productCategory);
+    List<IBatchStockDueDateResponseDTO> findStockWithProductDueDateUntilFutureByProductCategory(Integer dayQuantity, String productCategory);
 }

@@ -1,6 +1,6 @@
 package com.mercadolibre.fresco.repository;
 
-import com.mercadolibre.fresco.dtos.response.aggregetion.IWarehouseProductCountDTO;
+import com.mercadolibre.fresco.dtos.response.aggregation.IWarehouseProductCountDTO;
 import com.mercadolibre.fresco.model.Warehouse;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

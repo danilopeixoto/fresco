@@ -1,6 +1,6 @@
 package com.mercadolibre.fresco.dtos.response;
 
-import com.mercadolibre.fresco.dtos.InfoStockDTO;
+import com.mercadolibre.fresco.dtos.response.aggregation.IInfoStockDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,6 +16,6 @@ public class ProductStockResponseDTO {
 
     private String productId;
 
-    private List<InfoStockDTO> batchStock;
+    private List<IInfoStockDTO> batchStock;
 
 }

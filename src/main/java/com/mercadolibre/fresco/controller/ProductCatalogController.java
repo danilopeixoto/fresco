@@ -3,7 +3,7 @@ package com.mercadolibre.fresco.controller;
 
 import com.mercadolibre.fresco.dtos.response.ProductResponseDTO;
 import com.mercadolibre.fresco.dtos.response.ProductStockResponseDTO;
-import com.mercadolibre.fresco.dtos.response.aggregation.IBatchStockDueDateResponse;
+import com.mercadolibre.fresco.dtos.response.aggregation.IBatchStockDueDateResponseDTO;
 import com.mercadolibre.fresco.exceptions.ApiError;
 import com.mercadolibre.fresco.exceptions.NotFoundException;
 import com.mercadolibre.fresco.model.enumeration.BatchStockOrder;
@@ -137,7 +137,7 @@ public class ProductCatalogController {
     @PreAuthorize("hasAuthority('REP')")
     @GetMapping(path = "/due-date")
     @ResponseBody
-    public List<IBatchStockDueDateResponse> listStockByProductCode(@RequestParam(required = true) @Min(0) Integer dayQuantity) {
+    public List<IBatchStockDueDateResponseDTO> listStockByProductCode(@RequestParam(required = true) @Min(0) Integer dayQuantity) {
         return this.productCatalogService.findStocksByDueDate(dayQuantity);
     }
 
@@ -163,7 +163,7 @@ public class ProductCatalogController {
     @PreAuthorize("hasAuthority('REP')")
     @GetMapping(path = "/due-date/list")
     @ResponseBody
-    public List<IBatchStockDueDateResponse> listStockByProductCode(@RequestParam(required = true) @Min(0) Integer dayQuantity, @RequestParam(required = true) EProductCategory productCategory, @RequestParam(required = true, defaultValue = "asc") EResultOrder order) {
+    public List<IBatchStockDueDateResponseDTO> listStockByProductCode(@RequestParam(required = true) @Min(0) Integer dayQuantity, @RequestParam(required = true) EProductCategory productCategory, @RequestParam(required = true, defaultValue = "asc") EResultOrder order) {
         return this.productCatalogService.findStocksByDueDateAndProductCategory(dayQuantity, productCategory, order);
     }
 }

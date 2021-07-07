@@ -1,6 +1,6 @@
 package com.mercadolibre.fresco.dtos.response;
 
-import com.mercadolibre.fresco.dtos.response.aggregetion.IWarehouseProductCountDTO;
+import com.mercadolibre.fresco.dtos.response.aggregation.IWarehouseProductCountDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

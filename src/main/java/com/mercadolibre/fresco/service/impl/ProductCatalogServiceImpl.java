@@ -1,9 +1,9 @@
 package com.mercadolibre.fresco.service.impl;
 
-import com.mercadolibre.fresco.dtos.InfoStockDTO;
 import com.mercadolibre.fresco.dtos.response.ProductResponseDTO;
 import com.mercadolibre.fresco.dtos.response.ProductStockResponseDTO;
-import com.mercadolibre.fresco.dtos.response.aggregation.IBatchStockDueDateResponse;
+import com.mercadolibre.fresco.dtos.response.aggregation.IBatchStockDueDateResponseDTO;
+import com.mercadolibre.fresco.dtos.response.aggregation.IInfoStockDTO;
 import com.mercadolibre.fresco.exceptions.NotFoundException;
 import com.mercadolibre.fresco.model.enumeration.BatchStockOrder;
 import com.mercadolibre.fresco.model.enumeration.EProductCategory;
@@ -62,12 +62,12 @@ public class ProductCatalogServiceImpl implements IProductCatalogService {
 
     @Override
     public ProductStockResponseDTO findStocksByProductCode(String username, String productCode, BatchStockOrder order) {
-        List<InfoStockDTO> stocks = stockService.findWithSectionAndWarehouseByProductCode(username, productCode);
+        List<IInfoStockDTO> stocks = stockService.findWithSectionAndWarehouseByProductCode(username, productCode);
 
         if (order.getOrder().equals("c"))
-            stocks.sort(Comparator.comparing(InfoStockDTO::getCurrentQuantity));
+            stocks.sort(Comparator.comparing(IInfoStockDTO::getCurrentQuantity));
         else
-            stocks.sort(Comparator.comparing(InfoStockDTO::getDueDate));
+            stocks.sort(Comparator.comparing(IInfoStockDTO::getDueDate));
 
         ProductStockResponseDTO productStockResponseDTO = ProductStockResponseDTO.builder()
             .productId(productCode)
@@ -78,16 +78,16 @@ public class ProductCatalogServiceImpl implements IProductCatalogService {
     }
 
     @Override
-    public List<IBatchStockDueDateResponse> findStocksByDueDate(Integer dayQuantity) {
-        List<IBatchStockDueDateResponse> stocks = stockService.findStockWithProductDueDateUntilFutureDate(dayQuantity);
+    public List<IBatchStockDueDateResponseDTO> findStocksByDueDate(Integer dayQuantity) {
+        List<IBatchStockDueDateResponseDTO> stocks = stockService.findStockWithProductDueDateUntilFutureDate(dayQuantity);
         return stocks;
     }
 
     @Override
-    public List<IBatchStockDueDateResponse> findStocksByDueDateAndProductCategory(Integer dayQuantity, EProductCategory productCategory, EResultOrder order) {
-        List<IBatchStockDueDateResponse> stocks = stockService.findStockWithProductDueDateUntilFutureByProductCategory(dayQuantity, productCategory.getCategory());
+    public List<IBatchStockDueDateResponseDTO> findStocksByDueDateAndProductCategory(Integer dayQuantity, EProductCategory productCategory, EResultOrder order) {
+        List<IBatchStockDueDateResponseDTO> stocks = stockService.findStockWithProductDueDateUntilFutureByProductCategory(dayQuantity, productCategory.getCategory());
         if(order.getOrder() == "asc")
-            stocks.sort(Comparator.comparing(IBatchStockDueDateResponse::getDueDate));
+            stocks.sort(Comparator.comparing(IBatchStockDueDateResponseDTO::getDueDate));
         else
             stocks.sort((a,b) -> b.getDueDate().compareTo(a.getDueDate()));
 
