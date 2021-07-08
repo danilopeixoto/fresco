@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "warehouse_section", uniqueConstraints = {@UniqueConstraint(columnNames = {"section_id", "warehouse_id"})})
@@ -25,6 +26,6 @@ public class WarehouseSection {
     @JoinColumn(name = "warehouse_id", referencedColumnName = "id")
     private Warehouse warehouse;
 
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "warehouseSection", cascade = CascadeType.ALL)
-    private Stock stock;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "warehouseSection", cascade = CascadeType.ALL)
+    private List<Stock> stock;
 }

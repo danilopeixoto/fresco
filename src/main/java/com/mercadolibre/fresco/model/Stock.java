@@ -31,7 +31,7 @@ public class Stock {
     @JoinColumn(name = "product_id", referencedColumnName = "id", nullable = true)
     private Product product;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "warehouse_section_id", referencedColumnName = "id")
     private WarehouseSection warehouseSection;
 }
