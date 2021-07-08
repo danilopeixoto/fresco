@@ -95,5 +95,4 @@ public class PurchaseOrderControllerTest extends ControllerTest{
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
             .andExpect(result -> Assertions.assertTrue(result.getResolvedException() instanceof AccessDeniedException));
     }
-
 }
