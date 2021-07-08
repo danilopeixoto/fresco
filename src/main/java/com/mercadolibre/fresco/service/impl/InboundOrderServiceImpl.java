@@ -19,6 +19,8 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +29,8 @@ import java.util.stream.Collectors;
 
 @Service
 public class InboundOrderServiceImpl implements IInboundOrderService {
+
+    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy");
 
     private final Integer MAX_CAPACITY = 10;
 
@@ -157,6 +161,9 @@ public class InboundOrderServiceImpl implements IInboundOrderService {
                     .batchNumber(s.getKey().getBatchNumber())
                     .currentQuantity(s.getKey().getCurrentQuantity())
                     .currentTemperature(s.getKey().getCurrentTemperature())
+                    .dueDate(s.getKey().getDueDate())
+                    .manufacturingDate(s.getKey().getManufacturingDate())
+                    .manufacturingTime(s.getKey().getManufacturingTime())
                     .initialQuantity(s.getKey().getInitialQuantity())
                     .warehouseSection(warehouseSection)
                     .product(s.getValue())

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDate;
@@ -94,6 +95,55 @@ public class ProductCatalogControllerTest extends ControllerTest {
                     Assertions.assertTrue(olderDate.isAfter(newerDate));
                 }
             );
+    }
+
+    @Test
+    void shouldListStocksByDueDateInterval() throws Exception {
+        this.mockMvc.perform(get(URL_PATH + "/due-date")
+            .header(HttpHeaders.AUTHORIZATION, this.sessionService.login("testRep", "teste1000").getToken())
+            .param("dayQuantity", "30")
+            .contentType(MediaType.APPLICATION_JSON))
+            .andDo(print()).andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(jsonPath("$").exists())
+            .andExpect(jsonPath("$.[0].product_id").value("BANANA"));
+    }
+
+    @Test
+    void shouldListStocksByDueDateIntervalAndCategoryCode() throws Exception {
+        this.mockMvc.perform(get(URL_PATH + "/due-date/list")
+            .header(HttpHeaders.AUTHORIZATION, this.sessionService.login("testRep", "teste1000").getToken())
+            .param("dayQuantity", "100")
+            .param("productCategory", "FS")
+            .param("order", "asc")
+            .contentType(MediaType.APPLICATION_JSON))
+            .andDo(print()).andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(jsonPath("$").exists())
+            .andExpect(jsonPath("$.[0].product_type_id").value("FS"))
+            .andExpect(jsonPath("$.[1].product_type_id").value("FS"));
+    }
+
+    @Test
+    void shouldBlockRepUserInBuyerRequest() throws Exception {
+        this.mockMvc.perform(get(URL_PATH)
+            .header(HttpHeaders.AUTHORIZATION, this.sessionService.login("testRep", "teste1000").getToken())
+            .param("categoryCode", "FS")
+            .contentType(MediaType.APPLICATION_JSON))
+            .andDo(print()).andExpect(status().isUnauthorized())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(result -> Assertions.assertTrue(result.getResolvedException() instanceof AccessDeniedException));
+    }
+
+    @Test
+    void shouldBlockBuyerUserInRepRequest() throws Exception {
+        this.mockMvc.perform(get(URL_PATH + "/due-date")
+            .header(HttpHeaders.AUTHORIZATION, this.sessionService.login("testBuyer", "teste1000").getToken())
+            .param("dayQuantity", "30")
+            .contentType(MediaType.APPLICATION_JSON))
+            .andDo(print()).andExpect(status().isUnauthorized())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(result -> Assertions.assertTrue(result.getResolvedException() instanceof AccessDeniedException));
     }
 
 }
