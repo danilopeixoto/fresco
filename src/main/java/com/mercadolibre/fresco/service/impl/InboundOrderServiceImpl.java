@@ -2,13 +2,11 @@ package com.mercadolibre.fresco.service.impl;
 
 import com.google.common.collect.Streams;
 import com.mercadolibre.fresco.dtos.InboundOrderDTO;
-import com.mercadolibre.fresco.dtos.SectionDTO;
 import com.mercadolibre.fresco.dtos.StockDTO;
 import com.mercadolibre.fresco.dtos.response.InboundOrderResponseDTO;
 import com.mercadolibre.fresco.exceptions.ApiException;
 import com.mercadolibre.fresco.exceptions.NotFoundException;
 import com.mercadolibre.fresco.model.*;
-import com.mercadolibre.fresco.model.enumeration.BatchStockOrder;
 import com.mercadolibre.fresco.repository.SectionRepository;
 import com.mercadolibre.fresco.repository.WarehouseSectionRepository;
 import com.mercadolibre.fresco.service.IInboundOrderService;
@@ -20,7 +18,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.AbstractMap;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -87,7 +84,7 @@ public class InboundOrderServiceImpl implements IInboundOrderService {
         this.validateWarehouseSectionExists(warehouseSection);
     }
 
-    private void buildAndSaveUpdatedStock(StockDTO stockDTO, Integer batchNumber){
+    private void buildAndSaveUpdatedStock(StockDTO stockDTO, Integer batchNumber) {
 
         Stock stock = this.stockService.findByBatchNumber(batchNumber);
         stock.setCurrentQuantity(stockDTO.getCurrentQuantity());
@@ -103,7 +100,7 @@ public class InboundOrderServiceImpl implements IInboundOrderService {
     }
 
     public void validateWarehouseSectionExists(WarehouseSection warehouseSection) {
-        if( warehouseSection == null){
+        if (warehouseSection == null) {
             throw new ApiException("400", "Invalid warehouse section.", 400);
         }
     }

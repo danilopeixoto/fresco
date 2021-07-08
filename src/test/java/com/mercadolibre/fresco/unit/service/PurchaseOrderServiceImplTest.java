@@ -3,7 +3,6 @@ package com.mercadolibre.fresco.unit.service;
 import com.mercadolibre.fresco.dtos.ProductsDTO;
 import com.mercadolibre.fresco.model.OrderedProduct;
 import com.mercadolibre.fresco.model.Product;
-import com.mercadolibre.fresco.model.ProductCategory;
 import com.mercadolibre.fresco.model.PurchaseOrder;
 import com.mercadolibre.fresco.model.enumeration.StatusCode;
 import com.mercadolibre.fresco.repository.ProductRepository;
@@ -44,7 +43,7 @@ public class PurchaseOrderServiceImplTest {
     void shouldGetProductsByOrderId() {
         PurchaseOrder purchaseOrder = new PurchaseOrder(1L, StatusCode.PENDENTE, LocalDate.now(), null, null);
         OrderedProduct banana = new OrderedProduct().toBuilder()
-            .product(new Product(1L,"BANANA", null, 5., null, null, null))
+            .product(new Product(1L, "BANANA", null, 5., null, null, null))
             .purchaseOrder(purchaseOrder)
             .quantity(10).build();
         List<OrderedProduct> orderedProductList = new ArrayList<>();

@@ -49,6 +49,6 @@ public interface StockRepository extends JpaRepository<Stock, Long> {
     @Query(value = "SELECT count(warehouse_section_id) FROM stocks WHERE warehouse_section_id = :warehouseSectionId and cur_quantity > 0", nativeQuery = true)
     Integer countStocksOnSection(@Param("warehouseSectionId") Long warehouseSectionId);
 
-    @Query(value="SELECT * from stocks WHERE batch_number = :batchNumber", nativeQuery = true)
+    @Query(value = "SELECT * from stocks WHERE batch_number = :batchNumber", nativeQuery = true)
     Stock findByBatchNumber(@Param("batchNumber") Integer batchNumber);
 }

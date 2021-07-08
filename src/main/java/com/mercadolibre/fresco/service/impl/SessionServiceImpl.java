@@ -85,7 +85,7 @@ public class SessionServiceImpl implements ISessionService {
      * @return
      */
     @Override
-    public  String getUsername(String token) {
+    public String getUsername(String token) {
         token = token.replace("Bearer ", "");
         Claims claims = decodeJWT(token);
         return claims.get("sub", String.class);

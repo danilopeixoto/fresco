@@ -10,6 +10,7 @@ import com.mercadolibre.fresco.repository.OrderedProductRepository;
 import com.mercadolibre.fresco.repository.StockRepository;
 import com.mercadolibre.fresco.service.crud.IStockService;
 import org.springframework.stereotype.Service;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
@@ -71,7 +72,7 @@ public class StockServiceImpl implements IStockService {
         productStocks = this.validStockAvailability(productStocks, actualQuantity);
 
         //Decrease amount of larger stock based on last quantity
-        if(!productStocks.isEmpty())
+        if (!productStocks.isEmpty())
             return this.decreaseAmountOfStock(productStocks, actualQuantity);
 
         return null;
@@ -88,7 +89,7 @@ public class StockServiceImpl implements IStockService {
         productStocks = this.validStockAvailability(productStocks, productsDTO.getQuantity());
 
         //Decrease amount of larger stock
-        if(!productStocks.isEmpty())
+        if (!productStocks.isEmpty())
             return this.decreaseAmountOfStock(productStocks, productsDTO.getQuantity());
 
         return null;
@@ -178,7 +179,7 @@ public class StockServiceImpl implements IStockService {
             .collect(Collectors.toList());
 
         if (stocks.isEmpty())
-            throw new ApiException("404","Not Found Exception. Non stock of product found in valid due date", 404);
+            throw new ApiException("404", "Not Found Exception. Non stock of product found in valid due date", 404);
 
         return stocks;
     }
