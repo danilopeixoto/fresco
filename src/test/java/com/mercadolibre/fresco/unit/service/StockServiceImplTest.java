@@ -123,7 +123,7 @@ public class StockServiceImplTest {
         purchaseOrder.setOrderedProducts(orderedProducts);
         purchaseOrder.setId(1L);
 
-        when(this.orderedProductRepository.findByProductCodeAndOrderId("BANANA",1L)).thenReturn(orderedProduct);
+        when(this.orderedProductRepository.findByProductCodeAndOrderId("BANANA", 1L)).thenReturn(orderedProduct);
         when(this.stockRepository.findByProductCode("BANANA")).thenReturn(stocks);
         when(this.stockRepository.findById(1L)).thenReturn(java.util.Optional.ofNullable(stock));
         when(this.stockRepository.save(stock)).thenReturn(stock);
@@ -150,7 +150,7 @@ public class StockServiceImplTest {
         purchaseOrder.setOrderedProducts(orderedProducts);
         purchaseOrder.setId(1L);
 
-        when(this.orderedProductRepository.findByProductCodeAndOrderId("BANANA",1L)).thenReturn(orderedProduct);
+        when(this.orderedProductRepository.findByProductCodeAndOrderId("BANANA", 1L)).thenReturn(orderedProduct);
         when(this.stockRepository.findByProductCode("BANANA")).thenReturn(stocks);
         when(this.stockRepository.findById(1L)).thenReturn(java.util.Optional.ofNullable(stock));
         when(this.stockRepository.save(stock)).thenReturn(stock);
@@ -158,7 +158,6 @@ public class StockServiceImplTest {
         ApiException e = assertThrows(ApiException.class, () -> this.stockService.validStockForExistingOrder(bananaDto, 1L));
         assertEquals(NOT_FOUND_AVAILABILITY_MESSAGE, e.getMessage());
     }
-
 
 
 }

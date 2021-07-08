@@ -15,34 +15,32 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
 public class InboundOrderServiceTest {
     static final String NOT_ALLOWED_AGENT_ON_WAREHOUSE = "Agent not allowed.";
     static final String NOT_VALID_WAREHOUSE_SECTION = "Invalid warehouse section.";
 
-     InboundOrderServiceImpl inboundOrderService;
-     WarehouseServiceImpl warehouseService;
-     ProductServiceImpl productService;
-     StockServiceImpl stockService;
-     WarehouseRepository warehouseRepository = Mockito.mock(WarehouseRepository.class);
-     WarehouseSectionRepository warehouseSectionRepository = Mockito.mock(WarehouseSectionRepository.class);
-     SectionRepository sectionRepository = Mockito.mock(SectionRepository.class);
-     StockRepository stockRepository = Mockito.mock(StockRepository.class);
-     OrderedProductRepository orderedProductRepository = Mockito.mock(OrderedProductRepository.class);
-     ProductRepository productRepository = Mockito.mock(ProductRepository.class);
+    InboundOrderServiceImpl inboundOrderService;
+    WarehouseServiceImpl warehouseService;
+    ProductServiceImpl productService;
+    StockServiceImpl stockService;
+    WarehouseRepository warehouseRepository = Mockito.mock(WarehouseRepository.class);
+    WarehouseSectionRepository warehouseSectionRepository = Mockito.mock(WarehouseSectionRepository.class);
+    SectionRepository sectionRepository = Mockito.mock(SectionRepository.class);
+    StockRepository stockRepository = Mockito.mock(StockRepository.class);
+    OrderedProductRepository orderedProductRepository = Mockito.mock(OrderedProductRepository.class);
+    ProductRepository productRepository = Mockito.mock(ProductRepository.class);
 
     @BeforeEach
-    public void setup(){
+    public void setup() {
 
         this.warehouseService = new WarehouseServiceImpl(warehouseRepository);
         this.productService = new ProductServiceImpl(productRepository);
         this.stockService = new StockServiceImpl(stockRepository, orderedProductRepository);
-        this.inboundOrderService = new InboundOrderServiceImpl(warehouseService,productService,stockService,warehouseSectionRepository,sectionRepository);
+        this.inboundOrderService = new InboundOrderServiceImpl(warehouseService, productService, stockService, warehouseSectionRepository, sectionRepository);
     }
 
     @Test
@@ -58,7 +56,7 @@ public class InboundOrderServiceTest {
         when(this.productRepository.findByProductCode("BANANA")).thenReturn(product);
         when(this.sectionRepository.getBySectionCode("FS")).thenReturn(section);
 
-        InboundOrderResponseDTO inboundOrderResponseDTO  = this.inboundOrderService.create("testRep", inboundOrderDTO);
+        InboundOrderResponseDTO inboundOrderResponseDTO = this.inboundOrderService.create("testRep", inboundOrderDTO);
         assertEquals(inboundOrderResponseDTO.getBatchStock().get(0).getBatchNumber(), 25);
     }
 
@@ -75,7 +73,7 @@ public class InboundOrderServiceTest {
         when(this.warehouseSectionRepository.findByWarehouseAndSectionCode("WAREHOUSE_TESTE", "FS")).thenReturn(warehouseSection);
         when(this.stockRepository.findByBatchNumber(25)).thenReturn(stock);
 
-        InboundOrderResponseDTO inboundOrderResponseDTO  = this.inboundOrderService.update("testRep", inboundOrderDTO);
+        InboundOrderResponseDTO inboundOrderResponseDTO = this.inboundOrderService.update("testRep", inboundOrderDTO);
         assertEquals(inboundOrderResponseDTO.getBatchStock().get(0).getBatchNumber(), 25);
     }
 

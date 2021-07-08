@@ -6,7 +6,6 @@ import com.mercadolibre.fresco.dtos.PurchaseOrderDTO;
 import com.mercadolibre.fresco.dtos.response.ProductResponseDTO;
 import com.mercadolibre.fresco.dtos.response.PurchaseOrderResponseDTO;
 import com.mercadolibre.fresco.exceptions.ApiError;
-import com.mercadolibre.fresco.exceptions.NotFoundException;
 import com.mercadolibre.fresco.exceptions.UnauthorizedException;
 import com.mercadolibre.fresco.service.IPurchaseOrderService;
 import io.swagger.v3.oas.annotations.Operation;

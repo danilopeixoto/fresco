@@ -23,7 +23,7 @@ public class ProductServiceImplTest {
 
     @Test
     void shouldFindByProductCode() {
-        Product banana = new Product(1L,"BANANA", null, 5., null, null, null);
+        Product banana = new Product(1L, "BANANA", null, 5., null, null, null);
         when(productRepository.findByProductCode("BANANA")).thenReturn(banana);
         Product testProduct = productService.findByProductCode("BANANA");
         assertEquals(1L, testProduct.getId());
@@ -32,7 +32,7 @@ public class ProductServiceImplTest {
 
     @Test
     void shouldFindByCategoryCode() {
-        Product banana = new Product(1L,"BANANA", null, 5., null, null,
+        Product banana = new Product(1L, "BANANA", null, 5., null, null,
             new ProductCategory(1L, "FS", "Fresh", null, null));
         when(productRepository.findByProductCode("BANANA")).thenReturn(banana);
         Product testProduct = productService.findByProductCode("BANANA");

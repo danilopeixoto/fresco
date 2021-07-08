@@ -20,7 +20,8 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -46,8 +47,8 @@ public class InboundOrderControllerTest extends ControllerTest {
     static void setup() {
         stocks = new ArrayList<>();
         stocks.add(new StockDTO().toBuilder().batchNumber(100).price(50.).currentTemperature(15.)
-        .dueDate(LocalDate.now().plusWeeks(10)).productCode("BANANA").manufacturingDate(LocalDate.now())
-        .manufacturingTime(LocalTime.now()).currentQuantity(30).initialQuantity(50).build());
+            .dueDate(LocalDate.now().plusWeeks(10)).productCode("BANANA").manufacturingDate(LocalDate.now())
+            .manufacturingTime(LocalTime.now()).currentQuantity(30).initialQuantity(50).build());
         inboundOrderDTO = new InboundOrderDTO().toBuilder().orderDate(LocalDate.now()).orderNumber(1L).batchStock(stocks)
             .section(new SectionDTO().toBuilder().sectionCode("FS").warehouseCode("WAREHOUSE_TESTE").build()).build();
 
@@ -88,7 +89,8 @@ public class InboundOrderControllerTest extends ControllerTest {
             .contentType(MediaType.APPLICATION_JSON).content(this.objectMapper.writeValueAsString(inboundOrderDTO)))
             .andDo(print()).andExpect(status().isUnauthorized())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-            .andExpect(result -> Assertions.assertTrue(result.getResolvedException() instanceof AccessDeniedException));    }
+            .andExpect(result -> Assertions.assertTrue(result.getResolvedException() instanceof AccessDeniedException));
+    }
 
 
 }

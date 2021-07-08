@@ -4,7 +4,6 @@ import com.mercadolibre.fresco.exceptions.ApiError;
 import com.mercadolibre.fresco.exceptions.ApiException;
 import com.mercadolibre.fresco.exceptions.NotFoundException;
 import com.newrelic.api.agent.NewRelic;
-import org.aspectj.weaver.ast.Not;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;

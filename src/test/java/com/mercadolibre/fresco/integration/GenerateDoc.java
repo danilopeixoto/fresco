@@ -22,7 +22,7 @@ class GenerateDoc extends ControllerTest {
     void generateSwaggerDocumentation() throws IOException {
         File outputDir = new File("docs/specs");
         ResponseEntity<String> responseEntity = this.testRestTemplate.getForEntity("/docs/v1/openapi", String.class);
-         assertTrue(responseEntity.getStatusCode()
+        assertTrue(responseEntity.getStatusCode()
             .is2xxSuccessful());
         assertNotNull(responseEntity.getBody());
 

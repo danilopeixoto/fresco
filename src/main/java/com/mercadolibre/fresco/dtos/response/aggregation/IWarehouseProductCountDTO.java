@@ -4,5 +4,6 @@ import java.math.BigDecimal;
 
 public interface IWarehouseProductCountDTO {
     String getWarehouseCode();
+
     BigDecimal getTotalQuantity();
 }

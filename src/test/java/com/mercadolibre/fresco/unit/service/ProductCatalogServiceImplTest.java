@@ -32,8 +32,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.RETURNS_DEEP_STUBS;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
 public class ProductCatalogServiceImplTest {
@@ -70,7 +70,7 @@ public class ProductCatalogServiceImplTest {
 
     @Test
     void shouldFindAllListOneItem() {
-        Product product = new Product(1L,"BANANA", null, 5., null, null
+        Product product = new Product(1L, "BANANA", null, 5., null, null
             , new ProductCategory(1L, "FS", "Fresh", null, null));
 
         when(this.productRepository.findAll()).thenReturn(List.<Product>of(product));
@@ -102,7 +102,7 @@ public class ProductCatalogServiceImplTest {
     void shouldFindProductsByCategoryCodeListOneItem() {
         EProductCategory categoryCode = EProductCategory.FS;
 
-        Product product = new Product(1L,"BANANA", null, 5., null, null
+        Product product = new Product(1L, "BANANA", null, 5., null, null
             , new ProductCategory(1L, categoryCode.name(), "Fresh", null, null));
 
         when(this.productRepository.findByProductCategory(categoryCode.name())).thenReturn(List.<Product>of(product));
@@ -165,7 +165,8 @@ public class ProductCatalogServiceImplTest {
         LocalDate date = LocalDate.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-        when(this.stockRepository.findStockWithProductDueDateUntilFutureDate(date.format(formatter)))
+        when(this.stockRepository.findStockWithProductDueDateUntilFutureDate(
+            date.plusDays(days).format(formatter)))
             .thenReturn(List.<IBatchStockDueDateResponseDTO>of());
 
         ApiException exception = assertThrows(
@@ -185,7 +186,8 @@ public class ProductCatalogServiceImplTest {
         BatchStockDueDateResponseDTOImpl batchStockDueDate = new BatchStockDueDateResponseDTOImpl(
             "BATCH_NUMBER", "PRODUCT_ID", "FS", date, 100);
 
-        when(this.stockRepository.findStockWithProductDueDateUntilFutureDate(date.format(formatter)))
+        when(this.stockRepository.findStockWithProductDueDateUntilFutureDate(
+            date.plusDays(days).format(formatter)))
             .thenReturn(List.<IBatchStockDueDateResponseDTO>of(batchStockDueDate));
 
         List<IBatchStockDueDateResponseDTO> responses = this.productCatalogService.findStocksByDueDate(days);
@@ -210,7 +212,8 @@ public class ProductCatalogServiceImplTest {
         LocalDate date = LocalDate.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-        when(this.stockRepository.findStockWithProductDueDateUntilFutureDateByProductCategory(date.format(formatter), productCategory.name()))
+        when(this.stockRepository.findStockWithProductDueDateUntilFutureDateByProductCategory(
+            date.plusDays(days).format(formatter), productCategory.name()))
             .thenReturn(List.<IBatchStockDueDateResponseDTO>of());
 
         ApiException exception = assertThrows(
@@ -227,6 +230,7 @@ public class ProductCatalogServiceImplTest {
         EResultOrder resultOrder = EResultOrder.asc;
 
         int days = 10;
+
         LocalDate date = LocalDate.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
@@ -236,10 +240,12 @@ public class ProductCatalogServiceImplTest {
         List<IBatchStockDueDateResponseDTO> batchStockDueDateResponseDTO = new ArrayList<>();
         batchStockDueDateResponseDTO.add(batchStockDueDate);
 
-        when(this.stockRepository.findStockWithProductDueDateUntilFutureDateByProductCategory(date.format(formatter), productCategory.name()))
+        when(this.stockRepository.findStockWithProductDueDateUntilFutureDateByProductCategory(
+            date.plusDays(days).format(formatter), productCategory.name()))
             .thenReturn(batchStockDueDateResponseDTO);
 
-        List<IBatchStockDueDateResponseDTO> responses = this.productCatalogService.findStocksByDueDateAndProductCategory(days, productCategory, resultOrder);
+        List<IBatchStockDueDateResponseDTO> responses = this.productCatalogService
+            .findStocksByDueDateAndProductCategory(days, productCategory, resultOrder);
 
         assertEquals(1, responses.size());
 
