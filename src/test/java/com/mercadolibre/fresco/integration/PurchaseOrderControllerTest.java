@@ -26,7 +26,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @AutoConfigureMockMvc
-public class PurchaseOrderControllerTest extends ControllerTest{
+public class PurchaseOrderControllerTest extends ControllerTest {
 
     private static final String URL_PATH = "/api/v1/fresh-products/orders";
     private static final Double TOTAL_PRICE = 175.;
@@ -95,4 +95,6 @@ public class PurchaseOrderControllerTest extends ControllerTest{
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
             .andExpect(result -> Assertions.assertTrue(result.getResolvedException() instanceof AccessDeniedException));
     }
+
+}
 
