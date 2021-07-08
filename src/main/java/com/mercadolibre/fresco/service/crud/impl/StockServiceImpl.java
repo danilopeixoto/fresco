@@ -136,7 +136,7 @@ public class StockServiceImpl implements IStockService {
 
         List<IBatchStockDueDateResponseDTO> stocks = stockRepository.findStockWithProductDueDateUntilFutureDate(futureTime.format(formatter));
         if (stocks.isEmpty()) {
-            throw new ApiException("404", "Product list not found.", 404);
+            throw new ApiException("404", "Products not exists!", 404);
         }
 
         return stocks;
@@ -149,7 +149,7 @@ public class StockServiceImpl implements IStockService {
 
         List<IBatchStockDueDateResponseDTO> stocks = stockRepository.findStockWithProductDueDateUntilFutureDateByProductCategory(futureTime.format(formatter), productCategory);
         if (stocks.isEmpty()) {
-            throw new ApiException("404", "Products not found.", 404);
+            throw new ApiException("404", "Products not exists!", 404);
         }
 
         return stocks;

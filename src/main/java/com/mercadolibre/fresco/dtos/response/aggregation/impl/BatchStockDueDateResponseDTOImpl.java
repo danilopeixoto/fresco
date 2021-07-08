@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
-import com.mercadolibre.fresco.dtos.response.aggregation.IInfoStockDTO;
+import com.mercadolibre.fresco.dtos.response.aggregation.IBatchStockDueDateResponseDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,13 +17,13 @@ import java.time.LocalDate;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class InfoStockDTO implements IInfoStockDTO {
-    public Integer batchNumber;
-    public Integer currentQuantity;
+public class BatchStockDueDateResponseDTOImpl implements IBatchStockDueDateResponseDTO {
+    public String batchNumber;
+    public String productId;
+    public String productTypeId;
     @JsonDeserialize(using = LocalDateDeserializer.class)
     @JsonSerialize(using = LocalDateSerializer.class)
     @JsonFormat(pattern = "MM-dd-yyyy")
     public LocalDate dueDate;
-    public String sectionCode;
-    public String warehouseCode;
+    public Integer quantity;
 }
