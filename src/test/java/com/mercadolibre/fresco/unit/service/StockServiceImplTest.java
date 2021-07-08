@@ -2,7 +2,6 @@ package com.mercadolibre.fresco.unit.service;
 
 import com.mercadolibre.fresco.dtos.ProductsDTO;
 import com.mercadolibre.fresco.exceptions.ApiException;
-import com.mercadolibre.fresco.exceptions.NotFoundException;
 import com.mercadolibre.fresco.model.OrderedProduct;
 import com.mercadolibre.fresco.model.Product;
 import com.mercadolibre.fresco.model.PurchaseOrder;
