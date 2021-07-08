@@ -36,4 +36,6 @@ public class User {
 
     @OneToMany(mappedBy = "agent", cascade = CascadeType.ALL)
     private List<Warehouse> warehouses;
+
+
 }

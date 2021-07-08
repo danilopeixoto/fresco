@@ -96,19 +96,19 @@ public class InboundOrderServiceImpl implements IInboundOrderService {
         this.stockService.create(stock);
     }
 
-    private void validateAgentBelongsThisWarehouse(String agentUsername, Warehouse warehouse) {
+    public void validateAgentBelongsThisWarehouse(String agentUsername, Warehouse warehouse) {
         if (!warehouse.getAgent().getUsername().equals(agentUsername)) {
             throw new ApiException("401", "Agent not allowed.", 401);
         }
     }
 
-    private void validateWarehouseSectionExists(WarehouseSection warehouseSection) {
+    public void validateWarehouseSectionExists(WarehouseSection warehouseSection) {
         if( warehouseSection == null){
             throw new ApiException("400", "Invalid warehouse section.", 400);
         }
     }
 
-    private List<Product> validateRequestProductsAreAvailable(List<StockDTO> stocks) {
+    public List<Product> validateRequestProductsAreAvailable(List<StockDTO> stocks) {
         List<Product> products = stocks
             .stream()
             .map(StockDTO::getProductCode)
