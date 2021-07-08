@@ -1,7 +1,7 @@
 package com.mercadolibre.fresco.unit.service;
 
 import com.mercadolibre.fresco.dtos.ProductsDTO;
-import com.mercadolibre.fresco.exceptions.NotFoundException;
+import com.mercadolibre.fresco.exceptions.ApiException;
 import com.mercadolibre.fresco.model.OrderedProduct;
 import com.mercadolibre.fresco.model.Product;
 import com.mercadolibre.fresco.model.PurchaseOrder;
@@ -80,7 +80,7 @@ public class StockServiceImplTest {
         when(this.stockRepository.findById(1L)).thenReturn(java.util.Optional.ofNullable(stock));
         when(this.stockRepository.save(stock)).thenReturn(stock);
 
-        NotFoundException e = assertThrows(NotFoundException.class, () -> this.stockService.validProductStockForPurchaseOrder(bananaDto));
+        ApiException e = assertThrows(ApiException.class, () -> this.stockService.validProductStockForPurchaseOrder(bananaDto));
         assertEquals(NOT_FOUND_DUE_DATE_MESSAGE, e.getMessage());
     }
 
@@ -100,7 +100,7 @@ public class StockServiceImplTest {
         when(this.stockRepository.findById(1L)).thenReturn(java.util.Optional.ofNullable(stock));
         when(this.stockRepository.save(stock)).thenReturn(stock);
 
-        NotFoundException e = assertThrows(NotFoundException.class, () -> this.stockService.validProductStockForPurchaseOrder(bananaDto));
+        ApiException e = assertThrows(ApiException.class, () -> this.stockService.validProductStockForPurchaseOrder(bananaDto));
         assertEquals(NOT_FOUND_AVAILABILITY_MESSAGE, e.getMessage());
     }
 
@@ -154,7 +154,7 @@ public class StockServiceImplTest {
         when(this.stockRepository.findById(1L)).thenReturn(java.util.Optional.ofNullable(stock));
         when(this.stockRepository.save(stock)).thenReturn(stock);
 
-        NotFoundException e = assertThrows(NotFoundException.class, () -> this.stockService.validStockForExistingOrder(bananaDto, 1L));
+        ApiException e = assertThrows(ApiException.class, () -> this.stockService.validStockForExistingOrder(bananaDto, 1L));
         assertEquals(NOT_FOUND_AVAILABILITY_MESSAGE, e.getMessage());
     }
 

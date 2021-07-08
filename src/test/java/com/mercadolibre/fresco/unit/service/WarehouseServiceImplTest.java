@@ -1,5 +1,6 @@
 package com.mercadolibre.fresco.unit.service;
 
+import com.mercadolibre.fresco.exceptions.ApiException;
 import com.mercadolibre.fresco.exceptions.NotFoundException;
 import com.mercadolibre.fresco.model.Warehouse;
 import com.mercadolibre.fresco.repository.WarehouseRepository;
@@ -27,7 +28,7 @@ public class WarehouseServiceImplTest {
     void shouldThrowNotFoundException() {
         Warehouse warehouse = new Warehouse(1L, "WAREHOUSE_TESTE", null, null);
         when(warehouseRepository.findWarehouseByCode("WAREHOUSE_TESTE")).thenReturn(warehouse);
-        assertThrows(NotFoundException.class, () -> this.warehouseService.findWarehouseByCode("FAIL"));
+        assertThrows(ApiException.class, () -> this.warehouseService.findWarehouseByCode("FAIL"));
     }
 
     @Test

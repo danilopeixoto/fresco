@@ -1,7 +1,6 @@
 package com.mercadolibre.fresco.service.crud.impl;
 
-import com.mercadolibre.fresco.exceptions.BadRequestException;
-import com.mercadolibre.fresco.exceptions.NotFoundException;
+import com.mercadolibre.fresco.exceptions.ApiException;
 import com.mercadolibre.fresco.model.Product;
 import com.mercadolibre.fresco.repository.ProductRepository;
 import com.mercadolibre.fresco.service.crud.IProductService;
@@ -21,7 +20,7 @@ public class ProductServiceImpl implements IProductService {
     @Override
     public Product create(Product product) {
         if (this.productRepository.findByProductCode(product.getProductCode()) == null) {
-            throw new BadRequestException("Product " + product.getProductCode() + " already exists!");
+            throw new ApiException("409", "Product " + product.getProductCode() + " already exists!", 409);
         }
         return productRepository.save(product);
     }
@@ -29,7 +28,7 @@ public class ProductServiceImpl implements IProductService {
     @Override
     public Product update(Product product) {
         if (this.productRepository.findByProductCode(product.getProductCode()) == null) {
-            throw new NotFoundException("Product " + product.getProductCode() + " not found!");
+            throw new ApiException("404","Product " + product.getProductCode() + " not found!", 404);
         }
 
         return this.productRepository.save(product);
@@ -55,7 +54,7 @@ public class ProductServiceImpl implements IProductService {
     public List<Product> findAll() {
         List<Product> products = this.productRepository.findAll();
         if (products.isEmpty()) {
-            throw new NotFoundException("Products not exists!");
+            throw new ApiException("404", "Products not exists!", 404);
         }
         return products;
     }
@@ -65,7 +64,7 @@ public class ProductServiceImpl implements IProductService {
         List<Product> products = this.productRepository.findByProductCategory(categoryCode);
 
         if (products.isEmpty()) {
-            throw new NotFoundException("Products not exists!");
+            throw new ApiException("404", "Products in category "+categoryCode+" not exists!", 404);
         }
 
         return products;

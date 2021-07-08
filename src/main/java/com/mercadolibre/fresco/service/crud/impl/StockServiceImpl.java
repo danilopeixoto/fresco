@@ -4,17 +4,14 @@ import com.mercadolibre.fresco.dtos.ProductsDTO;
 import com.mercadolibre.fresco.dtos.response.aggregation.IBatchStockDueDateResponseDTO;
 import com.mercadolibre.fresco.dtos.response.aggregation.IInfoStockDTO;
 import com.mercadolibre.fresco.exceptions.ApiException;
-import com.mercadolibre.fresco.exceptions.NotFoundException;
 import com.mercadolibre.fresco.model.OrderedProduct;
 import com.mercadolibre.fresco.model.Stock;
 import com.mercadolibre.fresco.repository.OrderedProductRepository;
 import com.mercadolibre.fresco.repository.StockRepository;
 import com.mercadolibre.fresco.service.crud.IStockService;
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -73,10 +70,13 @@ public class StockServiceImpl implements IStockService {
         //Stock availability validate
         productStocks = this.validStockAvailability(productStocks, actualQuantity);
 
+        if (productStocks.isEmpty()){
+            throw new ApiException("404", "Products in order " + orderId + "not exists!", 404);
+        }
+
         //Decrease amount of larger stock based on last quantity
-        if (productStocks.size() != 0)
-            return this.decreaseAmountOfStock(productStocks, actualQuantity);
-        return null;
+        return this.decreaseAmountOfStock(productStocks, actualQuantity);
+
     }
 
     @Override
@@ -89,10 +89,12 @@ public class StockServiceImpl implements IStockService {
         //Stock availability validate
         productStocks = this.validStockAvailability(productStocks, productsDTO.getQuantity());
 
+        if (productStocks.isEmpty()){
+            throw new ApiException("404", "Products in stock not exists!", 404);
+        }
         //Decrease amount of larger stock
-        if (productStocks.size() != 0)
-            return this.decreaseAmountOfStock(productStocks, productsDTO.getQuantity());
-        return null;
+        return this.decreaseAmountOfStock(productStocks, productsDTO.getQuantity());
+
     }
 
     @Override
@@ -100,7 +102,7 @@ public class StockServiceImpl implements IStockService {
         List<Stock> stocks = this.stockRepository.findByProductCode(productCode);
 
         if (stocks.isEmpty()) {
-            throw new ApiException("404", "Product not found", 404);
+            throw new ApiException("404", "Product with code " + productCode + " not found", 404);
         }
 
         return stocks;
@@ -110,17 +112,20 @@ public class StockServiceImpl implements IStockService {
     @Override
     public Stock updateCurrentQuantityById(Long id, Integer purchaseQuantity) {
         Stock stock = this.findById(id);
+        if (stock == null){
+            throw new ApiException("404", "Stock with id " + id +" not found!", 404);
+        }
         stock.setCurrentQuantity((stock.getCurrentQuantity() - purchaseQuantity));
         return this.stockRepository.save(stock);
     }
 
     @Override
     public List<IInfoStockDTO> findWithSectionAndWarehouseByProductCode(String username, String productCode) {
+
         List<IInfoStockDTO> stocks = stockRepository.findWithSectionAndWarehouseByProductCode(username, productCode);
         if (stocks.isEmpty()) {
-            throw new ApiException("404", "Product not found.", 404);
+            throw new ApiException("404", "Products not found.", 404);
         }
-
         return stocks;
     }
 
@@ -177,8 +182,8 @@ public class StockServiceImpl implements IStockService {
             .filter(stock -> stock.getProduct().getDueDate().isAfter(futureTime))
             .collect(Collectors.toList());
 
-        if (stocks.size() == 0)
-            throw new NotFoundException("Non stock of product found in valid due date");
+        if (stocks.isEmpty())
+            throw new ApiException("404","Not Found Exception. Non stock of product found in valid due date", 404);
 
         return stocks;
     }
@@ -188,8 +193,8 @@ public class StockServiceImpl implements IStockService {
             .filter(stock -> stock.getCurrentQuantity() >= quantity)
             .collect(Collectors.toList());
 
-        if (stocks.size() == 0)
-            throw new NotFoundException("Non stock of product found with availability");
+        if (stocks.isEmpty())
+            throw new ApiException("404", "Not Found Exception. Non stock of product found with availability", 404);
 
         return stocks;
     }
@@ -204,6 +209,10 @@ public class StockServiceImpl implements IStockService {
     private Integer getQuantityToUpdate(Long orderId, ProductsDTO productsDTO) {
         OrderedProduct existingOrderedProduct = this.orderedProductRepository.findByProductCodeAndOrderId(productsDTO.getProductId(),
             orderId);
+        if (existingOrderedProduct == null){
+            throw new ApiException("404", "Order with id " + orderId + " not exists!", 404);
+        }
+
         if (existingOrderedProduct != null)
             return productsDTO.getQuantity() - existingOrderedProduct.getQuantity();
         return productsDTO.getQuantity();
