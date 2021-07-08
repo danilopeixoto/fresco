@@ -86,7 +86,7 @@ public class ProductCatalogServiceImpl implements IProductCatalogService {
     @Override
     public List<IBatchStockDueDateResponseDTO> findStocksByDueDateAndProductCategory(Integer dayQuantity, EProductCategory productCategory, EResultOrder order) {
         List<IBatchStockDueDateResponseDTO> stocks = stockService.findStockWithProductDueDateUntilFutureByProductCategory(dayQuantity, productCategory.getCategory());
-        if(order.getOrder() == "asc")
+        if(order.getOrder().equals("asc"))
             stocks.sort(Comparator.comparing(IBatchStockDueDateResponseDTO::getDueDate));
         else
             stocks.sort((a,b) -> b.getDueDate().compareTo(a.getDueDate()));

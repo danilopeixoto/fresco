@@ -55,7 +55,7 @@ public class ProductServiceImpl implements IProductService {
     public List<Product> findAll() {
         List<Product> products = this.productRepository.findAll();
         if (products.isEmpty()) {
-            throw new NotFoundException("Products not exists!");
+            throw new NotFoundException("Product list not found.");
         }
         return products;
     }
@@ -65,7 +65,7 @@ public class ProductServiceImpl implements IProductService {
         List<Product> products = this.productRepository.findByProductCategory(categoryCode);
 
         if (products.isEmpty()) {
-            throw new NotFoundException("Products not exists!");
+            throw new NotFoundException("Product list not found.");
         }
 
         return products;

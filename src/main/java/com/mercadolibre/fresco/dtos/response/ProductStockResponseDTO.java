@@ -17,5 +17,4 @@ public class ProductStockResponseDTO {
     private String productId;
 
     private List<IInfoStockDTO> batchStock;
-
 }
