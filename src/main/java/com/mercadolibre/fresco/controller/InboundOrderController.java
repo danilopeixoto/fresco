@@ -8,6 +8,7 @@ import com.mercadolibre.fresco.exceptions.BadRequestException;
 import com.mercadolibre.fresco.exceptions.NotFoundException;
 import com.mercadolibre.fresco.exceptions.UnauthorizedException;
 import com.mercadolibre.fresco.service.IInboundOrderService;
+import com.mercadolibre.fresco.service.ISessionService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -22,10 +23,13 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(path = "/api/v1/fresh-products/inboundorder")
 @RestController
 public class InboundOrderController {
-    private final IInboundOrderService inboundOrderService;
 
-    public InboundOrderController(IInboundOrderService inboundOrderService) {
+    private final IInboundOrderService inboundOrderService;
+    private final ISessionService sessionService;
+
+    public InboundOrderController(IInboundOrderService inboundOrderService, ISessionService sessionService) {
         this.inboundOrderService = inboundOrderService;
+        this.sessionService = sessionService;
     }
 
     /**
@@ -60,9 +64,11 @@ public class InboundOrderController {
     @PreAuthorize("hasAuthority('REP')")
     @PostMapping(consumes = "application/json")
     @ResponseBody
-    public InboundOrderResponseDTO create(Authentication authentication, @Validated @RequestBody InboundOrderDTO inboundOrderDTO)
+    public InboundOrderResponseDTO create(@RequestHeader (name="Authorization") String token, @Validated @RequestBody InboundOrderDTO inboundOrderDTO)
         throws UnauthorizedException, NotFoundException, BadRequestException {
-        return this.inboundOrderService.create(authentication.getName(), inboundOrderDTO);
+        String username = this.sessionService.getUsername(token);
+
+        return this.inboundOrderService.create(username, inboundOrderDTO);
     }
 
     /**
@@ -97,8 +103,11 @@ public class InboundOrderController {
     @PreAuthorize("hasAuthority('REP')")
     @PutMapping(consumes = "application/json")
     @ResponseBody
-    public InboundOrderResponseDTO update(Authentication authentication, @Validated @RequestBody InboundOrderDTO inboundOrderDTO)
+    public InboundOrderResponseDTO update(@RequestHeader (name="Authorization") String token, @Validated @RequestBody InboundOrderDTO inboundOrderDTO)
         throws UnauthorizedException, NotFoundException, BadRequestException {
-        return this.inboundOrderService.update(authentication.getName(), inboundOrderDTO);
+
+        String username = this.sessionService.getUsername(token);
+
+        return this.inboundOrderService.update(username, inboundOrderDTO);
     }
 }
