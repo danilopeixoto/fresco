@@ -37,7 +37,7 @@ VALUES ('3','SORVETE', '1.0','5.4','3');
 
 INSERT INTO `stocks` (`id`, `init_quantity`, `batch_number`, `cur_quantity`, `cur_temp`,  `manufacturing_date`, `manufacturing_time`, `due_date`,
 `product_id`, `warehouse_section_id`)
-VALUES('1', '100', '1', '50','-5.0', '2021-06-05', curtime(),'2021-10-05', '1', '2');
+VALUES('1', '100', '1', '50','-5.0', '2021-06-05', curtime(),'2021-08-05', '1', '2');
 INSERT INTO `stocks` (`id`, `init_quantity`, `batch_number`, `cur_quantity`, `cur_temp`,  `manufacturing_date`, `manufacturing_time`, `due_date`,
 `product_id`, `warehouse_section_id`)
 VALUES('2', '30', '2', '20','3.0',  '2021-06-05', curtime(),'2021-10-05','2', '2');

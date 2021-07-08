@@ -45,7 +45,7 @@ public class StockServiceImpl implements IStockService {
     public Stock findById(Long id) {
         Stock stock = stockRepository.findById(id).orElse(null);
         if (stock == null) {
-            throw new ApiException("404", "Stock not found", 404);
+            throw new ApiException("404", "Stock with ID " + id + " not found", 404);
         }
         return stock;
     }
@@ -54,7 +54,7 @@ public class StockServiceImpl implements IStockService {
     public List<Stock> findAll() {
         List<Stock> stocks = stockRepository.findAll();
         if (stocks.isEmpty()) {
-            throw new ApiException("404", "Stock not found", 404);
+            throw new ApiException("404", "Non stocks in database", 404);
         }
         return stocks;
     }
@@ -70,13 +70,11 @@ public class StockServiceImpl implements IStockService {
         //Stock availability validate
         productStocks = this.validStockAvailability(productStocks, actualQuantity);
 
-        if (productStocks.isEmpty()){
-            throw new ApiException("404", "Products in order " + orderId + "not exists!", 404);
-        }
-
         //Decrease amount of larger stock based on last quantity
-        return this.decreaseAmountOfStock(productStocks, actualQuantity);
+        if(!productStocks.isEmpty())
+            return this.decreaseAmountOfStock(productStocks, actualQuantity);
 
+        return null;
     }
 
     @Override
@@ -89,12 +87,11 @@ public class StockServiceImpl implements IStockService {
         //Stock availability validate
         productStocks = this.validStockAvailability(productStocks, productsDTO.getQuantity());
 
-        if (productStocks.isEmpty()){
-            throw new ApiException("404", "Products in stock not exists!", 404);
-        }
         //Decrease amount of larger stock
-        return this.decreaseAmountOfStock(productStocks, productsDTO.getQuantity());
+        if(!productStocks.isEmpty())
+            return this.decreaseAmountOfStock(productStocks, productsDTO.getQuantity());
 
+        return null;
     }
 
     @Override
@@ -112,9 +109,7 @@ public class StockServiceImpl implements IStockService {
     @Override
     public Stock updateCurrentQuantityById(Long id, Integer purchaseQuantity) {
         Stock stock = this.findById(id);
-        if (stock == null){
-            throw new ApiException("404", "Stock with id " + id +" not found!", 404);
-        }
+
         stock.setCurrentQuantity((stock.getCurrentQuantity() - purchaseQuantity));
         return this.stockRepository.save(stock);
     }
@@ -209,9 +204,6 @@ public class StockServiceImpl implements IStockService {
     private Integer getQuantityToUpdate(Long orderId, ProductsDTO productsDTO) {
         OrderedProduct existingOrderedProduct = this.orderedProductRepository.findByProductCodeAndOrderId(productsDTO.getProductId(),
             orderId);
-        if (existingOrderedProduct == null){
-            throw new ApiException("404", "Order with id " + orderId + " not exists!", 404);
-        }
 
         if (existingOrderedProduct != null)
             return productsDTO.getQuantity() - existingOrderedProduct.getQuantity();

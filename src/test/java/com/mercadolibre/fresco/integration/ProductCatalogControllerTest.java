@@ -10,6 +10,9 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -71,9 +74,10 @@ public class ProductCatalogControllerTest extends ControllerTest {
             );
     }
 
-    /*
     @Test
     void shouldListStocksByProductCodeAndOrderByDueDate() throws Exception {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy");
+
         this.mockMvc.perform(get(URL_PATH + "/list/stocks")
             .header(HttpHeaders.AUTHORIZATION, this.sessionService.login("testRep", "teste1000").getToken())
             .param("productCode", "BANANA")
@@ -85,11 +89,11 @@ public class ProductCatalogControllerTest extends ControllerTest {
             .andExpect(
                 result -> {
                     String jsonResponse = result.getResponse().getContentAsString();
-                    Integer minorAmount = Integer.parseInt(JsonPath.parse(jsonResponse).read("$['batch_stock'][0]['due_date']").toString());
-                    Integer largeAmount = Integer.parseInt(JsonPath.parse(jsonResponse).read("$['batch_stock'][1]['due_date']").toString());
-                    Assertions.assertTrue(minorAmount < largeAmount);
+                    LocalDate olderDate = LocalDate.parse(JsonPath.parse(jsonResponse).read("$['batch_stock'][0]['due_date']").toString(),formatter);
+                    LocalDate newerDate = LocalDate.parse(JsonPath.parse(jsonResponse).read("$['batch_stock'][1]['due_date']").toString(),formatter);
+                    Assertions.assertTrue(olderDate.isAfter(newerDate));
                 }
             );
-    } */
+    }
 
 }
