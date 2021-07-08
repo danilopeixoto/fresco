@@ -34,3 +34,4 @@ public class InboundOrderDTO {
     @NotNull(message = "batchStock cannot be null.")
     public List<StockDTO> batchStock;
 }
+
