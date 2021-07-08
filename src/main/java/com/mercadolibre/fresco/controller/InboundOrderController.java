@@ -15,7 +15,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -64,7 +63,7 @@ public class InboundOrderController {
     @PreAuthorize("hasAuthority('REP')")
     @PostMapping(consumes = "application/json")
     @ResponseBody
-    public InboundOrderResponseDTO create(@RequestHeader (name="Authorization") String token, @Validated @RequestBody InboundOrderDTO inboundOrderDTO)
+    public InboundOrderResponseDTO create(@RequestHeader(name = "Authorization") String token, @Validated @RequestBody InboundOrderDTO inboundOrderDTO)
         throws UnauthorizedException, NotFoundException, BadRequestException {
         String username = this.sessionService.getUsername(token);
 
@@ -103,7 +102,7 @@ public class InboundOrderController {
     @PreAuthorize("hasAuthority('REP')")
     @PutMapping(consumes = "application/json")
     @ResponseBody
-    public InboundOrderResponseDTO update(@RequestHeader (name="Authorization") String token, @Validated @RequestBody InboundOrderDTO inboundOrderDTO)
+    public InboundOrderResponseDTO update(@RequestHeader(name = "Authorization") String token, @Validated @RequestBody InboundOrderDTO inboundOrderDTO)
         throws UnauthorizedException, NotFoundException, BadRequestException {
 
         String username = this.sessionService.getUsername(token);

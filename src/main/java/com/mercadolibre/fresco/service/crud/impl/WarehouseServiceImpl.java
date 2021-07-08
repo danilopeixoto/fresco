@@ -37,14 +37,14 @@ public class WarehouseServiceImpl implements IWarehouseService {
     public Warehouse findWarehouseByCode(String warehouseCode) {
         Warehouse warehouse = this.warehouseRepository.findWarehouseByCode(warehouseCode);
         if (warehouse == null) {
-            throw new ApiException("404","Warehouse with code " + warehouseCode + " not found!", 404);
+            throw new ApiException("404", "Warehouse with code " + warehouseCode + " not found!", 404);
         }
         return warehouse;
     }
 
     @Override
     public Long getWarehouseIdByCode(String warehouseCode) {
-       return this.findWarehouseByCode(warehouseCode).getId();
+        return this.findWarehouseByCode(warehouseCode).getId();
     }
 
     @Override

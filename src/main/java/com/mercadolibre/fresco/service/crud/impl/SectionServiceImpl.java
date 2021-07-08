@@ -46,7 +46,7 @@ public class SectionServiceImpl implements ISectionService {
     public Section findById(Long id) {
         Section section = this.sectionRepository.findById(id).get();
         if (section == null) {
-            throw new ApiException("404","Section with " + id + " not found!", 404);
+            throw new ApiException("404", "Section with " + id + " not found!", 404);
         }
         return section;
     }

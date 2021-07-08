@@ -13,7 +13,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -89,8 +89,8 @@ public class ProductCatalogControllerTest extends ControllerTest {
             .andExpect(
                 result -> {
                     String jsonResponse = result.getResponse().getContentAsString();
-                    LocalDate olderDate = LocalDate.parse(JsonPath.parse(jsonResponse).read("$['batch_stock'][0]['due_date']").toString(),formatter);
-                    LocalDate newerDate = LocalDate.parse(JsonPath.parse(jsonResponse).read("$['batch_stock'][1]['due_date']").toString(),formatter);
+                    LocalDate olderDate = LocalDate.parse(JsonPath.parse(jsonResponse).read("$['batch_stock'][0]['due_date']").toString(), formatter);
+                    LocalDate newerDate = LocalDate.parse(JsonPath.parse(jsonResponse).read("$['batch_stock'][1]['due_date']").toString(), formatter);
                     Assertions.assertTrue(olderDate.isAfter(newerDate));
                 }
             );

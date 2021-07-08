@@ -18,5 +18,5 @@ public interface IProductCatalogService {
 
     List<IBatchStockDueDateResponseDTO> findStocksByDueDate(Integer dayQuantity);
 
-    List<IBatchStockDueDateResponseDTO>  findStocksByDueDateAndProductCategory(Integer dayQuantity, EProductCategory productCategory, EResultOrder order);
+    List<IBatchStockDueDateResponseDTO> findStocksByDueDateAndProductCategory(Integer dayQuantity, EProductCategory productCategory, EResultOrder order);
 }

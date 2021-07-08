@@ -18,7 +18,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.Min;
@@ -112,7 +111,7 @@ public class ProductCatalogController {
     @GetMapping(path = "/list/stocks")
     @ResponseBody
     public ProductStockResponseDTO listStockByProductCode(
-        @RequestHeader (name="Authorization") String token,
+        @RequestHeader(name = "Authorization") String token,
         @RequestParam(required = true) String productCode,
         @RequestParam(required = false, defaultValue = "C") BatchStockOrder order) {
 

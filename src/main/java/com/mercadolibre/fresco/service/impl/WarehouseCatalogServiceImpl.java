@@ -30,8 +30,8 @@ public class WarehouseCatalogServiceImpl implements IWarehouseCatalogService {
         }
 
         WarehousesProductCountResponseDTO warehousesProductCountResponseDTO = new WarehousesProductCountResponseDTO(
-                productCode,
-                warehouses
+            productCode,
+            warehouses
         );
 
         return warehousesProductCountResponseDTO;
