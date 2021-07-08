@@ -73,4 +73,11 @@ public class TestUtil {
         stocks.add(stock);
         return stocks;
     }
+
+    public static List<Product> createListProduct(){
+        Product product = createProduct();
+        List<Product> products = new ArrayList<>();
+        products.add(product);
+        return products;
+    }
 }

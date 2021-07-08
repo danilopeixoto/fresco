@@ -125,7 +125,7 @@ public class InboundOrderServiceImpl implements IInboundOrderService {
         return products;
     }
 
-    private void validateProductsCategoriesAndSectionsMatches(List<Product> products, InboundOrderDTO inboundOrderDTO, Section section) {
+    public void validateProductsCategoriesAndSectionsMatches(List<Product> products, InboundOrderDTO inboundOrderDTO, Section section) {
         if (products
             .stream()
             .filter(product -> product
@@ -139,13 +139,13 @@ public class InboundOrderServiceImpl implements IInboundOrderService {
         }
     }
 
-    private void validateThatIsSpaceAvailable(WarehouseSection warehouseSection) {
+    public void validateThatIsSpaceAvailable(WarehouseSection warehouseSection) {
         if (stockService.countStocksOnSection(warehouseSection.getId()) > this.MAX_CAPACITY) {
             throw new ApiException("400", "Stock maximum capacity reached.", 400);
         }
     }
 
-    private void persistRequestBatchStocks(InboundOrderDTO inboundOrderDTO, List<Product> products, WarehouseSection warehouseSection) {
+    public void persistRequestBatchStocks(InboundOrderDTO inboundOrderDTO, List<Product> products, WarehouseSection warehouseSection) {
         try {
             Streams
                 .zip(

@@ -1,7 +1,7 @@
 package com.mercadolibre.fresco.unit.service;
 
-
 import com.mercadolibre.fresco.dtos.InboundOrderDTO;
+import com.mercadolibre.fresco.dtos.StockDTO;
 import com.mercadolibre.fresco.dtos.response.InboundOrderResponseDTO;
 import com.mercadolibre.fresco.exceptions.ApiException;
 import com.mercadolibre.fresco.model.*;
@@ -15,7 +15,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -24,6 +23,9 @@ import static org.mockito.Mockito.when;
 public class InboundOrderServiceTest {
     static final String NOT_ALLOWED_AGENT_ON_WAREHOUSE = "Agent not allowed.";
     static final String NOT_VALID_WAREHOUSE_SECTION = "Invalid warehouse section.";
+    static final String PRODUCT_NOT_FOUND = "Some product not found.";
+    static final String NOT_VALID_PRODUCT_SECTION_PRODUCT_CATEGORY = "Some product category and section mismatched.";
+    static final String STOCK_MAXIMUM_CAPACITY = "Stock maximum capacity reached.";
 
      InboundOrderServiceImpl inboundOrderService;
      WarehouseServiceImpl warehouseService;
@@ -95,15 +97,44 @@ public class InboundOrderServiceTest {
         assertEquals(NOT_VALID_WAREHOUSE_SECTION, e.getMessage());
     }
 
-//    @Test
-//    void shouldNotValidateRequestProductsAreAvailable() {
-//
-//        List<Stock> stocks = TestUtil.createListStock();
-//
-//        ApiException e = assertThrows(ApiException.class, () -> this.inboundOrderService.validateRequestProductsAreAvailable());
-//        assertEquals(NOT_VALID_WAREHOUSE_SECTION, e.getMessage());
-//    }
+    @Test
+    void shouldNotValidateRequestProductsAreAvailable() {
 
+        List<StockDTO> stocks = TestUtil.createListStockDTO();
+        Product product = TestUtil.createProduct();
+        product.setProductCode("UVA");
+
+        when(this.productRepository.findByProductCode("UVA")).thenReturn(product);
+
+        ApiException e = assertThrows(ApiException.class, () -> this.inboundOrderService.validateRequestProductsAreAvailable(stocks));
+
+        assertEquals(PRODUCT_NOT_FOUND, e.getMessage());
+    }
+
+    @Test
+    void shouldNotValidateProductsCategoriesAndSectionsMatches() {
+
+        List<Product> products = TestUtil.createListProduct();
+        InboundOrderDTO inboundOrderDTO = TestUtil.createInboundOrderDTO();
+        Section section = TestUtil.createSection();
+        section.getProductCategory().setCategoryCode("UVA");
+
+        ApiException e = assertThrows(ApiException.class, () -> this.inboundOrderService.validateProductsCategoriesAndSectionsMatches(products, inboundOrderDTO, section));
+
+        assertEquals(NOT_VALID_PRODUCT_SECTION_PRODUCT_CATEGORY, e.getMessage());
+    }
+
+    @Test
+    void shouldNotValidateThatIsSpaceAvailable() {
+
+        WarehouseSection warehouseSection = TestUtil.createWarehouseSection();
+
+        when(this.stockRepository.countStocksOnSection(1L)).thenReturn(11);
+
+        ApiException e = assertThrows(ApiException.class, () -> this.inboundOrderService.validateThatIsSpaceAvailable(warehouseSection));
+
+        assertEquals(STOCK_MAXIMUM_CAPACITY, e.getMessage());
+    }
 
 }
 
