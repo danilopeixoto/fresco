@@ -42,7 +42,7 @@ public class TestUtil {
 
     public static Product createProduct(){
         ProductCategory productCategory = createProductCategory();
-        return new Product(1L, "BANANA", null,null,null, null, null, null, null, productCategory);
+        return new Product(1L,"BANANA", null, 5., null, null, productCategory);
     }
 
     public static Warehouse createWarehouse(){
@@ -62,7 +62,9 @@ public class TestUtil {
 
     public static Stock createStock(){
         Product product = createProduct();
-        return new Stock(1L, 25, 10, 10, 10.0, product, null);
+        return new Stock().toBuilder().batchNumber(1).id(1L).currentQuantity(50).initialQuantity(50)
+            .currentTemperature(10.).product(product).dueDate(LocalDate.parse("2021-10-25"))
+            .manufacturingTime(LocalTime.now()).manufacturingDate(LocalDate.now()).build();
     }
 
     public static List<Stock> createListStock(){

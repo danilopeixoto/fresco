@@ -38,7 +38,7 @@ import static org.mockito.Mockito.when;
 
 public class ProductCatalogServiceImplTest {
     static final String NOT_FOUND_PRODUCT_LIST = "Product list not found.";
-    static final String NOT_FOUND_PRODUCT = "Product not found.";
+    static final String NOT_FOUND_PRODUCT = "Products not found.";
 
     ProductRepository productRepository = Mockito.mock(ProductRepository.class);
     StockRepository stockRepository = Mockito.mock(StockRepository.class);
@@ -61,8 +61,8 @@ public class ProductCatalogServiceImplTest {
     void shouldFindAllThrowNotFoundException() {
         when(this.productRepository.findAll()).thenReturn(List.<Product>of());
 
-        NotFoundException exception = assertThrows(
-            NotFoundException.class,
+        ApiException exception = assertThrows(
+            ApiException.class,
             () -> this.productCatalogService.findAll());
 
         assertEquals("Not Found Exception. " + NOT_FOUND_PRODUCT_LIST, exception.getMessage());
@@ -70,8 +70,8 @@ public class ProductCatalogServiceImplTest {
 
     @Test
     void shouldFindAllListOneItem() {
-        Product product = new Product(1L, "BANANA", null, null, null,
-            null, null, null, null, new ProductCategory(1L, "FS", "Fresh", null, null));
+        Product product = new Product(1L,"BANANA", null, 5., null, null
+            , new ProductCategory(1L, "FS", "Fresh", null, null));
 
         when(this.productRepository.findAll()).thenReturn(List.<Product>of(product));
         List<ProductResponseDTO> responses = this.productCatalogService.findAll();
@@ -91,8 +91,8 @@ public class ProductCatalogServiceImplTest {
 
         when(this.productRepository.findByProductCategory(categoryCode.name())).thenReturn(List.<Product>of());
 
-        NotFoundException exception = assertThrows(
-            NotFoundException.class,
+        ApiException exception = assertThrows(
+            ApiException.class,
             () -> this.productCatalogService.findProductsByCategoryCode(categoryCode));
 
         assertEquals("Not Found Exception. " + NOT_FOUND_PRODUCT_LIST, exception.getMessage());
@@ -102,8 +102,8 @@ public class ProductCatalogServiceImplTest {
     void shouldFindProductsByCategoryCodeListOneItem() {
         EProductCategory categoryCode = EProductCategory.FS;
 
-        Product product = new Product(1L, "BANANA", null, null, null,
-            null, null, null, null, new ProductCategory(1L, categoryCode.name(), "Fresh", null, null));
+        Product product = new Product(1L,"BANANA", null, 5., null, null
+            , new ProductCategory(1L, categoryCode.name(), "Fresh", null, null));
 
         when(this.productRepository.findByProductCategory(categoryCode.name())).thenReturn(List.<Product>of(product));
         List<ProductResponseDTO> responses = this.productCatalogService.findProductsByCategoryCode(categoryCode);
