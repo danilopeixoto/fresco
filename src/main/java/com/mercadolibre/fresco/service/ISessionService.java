@@ -15,4 +15,6 @@ public interface ISessionService {
      * @return AccountResponseDTO
      */
     AccountResponseDTO login(String username, String password) throws NotFoundException;
+
+    String getUsername(String token);
 }

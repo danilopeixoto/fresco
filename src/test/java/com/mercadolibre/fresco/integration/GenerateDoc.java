@@ -21,8 +21,8 @@ class GenerateDoc extends ControllerTest {
     @Test
     void generateSwaggerDocumentation() throws IOException {
         File outputDir = new File("docs/specs");
-        ResponseEntity<String> responseEntity = this.testRestTemplate.getForEntity("/v3/api-docs", String.class);
-        assertTrue(responseEntity.getStatusCode()
+        ResponseEntity<String> responseEntity = this.testRestTemplate.getForEntity("/docs/v1/openapi", String.class);
+         assertTrue(responseEntity.getStatusCode()
             .is2xxSuccessful());
         assertNotNull(responseEntity.getBody());
 
