@@ -5,14 +5,14 @@ import com.mercadolibre.fresco.dtos.response.ProductResponseDTO;
 import com.mercadolibre.fresco.dtos.response.ProductStockResponseDTO;
 import com.mercadolibre.fresco.dtos.response.aggregation.IBatchStockDueDateResponseDTO;
 import com.mercadolibre.fresco.dtos.response.aggregation.IInfoStockDTO;
-import com.mercadolibre.fresco.dtos.response.aggregation.impl.BatchStockDueDateResponseDTO;
-import com.mercadolibre.fresco.dtos.response.aggregation.impl.InfoStockDTO;
+import com.mercadolibre.fresco.dtos.response.aggregation.impl.BatchStockDueDateResponseDTOImpl;
+import com.mercadolibre.fresco.dtos.response.aggregation.impl.InfoStockDTOImpl;
 import com.mercadolibre.fresco.exceptions.ApiException;
-import com.mercadolibre.fresco.exceptions.NotFoundException;
 import com.mercadolibre.fresco.model.Product;
 import com.mercadolibre.fresco.model.ProductCategory;
 import com.mercadolibre.fresco.model.enumeration.BatchStockOrder;
 import com.mercadolibre.fresco.model.enumeration.EProductCategory;
+import com.mercadolibre.fresco.model.enumeration.EResultOrder;
 import com.mercadolibre.fresco.repository.OrderedProductRepository;
 import com.mercadolibre.fresco.repository.ProductRepository;
 import com.mercadolibre.fresco.repository.StockRepository;
@@ -27,8 +27,8 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -37,7 +37,7 @@ import static org.mockito.Mockito.RETURNS_DEEP_STUBS;
 import static org.mockito.Mockito.when;
 
 public class ProductCatalogServiceImplTest {
-    static final String NOT_FOUND_PRODUCT_LIST = "Product list not found.";
+    static final String NOT_FOUND_PRODUCT_LIST = "Products not exists!";
     static final String NOT_FOUND_PRODUCT = "Products not found.";
 
     ProductRepository productRepository = Mockito.mock(ProductRepository.class);
@@ -65,7 +65,7 @@ public class ProductCatalogServiceImplTest {
             ApiException.class,
             () -> this.productCatalogService.findAll());
 
-        assertEquals("Not Found Exception. " + NOT_FOUND_PRODUCT_LIST, exception.getMessage());
+        assertEquals(exception.getMessage(), NOT_FOUND_PRODUCT_LIST);
     }
 
     @Test
@@ -76,13 +76,13 @@ public class ProductCatalogServiceImplTest {
         when(this.productRepository.findAll()).thenReturn(List.<Product>of(product));
         List<ProductResponseDTO> responses = this.productCatalogService.findAll();
 
-        assertEquals(responses.size(), 1);
+        assertEquals(1, responses.size());
 
         ProductResponseDTO response = responses.get(0);
 
-        assertEquals(response.getId(), product.getId());
-        assertEquals(response.getProductCode(), product.getProductCode());
-        assertEquals(response.getProductCategory().getCategoryCode(), product.getProductCategory().getCategoryCode());
+        assertEquals(product.getId(), response.getId());
+        assertEquals(product.getProductCode(), response.getProductCode());
+        assertEquals(product.getProductCategory().getCategoryCode(), response.getProductCategory().getCategoryCode());
     }
 
     @Test
@@ -95,7 +95,7 @@ public class ProductCatalogServiceImplTest {
             ApiException.class,
             () -> this.productCatalogService.findProductsByCategoryCode(categoryCode));
 
-        assertEquals("Not Found Exception. " + NOT_FOUND_PRODUCT_LIST, exception.getMessage());
+        assertEquals(exception.getMessage(), "Products in category " + categoryCode.name() + " not exists!");
     }
 
     @Test
@@ -108,13 +108,13 @@ public class ProductCatalogServiceImplTest {
         when(this.productRepository.findByProductCategory(categoryCode.name())).thenReturn(List.<Product>of(product));
         List<ProductResponseDTO> responses = this.productCatalogService.findProductsByCategoryCode(categoryCode);
 
-        assertEquals(responses.size(), 1);
+        assertEquals(1, responses.size());
 
         ProductResponseDTO response = responses.get(0);
 
-        assertEquals(response.getId(), product.getId());
-        assertEquals(response.getProductCode(), product.getProductCode());
-        assertEquals(response.getProductCategory().getCategoryCode(), product.getProductCategory().getCategoryCode());
+        assertEquals(product.getId(), response.getId());
+        assertEquals(product.getProductCode(), response.getProductCode());
+        assertEquals(product.getProductCategory().getCategoryCode(), response.getProductCategory().getCategoryCode());
     }
 
     @Test
@@ -130,8 +130,8 @@ public class ProductCatalogServiceImplTest {
             ApiException.class,
             () -> this.productCatalogService.findStocksByProductCode(username, productCode, batchStockOrder));
 
-        assertEquals(404, exception.getStatusCode());
-        assertEquals(NOT_FOUND_PRODUCT, exception.getMessage());
+        assertEquals(exception.getStatusCode(), 404);
+        assertEquals(exception.getMessage(), NOT_FOUND_PRODUCT);
     }
 
     @Test
@@ -140,23 +140,23 @@ public class ProductCatalogServiceImplTest {
         String productCode = "PRODUCT_CODE";
         BatchStockOrder batchStockOrder = BatchStockOrder.C;
 
-        InfoStockDTO infoStock = new InfoStockDTO(1, 1, null, "SECTION_CODE", "WAREHOUSE_CODE");
+        InfoStockDTOImpl infoStock = new InfoStockDTOImpl(1, 1, null, "SECTION_CODE", "WAREHOUSE_CODE");
 
         when(this.stockRepository.findWithSectionAndWarehouseByProductCode(username, productCode))
             .thenReturn(Arrays.<IInfoStockDTO>asList(infoStock));
 
         ProductStockResponseDTO response = this.productCatalogService.findStocksByProductCode(username, productCode, batchStockOrder);
-        assertEquals(response.getProductId(), productCode);
+        assertEquals(productCode, response.getProductId());
 
         List<IInfoStockDTO> stockResponses = response.getBatchStock();
-        assertEquals(stockResponses.size(), 1);
+        assertEquals(1, stockResponses.size());
 
         IInfoStockDTO stock = stockResponses.get(0);
 
-        assertEquals(stock.getBatchNumber(), infoStock.getBatchNumber());
-        assertEquals(stock.getCurrentQuantity(), infoStock.getCurrentQuantity());
-        assertEquals(stock.getSectionCode(), infoStock.getSectionCode());
-        assertEquals(stock.getWarehouseCode(), infoStock.getWarehouseCode());
+        assertEquals(infoStock.getBatchNumber(), stock.getBatchNumber());
+        assertEquals(infoStock.getCurrentQuantity(), stock.getCurrentQuantity());
+        assertEquals(infoStock.getSectionCode(), stock.getSectionCode());
+        assertEquals(infoStock.getWarehouseCode(), stock.getWarehouseCode());
     }
 
     @Test
@@ -172,8 +172,8 @@ public class ProductCatalogServiceImplTest {
             ApiException.class,
             () -> this.productCatalogService.findStocksByDueDate(days));
 
-        assertEquals(404, exception.getStatusCode());
-        assertEquals(NOT_FOUND_PRODUCT_LIST, exception.getMessage());
+        assertEquals(exception.getStatusCode(), 404);
+        assertEquals(exception.getMessage(), NOT_FOUND_PRODUCT_LIST);
     }
 
     @Test
@@ -182,22 +182,73 @@ public class ProductCatalogServiceImplTest {
         LocalDate date = LocalDate.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-        BatchStockDueDateResponseDTO batchStockDueDate = new BatchStockDueDateResponseDTO(
-            "BATCH_NUMBER", "PRODUCT_ID", "PRODUCT_TYPE_ID", date, 100);
+        BatchStockDueDateResponseDTOImpl batchStockDueDate = new BatchStockDueDateResponseDTOImpl(
+            "BATCH_NUMBER", "PRODUCT_ID", "FS", date, 100);
 
         when(this.stockRepository.findStockWithProductDueDateUntilFutureDate(date.format(formatter)))
             .thenReturn(List.<IBatchStockDueDateResponseDTO>of(batchStockDueDate));
 
         List<IBatchStockDueDateResponseDTO> responses = this.productCatalogService.findStocksByDueDate(days);
 
-        assertEquals(responses.size(), 1);
+        assertEquals(1, responses.size());
 
         IBatchStockDueDateResponseDTO response = responses.get(0);
 
-        assertEquals(response.getBatchNumber(), batchStockDueDate.getBatchNumber());
-        assertEquals(response.getDueDate(), batchStockDueDate.getDueDate());
-        assertEquals(response.getProductId(), batchStockDueDate.getProductId());
-        assertEquals(response.getQuantity(), batchStockDueDate.getQuantity());
-        assertEquals(response.getProductTypeId(), batchStockDueDate.getProductTypeId());
+        assertEquals(batchStockDueDate.getBatchNumber(), response.getBatchNumber());
+        assertEquals(batchStockDueDate.getDueDate(), response.getDueDate());
+        assertEquals(batchStockDueDate.getProductId(), response.getProductId());
+        assertEquals(batchStockDueDate.getQuantity(), response.getQuantity());
+        assertEquals(batchStockDueDate.getProductTypeId(), response.getProductTypeId());
+    }
+
+    @Test
+    void shouldFindStocksByDueDateAndProductCategoryThrowNotFoundException() {
+        EProductCategory productCategory = EProductCategory.FS;
+        EResultOrder resultOrder = EResultOrder.asc;
+
+        int days = 10;
+        LocalDate date = LocalDate.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+        when(this.stockRepository.findStockWithProductDueDateUntilFutureDateByProductCategory(date.format(formatter), productCategory.name()))
+            .thenReturn(List.<IBatchStockDueDateResponseDTO>of());
+
+        ApiException exception = assertThrows(
+            ApiException.class,
+            () -> this.productCatalogService.findStocksByDueDateAndProductCategory(days, productCategory, resultOrder));
+
+        assertEquals(exception.getStatusCode(), 404);
+        assertEquals(exception.getMessage(), NOT_FOUND_PRODUCT_LIST);
+    }
+
+    @Test
+    void shouldFindStocksByDueDateAndProductCategoryListOne() {
+        EProductCategory productCategory = EProductCategory.FS;
+        EResultOrder resultOrder = EResultOrder.asc;
+
+        int days = 10;
+        LocalDate date = LocalDate.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+        BatchStockDueDateResponseDTOImpl batchStockDueDate = new BatchStockDueDateResponseDTOImpl(
+            "BATCH_NUMBER", "PRODUCT_ID", productCategory.name(), date, 100);
+
+        List<IBatchStockDueDateResponseDTO> batchStockDueDateResponseDTO = new ArrayList<>();
+        batchStockDueDateResponseDTO.add(batchStockDueDate);
+
+        when(this.stockRepository.findStockWithProductDueDateUntilFutureDateByProductCategory(date.format(formatter), productCategory.name()))
+            .thenReturn(batchStockDueDateResponseDTO);
+
+        List<IBatchStockDueDateResponseDTO> responses = this.productCatalogService.findStocksByDueDateAndProductCategory(days, productCategory, resultOrder);
+
+        assertEquals(1, responses.size());
+
+        IBatchStockDueDateResponseDTO response = responses.get(0);
+
+        assertEquals(batchStockDueDate.getBatchNumber(), response.getBatchNumber());
+        assertEquals(batchStockDueDate.getDueDate(), response.getDueDate());
+        assertEquals(batchStockDueDate.getProductId(), response.getProductId());
+        assertEquals(batchStockDueDate.getQuantity(), response.getQuantity());
+        assertEquals(batchStockDueDate.getProductTypeId(), response.getProductTypeId());
     }
 }

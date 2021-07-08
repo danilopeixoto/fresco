@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class WarehouseProductCountDTO implements IWarehouseProductCountDTO {
+public class WarehouseProductCountDTOImpl implements IWarehouseProductCountDTO {
     public String warehouseCode;
     public BigDecimal totalQuantity;
 }
