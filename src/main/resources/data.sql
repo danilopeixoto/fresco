@@ -16,6 +16,7 @@ INSERT INTO `user_accounts` (`id`, `username`, `password`, `role_id`, `country_h
 INSERT INTO `user_accounts` (`id`, `username`, `password`, `role_id`, `country_house_id`) VALUES ('2', 'testBuyer', 'teste1000', '2', '2');
 INSERT INTO `user_accounts` (`id`, `username`, `password`, `role_id`, `country_house_id`) VALUES ('3', 'testSeller', 'teste1000', '3', '3');
 INSERT INTO `user_accounts` (`id`, `username`, `password`, `role_id`, `country_house_id`) VALUES ('4', 'testRep', 'teste1000', '4', '4');
+INSERT INTO `user_accounts` (`id`, `username`, `password`, `role_id`, `country_house_id`) VALUES ('5', 'newTestBuyer', 'teste1000', '2', '2');
 
 INSERT INTO `warehouses` (`id`, `warehouse_code`, `agent_id`) VALUES ('1', 'WAREHOUSE_TESTE', '4');
 INSERT INTO `warehouses` (`id`, `warehouse_code`, `agent_id`) VALUES ('2', 'WAREHOUSE_TWO', '4');
@@ -47,3 +48,9 @@ VALUES('3', '10', '3', '5','0.0', '2021-06-05', curtime(),'2021-10-05', '3', '2'
 INSERT INTO `stocks` (`id`, `init_quantity`, `batch_number`, `cur_quantity`, `cur_temp`,  `manufacturing_date`, `manufacturing_time`, `due_date`,
 `product_id`, `warehouse_section_id`)
 VALUES('4', '100', '4', '30','-5.0',  '2021-06-05', curtime(),'2021-10-05', '1', '2');
+
+INSERT INTO `purchase_order` (`id`, `status_code`, `date`, `user_id`)
+VALUES('1', 'PENDENTE', '2021-07-08', '5');
+
+INSERT INTO `ordered_products` (`id`, `quantity`, `product_code`, `purchase_order_id`)
+VALUES('1', '5', 'BANANA', '1');

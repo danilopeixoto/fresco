@@ -4,6 +4,7 @@ import com.mercadolibre.fresco.dtos.ProductsDTO;
 import com.mercadolibre.fresco.model.OrderedProduct;
 import com.mercadolibre.fresco.model.Product;
 import com.mercadolibre.fresco.model.PurchaseOrder;
+import com.mercadolibre.fresco.model.User;
 import com.mercadolibre.fresco.model.enumeration.StatusCode;
 import com.mercadolibre.fresco.repository.ProductRepository;
 import com.mercadolibre.fresco.repository.PurchaseOrderRepository;
@@ -41,17 +42,24 @@ public class PurchaseOrderServiceImplTest {
 
     @Test
     void shouldGetProductsByOrderId() {
-        PurchaseOrder purchaseOrder = new PurchaseOrder(1L, StatusCode.PENDENTE, LocalDate.now(), null, null);
+        User user = new User(1L, "newTestBuyer", "teste1000", null, null, null, null);
+
+        PurchaseOrder purchaseOrder = new PurchaseOrder(1L, StatusCode.PENDENTE, LocalDate.now(), null, user);
         OrderedProduct banana = new OrderedProduct().toBuilder()
             .product(new Product(1L, "BANANA", null, 5., null, null, null))
             .purchaseOrder(purchaseOrder)
             .quantity(10).build();
         List<OrderedProduct> orderedProductList = new ArrayList<>();
         orderedProductList.add(banana);
+        List<PurchaseOrder> purchaseOrders = new ArrayList<>();
+        purchaseOrders.add(purchaseOrder);
+
+        user.setPurchaseOrder(purchaseOrders);
+
         purchaseOrder.setOrderedProducts(orderedProductList);
 
         when(this.purchaseOrderRepository.findById(1L)).thenReturn(java.util.Optional.of(purchaseOrder));
-        List<ProductsDTO> products = this.purchaseOrderService.getProductsByOrderId(1L);
+        List<ProductsDTO> products = this.purchaseOrderService.getProductsByOrderId("newTestBuyer", 1L);
         assertEquals("BANANA", products.get(0).getProductId());
         assertEquals(10, products.get(0).getQuantity());
     }

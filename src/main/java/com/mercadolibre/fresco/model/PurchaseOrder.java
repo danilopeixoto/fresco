@@ -39,7 +39,7 @@ public class PurchaseOrder {
     @JsonManagedReference
     private List<OrderedProduct> orderedProducts;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     @JsonIgnore
     private User user;

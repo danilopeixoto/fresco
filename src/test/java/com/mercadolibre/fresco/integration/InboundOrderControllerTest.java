@@ -53,7 +53,7 @@ public class InboundOrderControllerTest extends ControllerTest {
             .section(new SectionDTO().toBuilder().sectionCode("FS").warehouseCode("WAREHOUSE_TESTE").build()).build();
 
         updatedStocks = new ArrayList<>();
-        updatedStocks.add(new StockDTO().toBuilder().batchNumber(100).price(50.).currentTemperature(10.)
+        updatedStocks.add(new StockDTO().toBuilder().batchNumber(1).price(50.).currentTemperature(10.)
             .dueDate(LocalDate.now().plusWeeks(10)).productCode("BANANA").manufacturingDate(LocalDate.now())
             .manufacturingTime(LocalTime.now()).currentQuantity(10).initialQuantity(50).build());
         updatedInboundOrder = new InboundOrderDTO().toBuilder().orderDate(LocalDate.now()).orderNumber(1L).batchStock(updatedStocks)
@@ -77,7 +77,7 @@ public class InboundOrderControllerTest extends ControllerTest {
             .contentType(MediaType.APPLICATION_JSON).content(this.objectMapper.writeValueAsString(updatedInboundOrder)))
             .andDo(print()).andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-            .andExpect(jsonPath("$.batch_stock[0].batch_number").value(100))
+            .andExpect(jsonPath("$.batch_stock[0].batch_number").value(1))
             .andExpect(jsonPath("$.batch_stock[0].current_temperature").value(10.))
             .andExpect(jsonPath("$.batch_stock[0].current_quantity").value(10));
     }
