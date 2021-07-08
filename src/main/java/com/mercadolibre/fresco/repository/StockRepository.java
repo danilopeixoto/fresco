@@ -24,7 +24,7 @@ public interface StockRepository extends JpaRepository<Stock, Long> {
 
     void deleteByBatchNumber(Integer batchNumber);
 
-    @Query(value = "SELECT s.batch_number as batchNumber, s.cur_quantity as currentQuantity, p.due_date as dueDate, sc.section_code as sectionCode, w.warehouse_code as warehouseCode FROM stocks s " +
+    @Query(value = "SELECT s.batch_number as batchNumber, s.cur_quantity as currentQuantity, s.due_date as dueDate, sc.section_code as sectionCode, w.warehouse_code as warehouseCode FROM stocks s " +
         "INNER JOIN products p ON p.id = s.product_id " +
         "INNER JOIN warehouse_section ws ON s.warehouse_section_id = ws.id " +
         "INNER JOIN sections sc ON sc.id = ws.section_id " +
@@ -34,13 +34,13 @@ public interface StockRepository extends JpaRepository<Stock, Long> {
         "and ac.username = :username", nativeQuery = true)
     List<IInfoStockDTO> findWithSectionAndWarehouseByProductCode(@Param("username") String username, @Param("productCode") String productCode);
 
-    @Query(value = "SELECT s.batch_number as batchNumber, p.product_code as productId, pc.category_code as productTypeId, p.due_date as dueDate, s.cur_quantity as quantity FROM stocks as s " +
+    @Query(value = "SELECT s.batch_number as batchNumber, p.product_code as productId, pc.category_code as productTypeId, s.due_date as dueDate, s.cur_quantity as quantity FROM stocks as s " +
         "INNER JOIN products as p ON p.id = s.product_id " +
         "INNER JOIN product_categories as pc ON pc.id = p.product_category_id " +
         "WHERE p.due_date <= :futureDate ", nativeQuery = true)
     List<IBatchStockDueDateResponseDTO> findStockWithProductDueDateUntilFutureDate(@Param("futureDate") String futureDate);
 
-    @Query(value = "SELECT s.batch_number as batchNumber, p.product_code as productId, pc.category_code as productTypeId, p.due_date as dueDate, s.cur_quantity as quantity FROM stocks as s " +
+    @Query(value = "SELECT s.batch_number as batchNumber, p.product_code as productId, pc.category_code as productTypeId, s.due_date as dueDate, s.cur_quantity as quantity FROM stocks as s " +
         "INNER JOIN products as p ON p.id = s.product_id " +
         "INNER JOIN product_categories as pc ON pc.id = p.product_category_id " +
         "WHERE p.due_date <= :futureDate and pc.category_code = :productCategory ", nativeQuery = true)
