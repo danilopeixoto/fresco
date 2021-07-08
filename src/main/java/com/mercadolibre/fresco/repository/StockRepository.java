@@ -37,13 +37,13 @@ public interface StockRepository extends JpaRepository<Stock, Long> {
     @Query(value = "SELECT s.batch_number as batchNumber, p.product_code as productId, pc.category_code as productTypeId, s.due_date as dueDate, s.cur_quantity as quantity FROM stocks as s " +
         "INNER JOIN products as p ON p.id = s.product_id " +
         "INNER JOIN product_categories as pc ON pc.id = p.product_category_id " +
-        "WHERE p.due_date <= :futureDate ", nativeQuery = true)
+        "WHERE s.due_date <= :futureDate ", nativeQuery = true)
     List<IBatchStockDueDateResponseDTO> findStockWithProductDueDateUntilFutureDate(@Param("futureDate") String futureDate);
 
     @Query(value = "SELECT s.batch_number as batchNumber, p.product_code as productId, pc.category_code as productTypeId, s.due_date as dueDate, s.cur_quantity as quantity FROM stocks as s " +
         "INNER JOIN products as p ON p.id = s.product_id " +
         "INNER JOIN product_categories as pc ON pc.id = p.product_category_id " +
-        "WHERE p.due_date <= :futureDate and pc.category_code = :productCategory ", nativeQuery = true)
+        "WHERE s.due_date <= :futureDate and pc.category_code = :productCategory ", nativeQuery = true)
     List<IBatchStockDueDateResponseDTO> findStockWithProductDueDateUntilFutureDateByProductCategory(@Param("futureDate") String futureDate, @Param("productCategory") String productCategory);
 
     @Query(value = "SELECT count(warehouse_section_id) FROM stocks WHERE warehouse_section_id = :warehouseSectionId and cur_quantity > 0", nativeQuery = true)
