@@ -27,14 +27,18 @@ import java.util.stream.Collectors;
 
 @Service
 public class InboundOrderServiceImpl implements IInboundOrderService {
-    private final Integer MAXCAPACITY = 10;
+
+    private final Integer MAX_CAPACITY = 10;
+
     private IWarehouseService warehouseService;
     private IProductService productService;
     private IStockService stockService;
     private WarehouseSectionRepository warehouseSectionRepository;
     private SectionRepository sectionRepository;
 
-    public InboundOrderServiceImpl(IWarehouseService warehouseService, IProductService productService, IStockService stockService, WarehouseSectionRepository warehouseSectionRepository, SectionRepository sectionRepository) {
+    public InboundOrderServiceImpl(IWarehouseService warehouseService, IProductService productService,
+                                   IStockService stockService, WarehouseSectionRepository warehouseSectionRepository,
+                                   SectionRepository sectionRepository) {
         this.warehouseService = warehouseService;
         this.productService = productService;
         this.stockService = stockService;
@@ -45,23 +49,66 @@ public class InboundOrderServiceImpl implements IInboundOrderService {
     @Transactional
     @Override
     public InboundOrderResponseDTO create(String username, InboundOrderDTO inboundOrderDTO) throws ApiException, NotFoundException {
-        
-        SectionDTO sectionDTO = inboundOrderDTO.getSection();
-        Warehouse warehouse = this.warehouseService.findWarehouseByCode(sectionDTO.getWarehouseCode());
-        WarehouseSection warehouseSection = this.warehouseSectionRepository.findByWarehouseAndSectionCode(sectionDTO.warehouseCode, sectionDTO.sectionCode);
 
-        if (!warehouse.getAgent().getUsername().equals(username)) {
+        this.validateAndPersistRequestForCreateInboundOrder(username, inboundOrderDTO);
+
+        return InboundOrderResponseDTO
+            .builder()
+            .batchStock(inboundOrderDTO.getBatchStock())
+            .build();
+    }
+
+    @Transactional
+    @Override
+    public InboundOrderResponseDTO update(String username, InboundOrderDTO inboundOrderDTO) throws ApiException, NotFoundException {
+        this.validateRequestForUpdateInboundOrder(username, inboundOrderDTO);
+
+        inboundOrderDTO.getBatchStock()
+            .forEach(
+                stockDTO -> this.buildAndSaveUpdatedStock(stockDTO, stockDTO.getBatchNumber())
+            );
+
+
+        return InboundOrderResponseDTO
+            .builder()
+            .batchStock(inboundOrderDTO.getBatchStock())
+            .build();
+    }
+
+    private void validateRequestForUpdateInboundOrder(String username, InboundOrderDTO inboundOrderDTO) {
+        Warehouse warehouse = this.warehouseService.findWarehouseByCode(inboundOrderDTO.getSection().getWarehouseCode());
+        WarehouseSection warehouseSection = this.warehouseSectionRepository
+            .findByWarehouseAndSectionCode(inboundOrderDTO.getSection().getWarehouseCode(), inboundOrderDTO.getSection().getSectionCode());
+
+        // Validate agent belongs this warehouse
+        this.validateAgentBelongsThisWarehouse(username, warehouse);
+
+        //Validate warehouse section exists
+        this.validateWarehouseSectionExists(warehouseSection);
+    }
+
+    private void buildAndSaveUpdatedStock(StockDTO stockDTO, Integer batchNumber){
+
+        Stock stock = this.stockService.findByBatchNumber(batchNumber);
+        stock.setCurrentQuantity(stockDTO.getCurrentQuantity());
+        stock.setCurrentTemperature(stockDTO.getCurrentTemperature());
+
+        this.stockService.create(stock);
+    }
+
+    private void validateAgentBelongsThisWarehouse(String agentUsername, Warehouse warehouse) {
+        if (!warehouse.getAgent().getUsername().equals(agentUsername)) {
             throw new ApiException("401", "Agent not allowed.", 401);
         }
+    }
 
+    private void validateWarehouseSectionExists(WarehouseSection warehouseSection) {
         if( warehouseSection == null){
             throw new ApiException("400", "Invalid warehouse section.", 400);
         }
+    }
 
-        Section section = sectionRepository.getBySectionCode(sectionDTO.sectionCode);
-
-        List<StockDTO> stocks = inboundOrderDTO.getBatchStock();
-
+    private List<Product> validateRequestProductsAreAvailable(List<StockDTO> stocks) {
         List<Product> products = stocks
             .stream()
             .map(StockDTO::getProductCode)
@@ -75,6 +122,10 @@ public class InboundOrderServiceImpl implements IInboundOrderService {
             throw new ApiException("404", "Some product not found.", 404);
         }
 
+        return products;
+    }
+
+    private void validateProductsCategoriesAndSectionsMatches(List<Product> products, InboundOrderDTO inboundOrderDTO, Section section) {
         if (products
             .stream()
             .filter(product -> product
@@ -83,19 +134,22 @@ public class InboundOrderServiceImpl implements IInboundOrderService {
                 .equals(section
                     .getProductCategory()
                     .getCategoryCode()))
-            .count() != stockSize) {
+            .count() != inboundOrderDTO.getBatchStock().size()) {
             throw new ApiException("400", "Some product category and section mismatched.", 400);
         }
+    }
 
-
-        if (stockService.countStocksOnSection(warehouseSection.getId()) > MAXCAPACITY) {
+    private void validateThatIsSpaceAvailable(WarehouseSection warehouseSection) {
+        if (stockService.countStocksOnSection(warehouseSection.getId()) > this.MAX_CAPACITY) {
             throw new ApiException("400", "Stock maximum capacity reached.", 400);
         }
+    }
 
+    private void persistRequestBatchStocks(InboundOrderDTO inboundOrderDTO, List<Product> products, WarehouseSection warehouseSection) {
         try {
             Streams
                 .zip(
-                    stocks.stream(),
+                    inboundOrderDTO.getBatchStock().stream(),
                     products.stream(),
                     AbstractMap.SimpleEntry::new)
                 .map(s -> Stock
@@ -111,38 +165,33 @@ public class InboundOrderServiceImpl implements IInboundOrderService {
         } catch (DataIntegrityViolationException e) {
             throw new ApiException("400", "Batch number already exists.", 400);
         }
-
-        return InboundOrderResponseDTO
-            .builder()
-            .batchStock(stocks)
-            .build();
     }
 
-    @Transactional
-    @Override
-    public InboundOrderResponseDTO update(String username, InboundOrderDTO inboundOrderDTO) throws ApiException, NotFoundException {
-        SectionDTO sectionDTO = inboundOrderDTO.getSection();
-        Warehouse warehouse = this.warehouseService.findWarehouseByCode(sectionDTO.getWarehouseCode());
-        WarehouseSection warehouseSection = this.warehouseSectionRepository.findByWarehouseAndSectionCode(sectionDTO.warehouseCode, sectionDTO.sectionCode);
+    private void validateAndPersistRequestForCreateInboundOrder(String username, InboundOrderDTO inboundOrderDTO) {
+        Warehouse warehouse = this.warehouseService.findWarehouseByCode(inboundOrderDTO.getSection().getWarehouseCode());
 
-        if (!warehouse.getAgent().getUsername().equals(username)) {
-            throw new ApiException("401", "Agent not allowed.", 401);
-        }
+        // Validate warehouse agent
+        this.validateAgentBelongsThisWarehouse(username, warehouse);
 
-        if( warehouseSection == null){
-            throw new ApiException("400", "Invalid warehouse section.", 400);
-        }
+        WarehouseSection warehouseSection = this.warehouseSectionRepository
+            .findByWarehouseAndSectionCode(inboundOrderDTO.getSection().getWarehouseCode(), inboundOrderDTO.getSection().getSectionCode());
 
-        inboundOrderDTO.getBatchStock().forEach(stockDTO -> this.buildUpdatedStock(stockDTO, stockService.findByBatchNumber(stockDTO.getBatchNumber())));
+        // Validate warehouse exists
+        this.validateWarehouseSectionExists(warehouseSection);
 
+        Section section = sectionRepository.getBySectionCode(inboundOrderDTO.getSection().getSectionCode());
 
-        return this.create(username, inboundOrderDTO);
+        // Validate products are available
+        List<Product> products = this.validateRequestProductsAreAvailable(inboundOrderDTO.getBatchStock());
+
+        // Validate products categories and sections matches
+        this.validateProductsCategoriesAndSectionsMatches(products, inboundOrderDTO, section);
+
+        // Validate that is space available in warehouse section
+        this.validateThatIsSpaceAvailable(warehouseSection);
+
+        // Persist request in database
+        this.persistRequestBatchStocks(inboundOrderDTO, products, warehouseSection);
     }
 
-    private Stock buildUpdatedStock(StockDTO stockDTO, Stock stock){
-        stock.setCurrentQuantity(stockDTO.getCurrentQuantity());
-        stock.setCurrentTemperature(stockDTO.getCurrentTemperature());
-
-        return stock;
-    }
 }
