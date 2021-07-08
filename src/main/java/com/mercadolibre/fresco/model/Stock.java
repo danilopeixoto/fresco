@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 @Builder(toBuilder = true)
 @Entity
@@ -26,6 +28,12 @@ public class Stock {
     private Integer currentQuantity;
     @Column(name = "cur_temp")
     private Double currentTemperature;
+    @Column(name = "manufacturing_date")
+    private LocalDate manufacturingDate;
+
+    private LocalTime manufacturingTime;
+
+    private LocalDate dueDate;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "product_id", referencedColumnName = "id", nullable = true)

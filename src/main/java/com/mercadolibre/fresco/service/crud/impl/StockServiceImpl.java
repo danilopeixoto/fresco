@@ -179,7 +179,7 @@ public class StockServiceImpl implements IStockService {
         LocalDate futureTime = LocalDate.now().plusWeeks(3);
 
         stocks = stocks.stream()
-            .filter(stock -> stock.getProduct().getDueDate().isAfter(futureTime))
+            .filter(stock -> stock.getDueDate().isAfter(futureTime))
             .collect(Collectors.toList());
 
         if (stocks.isEmpty())

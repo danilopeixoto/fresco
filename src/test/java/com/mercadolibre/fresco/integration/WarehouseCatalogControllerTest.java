@@ -36,7 +36,7 @@ public class WarehouseCatalogControllerTest extends ControllerTest{
             .andDo(print()).andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
             .andExpect(jsonPath("$.product_id").value("BANANA"))
-            .andExpect(jsonPath("$.warehouses[0].total_quantity").value(50));
+            .andExpect(jsonPath("$.warehouses[0].total_quantity").value(80));
     }
 
     @Test

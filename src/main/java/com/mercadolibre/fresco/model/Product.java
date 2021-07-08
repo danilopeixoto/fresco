@@ -27,10 +27,7 @@ public class Product implements Serializable {
 
     @Column(name = "min_temp")
     private Double minimumTemperature;
-    @Column(name = "manufacturing_date")
-    private LocalDate manufacturingDate;
-    private LocalDateTime manufacturingTime;
-    private LocalDate dueDate;
+
     private Double price;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)

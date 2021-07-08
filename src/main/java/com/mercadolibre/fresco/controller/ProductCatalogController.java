@@ -10,6 +10,7 @@ import com.mercadolibre.fresco.model.enumeration.BatchStockOrder;
 import com.mercadolibre.fresco.model.enumeration.EProductCategory;
 import com.mercadolibre.fresco.model.enumeration.EResultOrder;
 import com.mercadolibre.fresco.service.IProductCatalogService;
+import com.mercadolibre.fresco.service.ISessionService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -27,10 +28,13 @@ import java.util.List;
 @RequestMapping(path = "/api/v1/fresh-products")
 @RestController
 public class ProductCatalogController {
-    private final IProductCatalogService productCatalogService;
 
-    public ProductCatalogController(IProductCatalogService productCatalogService) {
+    private final IProductCatalogService productCatalogService;
+    private final ISessionService sessionService;
+
+    public ProductCatalogController(IProductCatalogService productCatalogService, ISessionService sessionService) {
         this.productCatalogService = productCatalogService;
+        this.sessionService = sessionService;
     }
 
     /**
@@ -108,10 +112,13 @@ public class ProductCatalogController {
     @GetMapping(path = "/list/stocks")
     @ResponseBody
     public ProductStockResponseDTO listStockByProductCode(
-        Authentication authentication,
+        @RequestHeader (name="Authorization") String token,
         @RequestParam(required = true) String productCode,
         @RequestParam(required = false, defaultValue = "C") BatchStockOrder order) {
-        return this.productCatalogService.findStocksByProductCode(authentication.getName(), productCode, order);
+
+        String username = this.sessionService.getUsername(token);
+
+        return this.productCatalogService.findStocksByProductCode(username, productCode, order);
     }
 
 
