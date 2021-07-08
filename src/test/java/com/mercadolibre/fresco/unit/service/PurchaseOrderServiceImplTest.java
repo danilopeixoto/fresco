@@ -44,8 +44,7 @@ public class PurchaseOrderServiceImplTest {
     void shouldGetProductsByOrderId() {
         PurchaseOrder purchaseOrder = new PurchaseOrder(1L, StatusCode.PENDENTE, LocalDate.now(), null, null);
         OrderedProduct banana = new OrderedProduct().toBuilder()
-            .product(new Product(1L, "BANANA", null, null, null,
-                null, null, null, null, new ProductCategory(1L, "FS", "Fresh", null, null)))
+            .product(new Product(1L,"BANANA", null, 5., null, null, null))
             .purchaseOrder(purchaseOrder)
             .quantity(10).build();
         List<OrderedProduct> orderedProductList = new ArrayList<>();

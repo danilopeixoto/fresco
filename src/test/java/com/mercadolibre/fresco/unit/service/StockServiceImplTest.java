@@ -14,6 +14,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,9 +50,9 @@ public class StockServiceImplTest {
         banana = new Product();
         banana.setId(1L);
         banana.setProductCode("BANANA");
-        banana.setDueDate(LocalDate.now().plusWeeks(8));
         stock = new Stock().toBuilder().batchNumber(1).id(1L).currentQuantity(50).initialQuantity(50)
-            .currentTemperature(10.).product(banana).build();
+            .currentTemperature(10.).product(banana).dueDate(LocalDate.parse("2021-10-25"))
+            .manufacturingTime(LocalTime.now()).manufacturingDate(LocalDate.now()).build();
         stocks = new ArrayList<>();
         stocks.add(stock);
         bananaDto = new ProductsDTO().toBuilder().productId("BANANA").quantity(10).build();
@@ -69,9 +70,9 @@ public class StockServiceImplTest {
         banana = new Product();
         banana.setId(1L);
         banana.setProductCode("BANANA");
-        banana.setDueDate(LocalDate.now().plusWeeks(1));
         stock = new Stock().toBuilder().batchNumber(1).id(1L).currentQuantity(50).initialQuantity(50)
-            .currentTemperature(10.).product(banana).build();
+            .currentTemperature(10.).product(banana).dueDate(LocalDate.parse("2021-05-25"))
+            .manufacturingTime(LocalTime.now()).manufacturingDate(LocalDate.now()).build();
         stocks = new ArrayList<>();
         stocks.add(stock);
         bananaDto = new ProductsDTO().toBuilder().productId("BANANA").quantity(10).build();
@@ -89,9 +90,9 @@ public class StockServiceImplTest {
         banana = new Product();
         banana.setId(1L);
         banana.setProductCode("BANANA");
-        banana.setDueDate(LocalDate.now().plusWeeks(10));
         stock = new Stock().toBuilder().batchNumber(1).id(1L).currentQuantity(50).initialQuantity(50)
-            .currentTemperature(10.).product(banana).build();
+            .currentTemperature(10.).product(banana).dueDate(LocalDate.parse("2021-10-25"))
+            .manufacturingTime(LocalTime.now()).manufacturingDate(LocalDate.now()).build();
         stocks = new ArrayList<>();
         stocks.add(stock);
         bananaDto = new ProductsDTO().toBuilder().productId("BANANA").quantity(100).build();
@@ -109,9 +110,9 @@ public class StockServiceImplTest {
         banana = new Product();
         banana.setId(1L);
         banana.setProductCode("BANANA");
-        banana.setDueDate(LocalDate.now().plusWeeks(8));
         stock = new Stock().toBuilder().batchNumber(1).id(1L).currentQuantity(45).initialQuantity(50)
-            .currentTemperature(10.).product(banana).build();
+            .currentTemperature(10.).product(banana).dueDate(LocalDate.parse("2021-10-25"))
+            .manufacturingTime(LocalTime.now()).manufacturingDate(LocalDate.now()).build();
         stocks = new ArrayList<>();
         stocks.add(stock);
         bananaDto = new ProductsDTO().toBuilder().productId("BANANA").quantity(50).build();
@@ -136,12 +137,12 @@ public class StockServiceImplTest {
         banana = new Product();
         banana.setId(1L);
         banana.setProductCode("BANANA");
-        banana.setDueDate(LocalDate.now().plusWeeks(8));
-        stock = new Stock().toBuilder().batchNumber(1).id(1L).currentQuantity(45).initialQuantity(50)
-            .currentTemperature(10.).product(banana).build();
+        stock = new Stock().toBuilder().batchNumber(1).id(1L).currentQuantity(50).initialQuantity(50)
+            .currentTemperature(10.).product(banana).dueDate(LocalDate.parse("2021-10-25"))
+            .manufacturingTime(LocalTime.now()).manufacturingDate(LocalDate.now()).build();
         stocks = new ArrayList<>();
         stocks.add(stock);
-        bananaDto = new ProductsDTO().toBuilder().productId("BANANA").quantity(51).build();
+        bananaDto = new ProductsDTO().toBuilder().productId("BANANA").quantity(100).build();
         orderedProduct = new OrderedProduct().toBuilder().product(banana).quantity(5).build();
         orderedProducts = new ArrayList<>();
         orderedProducts.add(orderedProduct);

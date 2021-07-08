@@ -28,15 +28,22 @@ INSERT INTO `warehouse_section` (`warehouse_id`, `section_id`, `id`) VALUES ('1'
 INSERT INTO `warehouse_section` (`warehouse_id`, `section_id`, `id`) VALUES ('1', '2', '2');
 INSERT INTO `warehouse_section` (`warehouse_id`, `section_id`, `id`) VALUES ('1', '3', '3');
 
-INSERT INTO `products` (`id`, `product_code`,`min_temp`, `manufacturing_date`, `manufacturing_time`, `due_date`,`price`,`product_category_id`)
-VALUES ('1','BANANA', '-10.0', curdate(), curtime(), '2021-10-25','35.0','1');
-INSERT INTO `products` (`id`, `product_code`,`min_temp`, `manufacturing_date`, `manufacturing_time`, `due_date`,`price`,`product_category_id`)
-VALUES ('2', 'QUEIJO', '5.0', curdate(), curtime(), '2021-10-25','8.0','2');
-INSERT INTO `products` (`id`, `product_code`, `min_temp`, `manufacturing_date`, `manufacturing_time`, `due_date`,`price`,`product_category_id`)
-VALUES ('3','SORVETE', '1.0', curdate(), curtime(), '2021-10-15','5.4','3');
-INSERT INTO `stocks` (`id`, `init_quantity`, `batch_number`, `cur_quantity`, `cur_temp`, `product_id`, `warehouse_section_id`)
-VALUES('1', '100', '1', '50','-5.0','1', '2');
-INSERT INTO `stocks` (`id`, `init_quantity`, `batch_number`, `cur_quantity`, `cur_temp`, `product_id`, `warehouse_section_id`)
-VALUES('2', '30', '2', '20','3.0','2', '2');
-INSERT INTO `stocks` (`id`, `init_quantity`, `batch_number`, `cur_quantity`, `cur_temp`, `product_id`, `warehouse_section_id`)
-VALUES('3', '10', '3', '5','0.0','3', '2');
+INSERT INTO `products` (`id`, `product_code`,`min_temp`, `price`,`product_category_id`)
+VALUES ('1','BANANA', '-10.0', '35.0','1');
+INSERT INTO `products` (`id`, `product_code`,`min_temp`, `price`,`product_category_id`)
+VALUES ('2', 'QUEIJO', '5.0', '8.0','2');
+INSERT INTO `products` (`id`, `product_code`, `min_temp`, `price`,`product_category_id`)
+VALUES ('3','SORVETE', '1.0','5.4','3');
+
+INSERT INTO `stocks` (`id`, `init_quantity`, `batch_number`, `cur_quantity`, `cur_temp`,  `manufacturing_date`, `manufacturing_time`, `due_date`,
+`product_id`, `warehouse_section_id`)
+VALUES('1', '100', '1', '50','-5.0', '2021-06-05', curtime(),'2021-10-05', '1', '2');
+INSERT INTO `stocks` (`id`, `init_quantity`, `batch_number`, `cur_quantity`, `cur_temp`,  `manufacturing_date`, `manufacturing_time`, `due_date`,
+`product_id`, `warehouse_section_id`)
+VALUES('2', '30', '2', '20','3.0',  '2021-06-05', curtime(),'2021-10-05','2', '2');
+INSERT INTO `stocks` (`id`, `init_quantity`, `batch_number`, `cur_quantity`, `cur_temp`,  `manufacturing_date`, `manufacturing_time`, `due_date`,
+`product_id`, `warehouse_section_id`)
+VALUES('3', '10', '3', '5','0.0', '2021-06-05', curtime(),'2021-10-05', '3', '2');
+INSERT INTO `stocks` (`id`, `init_quantity`, `batch_number`, `cur_quantity`, `cur_temp`,  `manufacturing_date`, `manufacturing_time`, `due_date`,
+`product_id`, `warehouse_section_id`)
+VALUES('4', '100', '4', '30','-5.0',  '2021-06-05', curtime(),'2021-10-05', '1', '2');
