@@ -1,6 +1,6 @@
 package com.mercadolibre.fresco.service.crud.impl;
 
-import com.mercadolibre.fresco.exceptions.NotFoundException;
+import com.mercadolibre.fresco.exceptions.ApiException;
 import com.mercadolibre.fresco.model.Section;
 import com.mercadolibre.fresco.repository.SectionRepository;
 import com.mercadolibre.fresco.service.crud.ISectionService;
@@ -37,6 +37,7 @@ public class SectionServiceImpl implements ISectionService {
         sectionCode = sectionCode.toUpperCase();
         Long sectionId = this.sectionRepository.getIdBySectionCode(sectionCode);
         if (sectionId == null) {
+            throw new ApiException("404", "Section whit code " + sectionCode + " not found!", 404);
         }
         return sectionId;
     }
@@ -45,7 +46,7 @@ public class SectionServiceImpl implements ISectionService {
     public Section findById(Long id) {
         Section section = this.sectionRepository.findById(id).get();
         if (section == null) {
-            throw new NotFoundException("Section with " + id + " not found!");
+            throw new ApiException("404","Section with " + id + " not found!", 404);
         }
         return section;
     }
@@ -54,7 +55,7 @@ public class SectionServiceImpl implements ISectionService {
     public List<Section> findAll() {
         List<Section> sections = this.sectionRepository.findAll();
         if (sections.isEmpty()) {
-            throw new NotFoundException("Sections not found!");
+            throw new ApiException("404", "Sections not found!", 404);
         }
         return sections;
     }
