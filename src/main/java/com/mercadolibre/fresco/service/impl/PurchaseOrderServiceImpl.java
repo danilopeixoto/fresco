@@ -151,7 +151,7 @@ public class PurchaseOrderServiceImpl implements IPurchaseOrderService {
     }
 
     private void validPurchaseOrderBelongsToUser(String username, PurchaseOrder purchaseOrder) {
-        if(!purchaseOrder.getUser().getUsername().equals(username))
+        if (!purchaseOrder.getUser().getUsername().equals(username))
             throw new ApiException("401", "Unauthorized request.", 401);
     }
 
