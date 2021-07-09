@@ -92,7 +92,7 @@ public class ProductCatalogControllerTest extends ControllerTest {
                     String jsonResponse = result.getResponse().getContentAsString();
                     LocalDate olderDate = LocalDate.parse(JsonPath.parse(jsonResponse).read("$['batch_stock'][0]['due_date']").toString(), formatter);
                     LocalDate newerDate = LocalDate.parse(JsonPath.parse(jsonResponse).read("$['batch_stock'][1]['due_date']").toString(), formatter);
-                    Assertions.assertTrue(olderDate.isAfter(newerDate));
+                    Assertions.assertTrue(newerDate.isAfter(olderDate));
                 }
             );
     }
