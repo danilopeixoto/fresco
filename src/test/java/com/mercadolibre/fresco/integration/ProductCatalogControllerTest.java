@@ -82,7 +82,7 @@ public class ProductCatalogControllerTest extends ControllerTest {
         this.mockMvc.perform(get(URL_PATH + "/list/stocks")
             .header(HttpHeaders.AUTHORIZATION, this.sessionService.login("testRep", "teste1000").getToken())
             .param("productCode", "BANANA")
-            .param("order", "C")
+            .param("order", "F")
             .contentType(MediaType.APPLICATION_JSON))
             .andDo(print()).andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
