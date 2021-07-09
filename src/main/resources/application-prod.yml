@@ -4,7 +4,7 @@
 spring:
     datasource:
         host: proxysql.master.meliseginf.com:6612
-        db: mlfrescos
+        db: fresco
         username: ${LOCAL_DB_USER}
         password: ${LOCAL_DB_PASS}
         initialization-mode: always
