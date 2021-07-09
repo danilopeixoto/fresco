@@ -8,6 +8,7 @@ import com.mercadolibre.fresco.dtos.response.PurchaseOrderResponseDTO;
 import com.mercadolibre.fresco.exceptions.ApiError;
 import com.mercadolibre.fresco.exceptions.UnauthorizedException;
 import com.mercadolibre.fresco.service.IPurchaseOrderService;
+import com.mercadolibre.fresco.service.ISessionService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -26,9 +27,11 @@ import java.util.List;
 @RestController
 public class PurchaseOrderController {
     private final IPurchaseOrderService purchaseOrderService;
+    private final ISessionService sessionService;
 
-    public PurchaseOrderController(IPurchaseOrderService purchaseOrderService) {
+    public PurchaseOrderController(IPurchaseOrderService purchaseOrderService, ISessionService sessionService) {
         this.purchaseOrderService = purchaseOrderService;
+        this.sessionService = sessionService;
     }
 
     /**
@@ -80,9 +83,11 @@ public class PurchaseOrderController {
     @PreAuthorize("hasAuthority('BUYER')")
     @GetMapping(path = "/list")
     @ResponseBody
-    public List<ProductsDTO> findById(@RequestParam(required = true) Long id)
+    public List<ProductsDTO> findById(@RequestHeader(name = "Authorization") String token, @RequestParam(required = true) Long id)
         throws UnauthorizedException {
-        return this.purchaseOrderService.getProductsByOrderId(id);
+        String username = this.sessionService.getUsername(token);
+
+        return this.purchaseOrderService.getProductsByOrderId(username, id);
     }
 
     /**

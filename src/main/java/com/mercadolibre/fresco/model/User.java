@@ -31,8 +31,8 @@ public class User {
     @JoinColumn(name = "country_house_id", nullable = false)
     private CountryHouse countryHouse;
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
-    private PurchaseOrder purchaseOrder;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<PurchaseOrder> purchaseOrder;
 
     @OneToMany(mappedBy = "agent", cascade = CascadeType.ALL)
     private List<Warehouse> warehouses;

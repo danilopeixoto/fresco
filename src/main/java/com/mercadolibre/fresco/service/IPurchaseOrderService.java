@@ -16,7 +16,7 @@ public interface IPurchaseOrderService {
 
     PurchaseOrderResponseDTO update(PurchaseOrderDTO purchaseOrderDto);
 
-    List<ProductsDTO> getProductsByOrderId(Long id);
+    List<ProductsDTO> getProductsByOrderId(String username, Long id);
 
     List<ProductResponseDTO> listProductsByCategory(String username, Long id);
 }

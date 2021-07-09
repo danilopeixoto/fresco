@@ -40,9 +40,13 @@ public class PurchaseOrderServiceImpl implements IPurchaseOrderService {
     }
 
     @Override
-    public List<ProductsDTO> getProductsByOrderId(Long id) {
+    public List<ProductsDTO> getProductsByOrderId(String username, Long id) {
         List<ProductsDTO> productsDTOS = new ArrayList<>();
         PurchaseOrder purchaseOrder = this.findPurchaseOrderById(id);
+
+        //Validate User making request and Purchase Order User matches
+        this.validPurchaseOrderBelongsToUser(username, purchaseOrder);
+
         purchaseOrder.getOrderedProducts().forEach(
             orderedProduct -> productsDTOS.add(new ProductsDTO()
                 .toBuilder()
@@ -144,6 +148,11 @@ public class PurchaseOrderServiceImpl implements IPurchaseOrderService {
     private void validUpdatedPurchaseOrder(ProductsDTO productsDTO, Long orderId) {
         if (this.stockService.validStockForExistingOrder(productsDTO, orderId) == null)
             throw new ApiException("404", "Unavailable quantity in stock for product: " + productsDTO.getProductId(), 404);
+    }
+
+    private void validPurchaseOrderBelongsToUser(String username, PurchaseOrder purchaseOrder) {
+        if(!purchaseOrder.getUser().getUsername().equals(username))
+            throw new ApiException("401", "Unauthorized request.", 401);
     }
 
 }
