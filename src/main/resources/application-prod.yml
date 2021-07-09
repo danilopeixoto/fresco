@@ -4,9 +4,9 @@
 spring:
     datasource:
         host: proxysql.master.meliseginf.com:6612
-        db: fresco
-        username: ${LOCAL_DB_USER}
-        password: ${LOCAL_DB_PASS}
+        db: ${SECRET_LOCAL_DB_NAME}
+        username: ${SECRET_LOCAL_DB_USER}
+        password: ${SECRET_LOCAL_DB_PASS}
         initialization-mode: always
 
     jpa:
