@@ -4,19 +4,17 @@
 
 spring:
     datasource:
-        host: proxysql.master.meliseginf.com:6612
-        db: ${SECRET_LOCAL_DB_NAME}
-        username: ${SECRET_LOCAL_DB_USER}
-        password: ${SECRET_LOCAL_DB_PASS}
+        host: ${LOCAL_DB_HOST}
+        db: ${LOCAL_DB_NAME}
+        username: ${LOCAL_DB_USER}
+        password: ${LOCAL_DB_PASS}
         initialization-mode: always
 
     jpa:
         show-sql: true
         hibernate:
             sql: debug
-            ddl-auto: create-drop # create-drop para crear las entidades, una vez creadas y finalizado el mododel cambiar a none
-            globally_quoted_identifiers: true
-            type: trace
+            ddl-auto: create # create-drop para crear las entidades, una vez creadas y finalizado el mododel cambiar a none
         database-platform: org.hibernate.dialect.MySQL8Dialect
 
 server:
