@@ -3,6 +3,7 @@ package com.mercadolibre.fresco.dtos;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mercadolibre.fresco.dtos.response.AccountResponseDTO;
+import lombok.Builder;
 import lombok.Data;
 import org.springframework.validation.annotation.Validated;
 
@@ -11,6 +12,7 @@ import javax.validation.constraints.Size;
 import java.util.List;
 
 @Validated
+@Builder(toBuilder = true)
 @Data
 public class CountryHouseDTO {
 

@@ -3,8 +3,41 @@ INSERT INTO `country_houses` (`id`, `country`, `name`) VALUES ('2', 'Chile', 'Ca
 INSERT INTO `country_houses` (`id`, `country`, `name`) VALUES ('3', 'Uruguay', 'Casa central de Uruguay');
 INSERT INTO `country_houses` (`id`, `country`, `name`) VALUES ('4', 'Colombia', 'Casa central de Colombia');
 
+INSERT INTO `user_roles` (`id`, `role_code`) VALUES ('1', 'ADMIN');
+INSERT INTO `user_roles` (`id`, `role_code`) VALUES ('2', 'BUYER');
+INSERT INTO `user_roles` (`id`, `role_code`) VALUES ('3', 'SELLER');
+INSERT INTO `user_roles` (`id`, `role_code`) VALUES ('4', 'REP');
 
-INSERT INTO `accounts` (`id`, `password`, `rol`, `username`, `id_country_house_fk`) VALUES ('1', 'contra123', '1', 'user_one', '1');
-INSERT INTO `accounts` (`id`, `password`, `rol`, `username`, `id_country_house_fk`) VALUES ('2', 'contra123', '1', 'user_two', '2');
-INSERT INTO `accounts` (`id`, `password`, `rol`, `username`, `id_country_house_fk`) VALUES ('3', 'contra123', '1', 'user_three', '3');
-INSERT INTO `accounts` (`id`, `password`, `rol`, `username`, `id_country_house_fk`) VALUES ('4', 'contra123', '1', 'user_four', '4');
+INSERT INTO `product_categories` (`id`, `category_code`, `name`) VALUES ('1', 'FS', 'Fresh');
+INSERT INTO `product_categories` (`id`, `category_code`, `name`) VALUES ('2', 'RF', 'Refrigerado');
+INSERT INTO `product_categories` (`id`, `category_code`, `name`) VALUES ('3', 'FF', 'Congelado');
+
+INSERT INTO `user_accounts` (`id`, `username`, `password`, `role_id`, `country_house_id`) VALUES ('1', 'testAdmin', 'teste1000', '1', '1');
+INSERT INTO `user_accounts` (`id`, `username`, `password`, `role_id`, `country_house_id`) VALUES ('2', 'testBuyer', 'teste1000', '2', '2');
+INSERT INTO `user_accounts` (`id`, `username`, `password`, `role_id`, `country_house_id`) VALUES ('3', 'testSeller', 'teste1000', '3', '3');
+INSERT INTO `user_accounts` (`id`, `username`, `password`, `role_id`, `country_house_id`) VALUES ('4', 'testRep', 'teste1000', '4', '4');
+INSERT INTO `user_accounts` (`id`, `username`, `password`, `role_id`, `country_house_id`) VALUES ('5', 'newTestBuyer', 'teste1000', '2', '2');
+
+INSERT INTO `warehouses` (`id`, `warehouse_code`, `agent_id`) VALUES ('1', 'WAREHOUSE_TESTE', '4');
+INSERT INTO `warehouses` (`id`, `warehouse_code`, `agent_id`) VALUES ('2', 'WAREHOUSE_TWO', '4');
+
+INSERT INTO `sections` (`id`, `section_code`, `product_category_id`) VALUES ('1', 'FS', '1');
+INSERT INTO `sections` (`id`, `section_code`, `product_category_id`) VALUES ('2', 'RF', '2');
+INSERT INTO `sections` (`id`, `section_code`, `product_category_id`) VALUES ('3', 'FF', '3');
+
+INSERT INTO `warehouse_section` (`warehouse_id`, `section_id`, `id`) VALUES ('1', '1', '1');
+INSERT INTO `warehouse_section` (`warehouse_id`, `section_id`, `id`) VALUES ('1', '2', '2');
+INSERT INTO `warehouse_section` (`warehouse_id`, `section_id`, `id`) VALUES ('1', '3', '3');
+
+INSERT INTO `products` (`id`, `product_code`,`min_temp`, `price`,`product_category_id`) VALUES ('1','BANANA', '-10.0', '35.0','1');
+INSERT INTO `products` (`id`, `product_code`,`min_temp`, `price`,`product_category_id`) VALUES ('2', 'QUEIJO', '5.0', '8.0','2');
+INSERT INTO `products` (`id`, `product_code`, `min_temp`, `price`,`product_category_id`) VALUES ('3','SORVETE', '1.0','5.4','3');
+
+INSERT INTO `stocks` (`id`, `init_quantity`, `batch_number`, `cur_quantity`, `cur_temp`, `manufacturing_date`, `manufacturing_time`, `due_date`, `product_id`, `warehouse_section_id`) VALUES('1', '100', '1', '50','-5.0', '2021-06-05', curtime(),'2021-08-05', '1', '2');
+INSERT INTO `stocks` (`id`, `init_quantity`, `batch_number`, `cur_quantity`, `cur_temp`, `manufacturing_date`, `manufacturing_time`, `due_date`, `product_id`, `warehouse_section_id`) VALUES('2', '30', '2', '20','3.0',  '2021-06-05', curtime(),'2021-10-05','2', '2');
+INSERT INTO `stocks` (`id`, `init_quantity`, `batch_number`, `cur_quantity`, `cur_temp`, `manufacturing_date`, `manufacturing_time`, `due_date`, `product_id`, `warehouse_section_id`) VALUES('3', '10', '3', '5','0.0', '2021-06-05', curtime(),'2021-10-05', '3', '2');
+INSERT INTO `stocks` (`id`, `init_quantity`, `batch_number`, `cur_quantity`, `cur_temp`, `manufacturing_date`, `manufacturing_time`, `due_date`, `product_id`, `warehouse_section_id`) VALUES('4', '100', '4', '30','-5.0',  '2021-06-05', curtime(),'2021-10-05', '1', '2');
+
+INSERT INTO `purchase_order` (`id`, `status_code`, `date`, `user_id`) VALUES('1', 'PENDENTE', '2021-07-08', '5');
+
+INSERT INTO `ordered_products` (`id`, `quantity`, `product_code`, `purchase_order_id`) VALUES('1', '5', 'BANANA', '1');

@@ -6,6 +6,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -20,20 +21,20 @@ class SessionControllerTest extends ControllerTest {
     @Test
     void loginFail() throws Exception {
         this.mockMvc.perform(MockMvcRequestBuilders.post(PATH + "/sign-in")
-                .contentType(MediaType.APPLICATION_JSON)
-                .param("username", "user_one")
-                .param("password", "contra12"))
-                .andDo(print())
-                .andExpect(status().isNotFound());
+            .contentType(MediaType.APPLICATION_JSON)
+            .param("username", "userTest")
+            .param("password", "teste10"))
+            .andDo(print())
+            .andExpect(status().isNotFound());
     }
 
     @Test
     void loginOk() throws Exception {
         this.mockMvc.perform(MockMvcRequestBuilders.post(PATH + "/sign-in")
-                .contentType(MediaType.APPLICATION_JSON)
-                .param("username", "user_one")
-                .param("password", "contra123"))
-                .andDo(print())
-                .andExpect(status().isOk());
+            .contentType(MediaType.APPLICATION_JSON)
+            .param("username", "testAdmin")
+            .param("password", "teste1000"))
+            .andDo(print())
+            .andExpect(status().isOk());
     }
 }

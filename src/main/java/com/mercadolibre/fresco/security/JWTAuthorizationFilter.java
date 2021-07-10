@@ -23,6 +23,7 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
 
     /**
      * Filtro para solicitar validación por token
+     *
      * @param request
      * @param response
      * @param chain
@@ -44,14 +45,15 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
             }
             chain.doFilter(request, response);
         } catch (ExpiredJwtException | UnsupportedJwtException | MalformedJwtException e) {
-            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-            ((HttpServletResponse) response).sendError(HttpServletResponse.SC_FORBIDDEN, e.getMessage());
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            ((HttpServletResponse) response).sendError(HttpServletResponse.SC_UNAUTHORIZED, e.getMessage());
             return;
         }
     }
 
     /**
      * Método para validar el token
+     *
      * @param request
      * @return
      */
@@ -70,21 +72,25 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
         List<String> authorities = (List) claims.get("authorities");
 
         UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(claims.getSubject(), null,
-                authorities.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList()));
+            authorities.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList()));
         SecurityContextHolder.getContext().setAuthentication(auth);
 
     }
 
     /**
      * Verifica si existe la cabecera "Authorization"  y cuyo valor comience con "Bearer "
+     *
      * @param request
      * @param res
      * @return
      */
     private boolean existeJWTToken(HttpServletRequest request, HttpServletResponse res) {
         String authenticationHeader = request.getHeader(HEADER);
-        if (authenticationHeader == null || !authenticationHeader.startsWith(PREFIX))
+
+        if (authenticationHeader == null || !authenticationHeader.startsWith(PREFIX)) {
             return false;
+        }
+
         return true;
     }
 

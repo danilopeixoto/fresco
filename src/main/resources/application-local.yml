@@ -3,19 +3,19 @@
 # Overrides application.yml default properties
 
 spring:
-  datasource:
-    host: proxysql.master.meliseginf.com:6612
-    db: ${LOCAL_DB_NAME}
-    username: ${LOCAL_DB_USER}
-    password: ${LOCAL_DB_PASS}
-    initialization-mode: always
+    datasource:
+        host: ${LOCAL_DB_HOST}
+        db: ${LOCAL_DB_NAME}
+        username: ${LOCAL_DB_USER}
+        password: ${LOCAL_DB_PASS}
+        initialization-mode: always
 
-  jpa:
-    show-sql: true
-    hibernate:
-      sql: debug
-      ddl-auto: create-drop # create-drop para crear las entidades, una vez creadas y finalizado el mododel cambiar a none
-    database-platform: org.hibernate.dialect.MySQL8Dialect
+    jpa:
+        show-sql: true
+        hibernate:
+            sql: debug
+            ddl-auto: create # create-drop para crear las entidades, una vez creadas y finalizado el mododel cambiar a none
+        database-platform: org.hibernate.dialect.MySQL8Dialect
 
 server:
-  port: 8082 # no cambiar en prod
+    port: 8080 # no cambiar en prod

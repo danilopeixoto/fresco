@@ -2,7 +2,7 @@ package com.mercadolibre.fresco.service.crud;
 
 import java.util.List;
 
-public interface ICRUD <DTO>{
+public interface ICRUD<DTO> {
     DTO create(DTO dto);
 
     DTO update(DTO dto);

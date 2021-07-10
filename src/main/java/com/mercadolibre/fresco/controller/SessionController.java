@@ -1,13 +1,20 @@
 package com.mercadolibre.fresco.controller;
 
 import com.mercadolibre.fresco.dtos.response.AccountResponseDTO;
+import com.mercadolibre.fresco.exceptions.ApiError;
 import com.mercadolibre.fresco.service.ISessionService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import javassist.NotFoundException;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+@Tag(name = "Sessions")
 @RequestMapping(path = "/api/v1")
 @RestController
 public class SessionController {
@@ -18,17 +25,30 @@ public class SessionController {
     }
 
     /**
-     * Realiza la validación del usuario y contraseña ingresado.
-     * En caso de ser correcto, devuelve la cuenta con el token necesario para realizar las demás consultas.
+     * Validate username and password
+     * If valid, it returns the account with the necessary token to send other requests.
      *
      * @param username
      * @param password
-     * @return
+     * @return AccountResponseDTO
      * @throws NotFoundException
      */
+    @Operation(summary = "Sign-in to user account", responses = {
+        @ApiResponse(
+            responseCode = "200",
+            content = @Content(
+                schema = @Schema(implementation = AccountResponseDTO.class),
+                mediaType = "application/json")),
+        @ApiResponse(
+            responseCode = "404",
+            content = @Content(
+                schema = @Schema(implementation = ApiError.class),
+                mediaType = "application/json"))
+    })
     @PostMapping("/sign-in")
-    public AccountResponseDTO login(@RequestParam("username") String username, @RequestParam("password") String password) throws NotFoundException {
+    public AccountResponseDTO login(
+        @RequestParam("username") String username, @RequestParam("password") String password)
+        throws NotFoundException {
         return service.login(username, password);
     }
-
 }

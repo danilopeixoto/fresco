@@ -10,7 +10,7 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name="country_houses")
+@Table(name = "country_houses")
 @Getter
 @Setter
 @AllArgsConstructor
@@ -24,7 +24,6 @@ public class CountryHouse {
     @Unique
     private String country;
 
-    @OneToMany(mappedBy = "countryHouse")
-    private List<Account> accounts;
-
+    @OneToMany(mappedBy = "countryHouse", cascade = CascadeType.ALL)
+    private List<User> users;
 }

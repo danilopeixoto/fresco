@@ -15,8 +15,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class CountryHouseServiceImpl implements ICountryHouseService {
-
-    private CountryHouseRepository  countryHouseRepository;
+    private CountryHouseRepository countryHouseRepository;
 
     private ModelMapper modelMapper;
 
@@ -28,11 +27,11 @@ public class CountryHouseServiceImpl implements ICountryHouseService {
     @Override
     @Transactional
     public CountryHouseDTO create(CountryHouseDTO countryHouseDTO) {
-        if (countryHouseRepository.findByCountry(countryHouseDTO.getCountry())==null){
+        if (countryHouseRepository.findByCountry(countryHouseDTO.getCountry()) == null) {
             CountryHouse newCountryHouse = modelMapper.map(countryHouseDTO, CountryHouse.class);
             countryHouseRepository.save(newCountryHouse);
-        }else{
-            countryHouseDTO=null;
+        } else {
+            countryHouseDTO = null;
         }
 
         return countryHouseDTO;
@@ -69,9 +68,9 @@ public class CountryHouseServiceImpl implements ICountryHouseService {
     @Override
     public List<CountryHouseDTO> findAll() {
         List<CountryHouseDTO> countryHousesDTO = countryHouseRepository.findAll()
-                .stream()
-                .map(countryHouse -> modelMapper.map(countryHouse, CountryHouseDTO.class))
-                .collect(Collectors.toList());
+            .stream()
+            .map(countryHouse -> modelMapper.map(countryHouse, CountryHouseDTO.class))
+            .collect(Collectors.toList());
         return countryHousesDTO;
     }
 
